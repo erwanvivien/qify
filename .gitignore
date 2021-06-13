@@ -32,3 +32,15 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# VSCode
+.vscode
+
+# Packages
+package-lock.json
+
+# NextJS env
+next.config.js
+
+# Others
+public/.idea

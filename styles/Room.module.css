@@ -1,0 +1,147 @@
+/* List */
+
+.main {
+  width: min(550px, 100%);
+  padding: 5rem 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list {
+  counter-reset: index;
+  padding-left: 0;
+  /* padding-right: 50px; */
+  width: min(500px, 100%);
+  max-width: 500px;
+}
+
+/* List element */
+.listitem {
+  counter-increment: index;
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+/* Element counter */
+.listitem::before {
+  content: counters(index, ".", decimal-leading-zero);
+  font-size: 1.5rem;
+  text-align: right;
+  font-weight: bold;
+  min-width: 50px;
+  padding-right: 12px;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+  align-self: flex-start;
+  background-image: linear-gradient(to bottom, rgb(161, 127, 255), orangered);
+  background-attachment: fixed;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Element separation */
+.listitem + .listitem {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card {
+  width: 100%;
+  padding: 1.5em;
+
+  text-align: left;
+  border: 1px solid #eaeaea;
+  border-radius: 10px;
+  transition: color 0.15s ease, border-color 0.15s ease;
+
+  display: flex;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.album {
+}
+
+.search_div {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 2em;
+  /* width: 70%; */
+}
+
+.textcontainer {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  width: 550px;
+  padding-top: 4rem;
+  display: block;
+}
+
+.text {
+  margin: 0;
+}
+
+.likes {
+  align-items: center;
+  display: flex;
+  margin: 0em;
+}
+
+.heart {
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: right;
+}
+
+@media only screen and (max-width: 600px) {
+  .likes {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 550px) {
+  .list {
+    width: 100%;
+    max-width: 100%;
+
+    padding-left: 0;
+    padding-right: 0px;
+  }
+
+  .main {
+    max-width: 100%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  /* .card {
+    flex: 0 0 calc(50% - 12px);
+  } */
+  .album {
+    display: none;
+  }
+
+  /* .textcontainer {
+    display: flex;
+  } */
+
+  .listitem::before {
+    /* counter-increment: none;
+    content: none; */
+    display: none;
+  }
+}
