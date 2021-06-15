@@ -63,7 +63,7 @@ const navbar = [
   { title: "Contact", path: paths.contact },
 ];
 
-export {
+module.exports = {
   authEndpoint,
   authTokenEndpoint,
   clientId,
@@ -74,10 +74,5 @@ export {
   maxPathLength,
   navbar,
   paths,
-};
-
-const config = {
   title: "Partify",
 };
-
-export default config;

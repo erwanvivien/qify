@@ -1,5 +1,3 @@
-// src/server.js
-
 const express = require("express")();
 const server = require("http").Server(express);
 const io = require("socket.io")(server);
@@ -10,27 +8,50 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-// const {
-//   createRoom,
-//   joinRoom,
-//   checkRoom,
-//   sendCode,
-//   getResult,
-//   sendSolution,
-// } = require("./controller");
+Date.prototype.addHours = function (h) {
+  this.setHours(this.getHours() + h);
+  return this;
+};
 
-// io.on("connect", (socket) => {
-//   socket.on("CREATE_ROOM", (type) => createRoom(type, socket));
-//   socket.on("JOIN_ROOM", (pin) => joinRoom(pin, socket));
-//   socket.on("CHECK_ROOM", (pin) => checkRoom(pin, socket));
-//   socket.on("SEND_CODE", ({ type, code }) =>
-//     sendCode(type, code, socket.id, io)
-//   );
-//   socket.on("GET_RESULT", (pin) => getResult(pin, socket));
-//   socket.on("SEND_RESOLUTION", ({ order, pin }) =>
-//     sendSolution(order, pin, io)
-//   );
-// });
+const { createRoom, addSong, checkRoom, getSongs } = require("./controller");
+
+const Room = require("./Room");
+
+setInterval(() => {
+  let threshold = new Date().addHours(0);
+
+  console.log("from " + Room.ROOMS.length);
+  Room.ROOMS = Room.ROOMS.filter((room) => {
+    return room.members.length === 0 && room.createdAt > threshold;
+  });
+  console.log("to " + Room.ROOMS.length);
+}, 3600 * 1000);
+
+io.on("connect", (socket) => {
+  socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) => {
+    createRoom(adminId, spotifyCreds, socket);
+  });
+  socket.on("CHECK_ROOM", (pin) => {
+    checkRoom(pin, socket);
+  });
+
+  socket.on("ROOM_SONGS", (pin) => {
+    getSongs(pin, socket);
+  });
+
+  socket.on("ADD_SONG", ({ pin, song }) => {
+    addSong(pin, song);
+  });
+  //   socket.on("REMOVE_SONG", ({ pin, songIdx }) => {
+  //     removeSong(pin, songIdx);
+  //   });
+
+  socket.on("DEBUG", () =>
+    Room.ROOMS.forEach((room) => {
+      console.log(room.pin);
+    })
+  );
+});
 
 app.prepare().then(() => {
   express.all("*", (req, res) => {

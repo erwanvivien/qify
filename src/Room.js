@@ -1,4 +1,4 @@
-import { maxPathLength } from "./config";
+const { maxPathLength } = require("./config");
 
 const possible =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789-_";
@@ -9,7 +9,7 @@ function randomPin(size) {
   for (var i = 0; i < size; i++)
     str += possible[Math.floor(Math.random() * possibleLength)];
 
-  return "room/" + str;
+  return str;
 }
 
 class Room {
@@ -20,26 +20,30 @@ class Room {
   adminSpotifyId;
   spotify;
 
-  created;
+  createdAt;
   members;
 
+  country;
   songQueue;
 
   /**
    * Creates a new room
    * @param pin A new room pin, it needs to be available
    * @param admin The room admin
+   * @param country The country code
    * @param spotify_cred The spotify credentials
    */
-  constructor(pin, admin, spotify_cred) {
+  constructor(pin, admin, country, spotify_cred) {
     this.pin = pin;
-    this.pinWithRoom = "room/" + pin;
+    this.pinWithRoom = "/room/" + pin;
     this.adminSpotifyId = admin;
     this.spotify = spotify_cred;
 
-    this.created = Date.now();
-    this.members = [admin];
+    this.createdAt = Date.now();
+    this.members = [];
     this.songQueue = [];
+
+    this.country = country;
   }
 
   /**
@@ -68,7 +72,20 @@ class Room {
    * @returns the index of the room, if it exists or `-1`
    */
   static getRoomIndexWithAdmin(admin_id) {
-    return Room.ROOMS.findIndex(({ admin }) => admin === admin_id);
+    return Room.ROOMS.findIndex(({ adminSpotifyId }) => {
+      return adminSpotifyId === admin_id;
+    });
+  }
+
+  /**
+   * Tries to get a **room** from it's room's ID
+   * @param admin_id Admin's unique ID
+   * @returns Returns a **room** from it's unique ID
+   */
+  static getRoomWithAdmin(admin_id) {
+    let room_idx = Room.getRoomIndexWithAdmin(admin_id);
+    if (room_idx < 0) return null; // Room does not exist
+    return Room.ROOMS[room_idx];
   }
 
   /**
@@ -110,9 +127,17 @@ class Room {
     while (Room.checkRoom(pin)["exist"] === true)
       pin = randomPin(maxPathLength);
 
-    let room = new Room(pin, admin, spotify_cred);
+    let room = new Room(pin, admin.id, admin.country, spotify_cred);
     Room.ROOMS.push(room);
     return pin;
+  }
+
+  addSong(songId) {
+    this.songQueue.push(songId);
+  }
+
+  getSongs() {
+    return this.songQueue.filter((e) => e.status >= 0);
   }
 }
 
