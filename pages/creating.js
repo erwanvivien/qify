@@ -53,35 +53,33 @@ class App extends Component {
     this.router.replace("/creating", undefined, { shallow: true });
 
     var response = await axios.post("/api/spotifyAuth", { code: this.code });
-
     if (!response) {
-      this.setState({
+      return this.setState({
         isLoaded: false,
         error: "Veuillez réessayer",
         pin: this.state.pin,
       });
-      return;
     }
 
     response = response.data.response;
-    var { data } = await axios.post("/api/createRoom", {
-      credentials: response,
-    });
 
-    if (data)
-      this.setState({
-        isLoaded: true,
-        pin: data.pin,
-        error: null,
+    var spotifyId = await axios.get("/api/spotifyMe", {
+      params: {
+        access_token: response.access_token,
+      },
+    });
+    if (!spotifyId) {
+      return this.setState({
+        isLoaded: false,
+        error: "Veuillez réessayer",
+        pin: this.state.pin,
       });
-    else this.setState({ error: "", isLoaded: false, pin: null });
+    }
+    // else this.router.push("/room/" + response.pin);
   }
 
   render() {
     const { isLoaded, pin } = this.state;
-    if (isLoaded) {
-      window.location.href = "/room/" + pin;
-    }
 
     return (
       <>
