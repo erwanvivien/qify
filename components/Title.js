@@ -1,13 +1,15 @@
 import { Component } from "react";
 import styles from "../styles/Home.module.css";
 
-import config from "../src/config";
+import { title } from "../src/config";
+
+const websiteTitle = title;
 
 export class Title extends Component {
   render() {
     const props = this.props;
 
-    let title = props.title || config.title;
+    let title = props.title || websiteTitle;
     let description =
       props.description || "A simple solution to all your problems.";
 

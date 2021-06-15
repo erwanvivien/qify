@@ -6,7 +6,7 @@ import { Title } from "./Title";
 
 import { Footer } from "./Footer";
 import { Component } from "react";
-import config from "../src/config";
+import { title } from "../src/config";
 
 export class Default extends Component {
   render() {
@@ -16,7 +16,7 @@ export class Default extends Component {
     const displayTitle = props.title === undefined || props.title;
     const displayFooter = props.footer === undefined || props.footer;
 
-    const name = props.name || config.title;
+    const name = props.name || title;
 
     const more_styles = props.styles || {};
     const more_classnames = props.classname || "";
