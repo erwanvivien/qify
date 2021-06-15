@@ -39,5 +39,5 @@ export default async function handler(req, res) {
       .status(400)
       .json({ error: "Les données sont trop vieilles, veuillez recommencer" });
 
-  return res.status(200).json({ response: response.data });
+  return res.status(200).json(response.data);
 }
