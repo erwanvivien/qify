@@ -38,7 +38,7 @@
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
   align-self: flex-start;
-  background-image: linear-gradient(to bottom, rgb(161, 127, 255), orangered);
+  background-image: linear-gradient(to bottom, rgb(148, 224, 103), orangered);
   background-attachment: fixed;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -51,11 +51,11 @@
 
 .card {
   width: 100%;
-  padding: 1.5em;
+  padding: 1em;
 
   text-align: left;
-  border: 1px solid #eaeaea;
-  border-radius: 10px;
+  border: 1px solid;
+  border-radius: 5px;
   transition: color 0.15s ease, border-color 0.15s ease;
 
   display: flex;

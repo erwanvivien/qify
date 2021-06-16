@@ -48,7 +48,7 @@ const endpoints = {
     `https://api.spotify.com/v1/search?q=${query}&type=track&limit=5&market=${country}`,
 };
 
-const maxPathLength = 16;
+const maxPathLength = 4;
 
 const paths = {
   root: "/",

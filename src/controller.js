@@ -12,7 +12,6 @@ function createRoom(admin, spotify_cred, socket) {
 function addSong(pin, song, io) {
   let room = Room.getRoomWithPin(pin);
   room.songQueue.push(song);
-  //   socket.emit("RES_ADD_SONG", room.songQueue);
   io.to(pin).emit("RES_ADD_SONG", room.songQueue);
 }
 
