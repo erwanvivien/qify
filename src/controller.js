@@ -20,9 +20,15 @@ function getSongs(pin, socket) {
 }
 
 function checkRoom(pin, socket) {
-  console.log("bruh");
   let room = Room.getRoomWithPin(pin);
-  socket.emit("RES_CHECK_ROOM", room !== null);
+  let roomLessInfo = {
+    pin: room.pin,
+    adminSpotifyId: room.adminSpotifyId,
+    access_token: room.spotify.access_token,
+    country: room.country,
+    songQueue: room.songQueue,
+  };
+  socket.emit("RES_CHECK_ROOM", roomLessInfo);
 }
 
 module.exports = {
