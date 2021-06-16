@@ -44,7 +44,8 @@ const endpoints = {
   me: () => "https://api.spotify.com/v1/me",
   track: (id) => `https://api.spotify.com/v1/tracks/${id}`,
   tracks: (ids) => `https://api.spotify.com/v1/tracks?ids=${ids}&market=FR`,
-  search: (query) => `https://api.spotify.com/v1/search?q=${query}&type=track`,
+  search: (query, country) =>
+    `https://api.spotify.com/v1/search?q=${query}&type=track&limit=5&market=${country}`,
 };
 
 const maxPathLength = 16;

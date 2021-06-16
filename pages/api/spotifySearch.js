@@ -5,9 +5,10 @@ import { endpoints } from "../../src/config";
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
 export default async function handler(req, res) {
-  let { access_token, query } = req.headers;
+  let { access_token, query, country } = req.query;
 
-  if (access_token === undefined || query === undefined)
+  if ([access_token, query, country].indexOf(undefined) != -1)
+    /// If one is undefined
     return res.status(400).json({
       error: "Request does not contain the right fields\n",
     });
@@ -15,8 +16,7 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Can not handle non-GET request" });
 
   instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-
-  let response = await instance.get(endpoints.search(query), {});
+  let response = await instance.get(endpoints.search(query, country), {});
   if (!response)
     return res.status(400).json({ error: "Could not use the access token" });
 

@@ -28,8 +28,6 @@ class SearchSong extends Component {
     this.latest = "";
     this.current = "";
     this.lastInput = Date.now();
-
-    instance.defaults.headers.common["access_token"] = this.access_token;
   }
 
   componentDidMount() {
@@ -47,8 +45,13 @@ class SearchSong extends Component {
     this.latest = value;
     if (value === "") return;
 
-    instance.defaults.headers.common["query"] = value;
-    let { data } = await instance.get("/api/spotifySearch");
+    let { data } = await axios.get("/api/spotifySearch", {
+      params: {
+        query: value,
+        country: "FR",
+        access_token: this.access_token,
+      },
+    });
 
     this.setState({
       results: data,
