@@ -9,7 +9,7 @@ import SpotifyItem from "../../components/SpotifyItem";
 import { Default } from "../../components/Default";
 
 import { paths } from "../../src/config";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 
 const date_to_string = (k, v) => {
   if (v instanceof Date) return v.getMilliseconds();
@@ -50,6 +50,8 @@ class App extends Component {
   };
 
   componentDidMount() {
+    socket.emit("JOIN_ROOM", this.roomID);
+
     // this.intervalId = setInterval(this.loop.bind(this), 2000);
     window.addEventListener("resize", this.handleResize);
 
@@ -61,22 +63,38 @@ class App extends Component {
         width: this.state.width,
       });
     });
+
+    socket.on("RES_ADD_SONG", (songs) => {
+      console.log(songs);
+      this.setState({
+        room: this.state.room,
+        loading: this.state.loading,
+        songs,
+        width: this.state.width,
+      });
+    });
+
     socket.emit("CHECK_ROOM", this.roomID);
   }
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
+    socket.emit("LEAVE_ROOM", this.roomID);
   }
 
-  addSong(song, songUrl) {
-    console.log(song, songUrl);
-    // this.state.songs.push(song);
-    // this.setState({
-    //   room: this.state.room,
-    //   loading: this.state.loading,
-    //   songs: this.state.songs,
-    //   width: this.state.width,
-    // });
+  addSong(song, imageUrl) {
+    console.log(song, imageUrl);
+
+    let songSmallInfo = {
+      title: song.name,
+      album: song.album.name,
+      image: imageUrl,
+    };
+
+    socket.emit("ADD_SONG", {
+      song: songSmallInfo,
+      pin: this.roomID,
+    });
   }
 
   render() {

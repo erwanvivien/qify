@@ -13,12 +13,19 @@ Date.prototype.addHours = function (h) {
   return this;
 };
 
-const { createRoom, addSong, checkRoom, getSongs } = require("./controller");
+const {
+  createRoom,
+  addSong,
+  checkRoom,
+  getSongs,
+  joinRoom,
+  leaveRoom,
+} = require("./controller");
 
 const Room = require("./Room");
 
 setInterval(() => {
-  let threshold = new Date().addHours(0);
+  let threshold = new Date().addHours(-2);
 
   console.log("from " + Room.ROOMS.length);
   Room.ROOMS = Room.ROOMS.filter((room) => {
@@ -35,12 +42,18 @@ io.on("connect", (socket) => {
     checkRoom(pin, socket);
   });
 
-  socket.on("ROOM_SONGS", (pin) => {
-    getSongs(pin, socket);
+  socket.on("JOIN_ROOM", (pin) => {
+    joinRoom(pin, socket);
+  });
+  socket.on("LEAVE_ROOM", (pin) => {
+    leaveRoom(pin, socket);
   });
 
-  socket.on("ADD_SONG", ({ pin, song }) => {
-    addSong(pin, song);
+  socket.on("GET_SONGS", (pin) => {
+    getSongs(pin, socket);
+  });
+  socket.on("ADD_SONG", ({ song, pin }) => {
+    addSong(pin, song, io);
   });
   //   socket.on("REMOVE_SONG", ({ pin, songIdx }) => {
   //     removeSong(pin, songIdx);
