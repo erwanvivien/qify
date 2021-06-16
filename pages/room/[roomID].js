@@ -9,8 +9,6 @@ import SpotifyItem from "../../components/SpotifyItem";
 import { Default } from "../../components/Default";
 
 import { paths } from "../../src/config";
-import axios from "axios";
-import Room from "../../src/Room";
 import { io } from "socket.io-client";
 
 const date_to_string = (k, v) => {
@@ -30,7 +28,7 @@ class App extends Component {
 
   state = {
     room: null,
-    error: false,
+    loading: true,
     songs: [],
     width: 800,
   };
@@ -39,18 +37,13 @@ class App extends Component {
     super(props);
     this.roomID = props.roomID;
 
-    this.state = {
-      error: props.songs === null,
-      songs: props.songs,
-      width: 800,
-    };
-
     if (props.room_str) this.room = JSON.parse(props.room_str, string_to_date);
   }
 
   handleResize = (e) => {
     this.setState({
-      error: this.state.error,
+      room: this.state.room,
+      loading: this.state.loading,
       songs: this.state.songs,
       width: window.innerWidth,
     });
@@ -60,11 +53,15 @@ class App extends Component {
     // this.intervalId = setInterval(this.loop.bind(this), 2000);
     window.addEventListener("resize", this.handleResize);
 
-    socket.on("RES_CHECK_ROOM", (e) => {
-      return {
-        props: { roomID: e ? pin : null }, // will be passed to the page component as props
-      };
+    socket.on("RES_CHECK_ROOM", (room) => {
+      this.setState({
+        room,
+        loading: false,
+        songs: room ? room.songQueue : null,
+        width: this.state.width,
+      });
     });
+    socket.emit("CHECK_ROOM", this.roomID);
   }
 
   componentWillUnmount() {
@@ -72,42 +69,49 @@ class App extends Component {
   }
 
   render() {
-    if (this.error) {
+    if (this.state.loading) {
       return (
         <Default title={false}>
-          <>
-            <h1 className={styles.title}>Ce salon n'existe pas</h1>
-            <a href={paths.create} className={styles.description}>
-              Veuillez en créer un ou rejoindre un salon existant
-            </a>
-          </>
+          <h1 className={styles.title}>Le salon est en cours de création</h1>
+        </Default>
+      );
+    }
+
+    if (!this.state.room) {
+      return (
+        <Default title={false}>
+          <h1 className={styles.title}>Ce salon n'existe pas</h1>
+          <a href={paths.create} className={styles.description}>
+            Veuillez en créer un ou rejoindre un salon existant
+          </a>
         </Default>
       );
     }
 
     return (
       <Default title={false} classname={list_style.main}>
-        {/* <div className={list_style.search_div}>
+        <div className={list_style.search_div}>
           <SearchSong
-            access_token={this.room.access_token}
+            access_token={this.state.room.access_token}
             roomID={this.roomID}
           />
-        </div> */}
+        </div>
 
-        <a
-          href="#"
-          onClick={() =>
-            navigator.clipboard.writeText(
-              "http://localhost:8888/room/" + this.roomID
-            )
-          }
-          style={{ textAlign: "center" }}
-        >
-          <h2>Click to invite your friends</h2>
-        </a>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <a
+            href="#"
+            onClick={() =>
+              navigator.clipboard.writeText(
+                "http://localhost:8888/room/" + this.roomID
+              )
+            }
+          >
+            <h2 style={{ width: "fit-content" }}>Inviter des amis</h2>
+          </a>
+        </div>
 
-        {/* <ul className={list_style.list}>
-          {this.state.songs.map((song, index) => (
+        <ul className={list_style.list}>
+          {this.state.room.songQueue.map((song, index) => (
             <li className={list_style.listitem} key={index}>
               <SpotifyItem
                 song={song}
@@ -116,7 +120,7 @@ class App extends Component {
               />
             </li>
           ))}
-        </ul> */}
+        </ul>
       </Default>
     );
   }

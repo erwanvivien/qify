@@ -8,6 +8,9 @@ import axios from "axios";
 import { Component } from "react";
 import { Router, withRouter } from "next/router";
 
+import { io } from "socket.io-client";
+let socket = io();
+
 class App extends Component {
   code;
   state;
@@ -52,30 +55,36 @@ class App extends Component {
   async componentDidMount() {
     this.router.replace("/creating", undefined, { shallow: true });
 
-    var response = await axios.post("/api/spotifyAuth", { code: this.code });
+    let response = await axios.post("/api/spotifyAuth", { code: this.code });
     if (!response) {
       return this.setState({
         isLoaded: false,
         error: "Veuillez réessayer",
-        pin: this.state.pin,
+        pin: null,
       });
     }
 
-    response = response.data.response;
+    let spotifyCreds = response.data;
 
-    var spotifyId = await axios.get("/api/spotifyMe", {
+    let spotifyId = await axios.get("/api/spotifyMe", {
       params: {
-        access_token: response.access_token,
+        access_token: spotifyCreds.access_token,
       },
     });
     if (!spotifyId) {
       return this.setState({
         isLoaded: false,
         error: "Veuillez réessayer",
-        pin: this.state.pin,
+        pin: null,
       });
     }
-    // else this.router.push("/room/" + response.pin);
+
+    let adminId = spotifyId.data;
+
+    socket.on("RES_CREATE_ROOM", (pin) => {
+      this.router.push("/room/" + pin);
+    });
+    socket.emit("CREATE_ROOM", { adminId, spotifyCreds });
   }
 
   render() {
