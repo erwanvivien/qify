@@ -20,7 +20,5 @@ export default async function handler(req, res) {
   if (!response)
     return res.status(400).json({ error: "Could not use the access token" });
 
-  return res.status(200).json({
-    data: response.data,
-  });
+  return res.status(200).json(response.data);
 }

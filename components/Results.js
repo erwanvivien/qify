@@ -14,7 +14,7 @@ class Results extends Component {
       <>
         <div className={result_style.list}>
           {tracks.items.slice(0, 5).map((item, index) => {
-            return <Items item={item} key={index} roomID={this.props.roomID} />;
+            return <Items item={item} roomID={this.props.roomID} key={index} />;
           })}
         </div>
       </>
@@ -23,15 +23,6 @@ class Results extends Component {
 }
 
 class Items extends Component {
-  item;
-  roomID;
-
-  constructor(props) {
-    super(props);
-    this.item = props.item;
-    this.roomID = props.roomID;
-  }
-
   extractSong(data) {
     let album_name = data.album.name;
     let song_name = data.name;
@@ -50,15 +41,18 @@ class Items extends Component {
   }
 
   async addSong(song, best_image) {
-    await axios.post("/api/addSong", {
-      song,
-      best_image,
-      roomID: this.roomID,
-    });
+    // await axios.post("/api/addSong", {
+    //   song,
+    //   best_image,
+    //   roomID: this.roomID,
+    // });
   }
 
   render() {
-    let [imageUrl, song_name, album_name, id] = this.extractSong(this.item);
+    let item = this.props.item;
+    let roomID = this.props.roomID;
+
+    let [imageUrl, song_name, album_name, id] = this.extractSong(item);
 
     var slice = false;
     if (song_name.length > 35) slice = true;
@@ -67,7 +61,7 @@ class Items extends Component {
       <>
         <a
           href="#"
-          onClick={() => this.addSong(this.item, imageUrl)}
+          onClick={() => this.addSong(item, imageUrl)}
           className={result_style.items}
         >
           <div className={result_style.list_container}>

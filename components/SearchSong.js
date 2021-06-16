@@ -41,24 +41,17 @@ class SearchSong extends Component {
   }
 
   async timer() {
-    const waitFor = 0.5 * 1000; /// 0.5s
-
     let value = this.current;
-    let lastInput = this.lastInput;
-    let now = Date.now();
 
-    if (value === "") return;
     if (value === this.latest) return;
-    if (lastInput === null) return;
-    if (lastInput + waitFor < now) return;
-
     this.latest = value;
+    if (value === "") return;
 
     instance.defaults.headers.common["query"] = value;
     let { data } = await instance.get("/api/spotifySearch");
 
     this.setState({
-      results: data.data,
+      results: data,
     });
   }
 
@@ -67,11 +60,9 @@ class SearchSong extends Component {
     if (text === "") this.setState({ results: null });
 
     this.current = text;
-    this.lastInput = Date.now();
   };
 
   render() {
-    let results = this.state.results;
     return (
       <>
         <div className={search_style.search_width}>
@@ -86,7 +77,7 @@ class SearchSong extends Component {
             />
             <label className={search_style.form__label}>Search</label>
           </div>
-          <Results results={results} roomID={this.roomID} />
+          <Results results={this.state.results} roomID={this.roomID} />
         </div>
       </>
     );
