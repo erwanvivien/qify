@@ -4,71 +4,35 @@ import { Component } from "react";
 
 import axios from "axios";
 
-class Results extends Component {
-  render() {
-    let { results, addSong } = this.props;
-    if (!results || !results.tracks) return <></>;
-
-    let { tracks } = results;
-    return (
-      <>
-        <div className={result_style.list}>
-          {tracks.items.slice(0, 5).map((item, index) => {
-            return <Items item={item} addSong={addSong} key={index} />;
-          })}
-        </div>
-      </>
-    );
-  }
-}
-
 class Items extends Component {
-  extractSong(data) {
-    let album_name = data.album.name;
-    let song_name = data.name;
-    let imageUrl = "/no_image.svg";
-    let id = data.id;
-
-    let max = 0;
-    data.album.images.forEach((image) => {
-      if (image.width > max) {
-        max = image.width;
-        imageUrl = image.url;
-      }
-    });
-
-    return [imageUrl, song_name, album_name, id];
-  }
-
   render() {
-    let item = this.props.item;
     let addSong = this.props.addSong;
-
-    let [imageUrl, song_name, album_name, id] = this.extractSong(item);
+    let item = this.props.item;
+    let { image, title, album } = item;
 
     var slice = false;
-    if (song_name.length > 35) slice = true;
+    if (title.length > 35) slice = true;
 
     return (
       <>
         <a
           href="#"
-          onClick={() => addSong(item, imageUrl)}
+          onClick={() => addSong(item)}
           className={result_style.items}
         >
           <div className={result_style.list_container}>
             <img
-              src={imageUrl}
+              src={image}
               style={{ height: "50px", paddingLeft: "1px" }}
             ></img>
 
             <div style={{ width: "100%" }}>
               <p style={{ margin: "0" }}>
                 <span className={result_style.title}>
-                  {slice ? song_name.slice(0, 35) + " ..." : song_name}
+                  {slice ? title.slice(0, 35) + " ..." : title}
                 </span>
                 <span className={result_style.album}>
-                  {song_name !== album_name && !slice ? ` - ${album_name}` : ""}
+                  {title !== album && !slice ? ` - ${album}` : ""}
                 </span>
               </p>
             </div>
@@ -79,4 +43,4 @@ class Items extends Component {
   }
 }
 
-export default Results;
+export default Items;

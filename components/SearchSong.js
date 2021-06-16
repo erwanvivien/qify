@@ -1,10 +1,11 @@
 import search_style from "../styles/Search.module.css";
+import result_style from "../styles/Search.module.css";
 
 import { Component } from "react";
 import axios from "axios";
 import qs from "querystring";
 
-import Results from "./Results";
+import Items from "./Results";
 
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
@@ -21,7 +22,7 @@ class SearchSong extends Component {
 
     this.access_token = props.access_token;
     this.addSong = props.addSong;
-    this.state = { results: null };
+    this.state = { results: [] };
 
     this.latest = "";
     this.current = "";
@@ -50,8 +51,31 @@ class SearchSong extends Component {
       },
     });
 
+    let tracks = data.tracks.items;
+
+    let results = tracks.map((song) => {
+      let imageUrl;
+      let max = 0;
+
+      song.album.images.forEach((image) => {
+        if (image.width > max) {
+          max = image.width;
+          imageUrl = image.url;
+        }
+      });
+
+      return {
+        title: song.name,
+        album: song.album.name,
+        arists: song.artists[0].name,
+        image: imageUrl,
+        id: song.id,
+        uri: song.uri,
+      };
+    });
+
     this.setState({
-      results: data,
+      results,
     });
   }
 
@@ -63,6 +87,7 @@ class SearchSong extends Component {
   };
 
   render() {
+    let tracks = this.state.results;
     return (
       <>
         <div className={search_style.search_width}>
@@ -77,7 +102,12 @@ class SearchSong extends Component {
             />
             <label className={search_style.form__label}>Search</label>
           </div>
-          <Results results={this.state.results} addSong={this.addSong} />
+          {/* <Results results={this.state.results} addSong={this.addSong} /> */}
+          <div className={result_style.list}>
+            {tracks.map((item, index) => {
+              return <Items item={item} addSong={this.addSong} key={index} />;
+            })}
+          </div>
         </div>
       </>
     );

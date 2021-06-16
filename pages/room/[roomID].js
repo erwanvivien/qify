@@ -82,17 +82,9 @@ class App extends Component {
     socket.emit("LEAVE_ROOM", this.roomID);
   }
 
-  addSong(song, imageUrl) {
-    console.log(song, imageUrl);
-
-    let songSmallInfo = {
-      title: song.name,
-      album: song.album.name,
-      image: imageUrl,
-    };
-
+  addSong(song) {
     socket.emit("ADD_SONG", {
-      song: songSmallInfo,
+      song,
       pin: this.roomID,
     });
   }
