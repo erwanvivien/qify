@@ -11,23 +11,20 @@ const instance = axios.create(); /// Hack because axios removes Authorization he
 class SearchSong extends Component {
   state;
   access_token;
-  roomID;
   intervalId;
 
   latest;
   current;
-  lastInput;
 
   constructor(props) {
     super(props);
 
     this.access_token = props.access_token;
-    this.roomID = props.roomID;
+    this.addSong = props.addSong;
     this.state = { results: null };
 
     this.latest = "";
     this.current = "";
-    this.lastInput = Date.now();
   }
 
   componentDidMount() {
@@ -80,7 +77,7 @@ class SearchSong extends Component {
             />
             <label className={search_style.form__label}>Search</label>
           </div>
-          <Results results={this.state.results} roomID={this.roomID} />
+          <Results results={this.state.results} addSong={this.addSong} />
         </div>
       </>
     );

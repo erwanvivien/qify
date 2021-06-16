@@ -68,6 +68,17 @@ class App extends Component {
     clearInterval(this.intervalId);
   }
 
+  addSong(song, songUrl) {
+    console.log(song, songUrl);
+    // this.state.songs.push(song);
+    // this.setState({
+    //   room: this.state.room,
+    //   loading: this.state.loading,
+    //   songs: this.state.songs,
+    //   width: this.state.width,
+    // });
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -93,7 +104,7 @@ class App extends Component {
         <div className={list_style.search_div}>
           <SearchSong
             access_token={this.state.room.access_token}
-            roomID={this.roomID}
+            addSong={this.addSong.bind(this)}
           />
         </div>
 
@@ -111,13 +122,9 @@ class App extends Component {
         </div>
 
         <ul className={list_style.list}>
-          {this.state.room.songQueue.map((song, index) => (
+          {this.state.songs.map((song, index) => (
             <li className={list_style.listitem} key={index}>
-              <SpotifyItem
-                song={song}
-                roomID={this.roomID}
-                width={this.state.width}
-              />
+              <SpotifyItem song={song} width={this.state.width} />
             </li>
           ))}
         </ul>

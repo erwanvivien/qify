@@ -6,7 +6,7 @@ import axios from "axios";
 
 class Results extends Component {
   render() {
-    let { results } = this.props;
+    let { results, addSong } = this.props;
     if (!results || !results.tracks) return <></>;
 
     let { tracks } = results;
@@ -14,7 +14,7 @@ class Results extends Component {
       <>
         <div className={result_style.list}>
           {tracks.items.slice(0, 5).map((item, index) => {
-            return <Items item={item} roomID={this.props.roomID} key={index} />;
+            return <Items item={item} addSong={addSong} key={index} />;
           })}
         </div>
       </>
@@ -40,17 +40,9 @@ class Items extends Component {
     return [imageUrl, song_name, album_name, id];
   }
 
-  async addSong(song, best_image) {
-    // await axios.post("/api/addSong", {
-    //   song,
-    //   best_image,
-    //   roomID: this.roomID,
-    // });
-  }
-
   render() {
     let item = this.props.item;
-    let roomID = this.props.roomID;
+    let addSong = this.props.addSong;
 
     let [imageUrl, song_name, album_name, id] = this.extractSong(item);
 
@@ -61,7 +53,7 @@ class Items extends Component {
       <>
         <a
           href="#"
-          onClick={() => this.addSong(item, imageUrl)}
+          onClick={() => addSong(item, imageUrl)}
           className={result_style.items}
         >
           <div className={result_style.list_container}>

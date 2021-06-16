@@ -8,7 +8,6 @@ import { Component, FunctionComponent } from "react";
 
 export class SpotifyItem extends Component {
   song;
-  roomID;
   width;
 
   state = {
@@ -18,7 +17,6 @@ export class SpotifyItem extends Component {
   constructor(props) {
     super(props);
     this.song = props.song;
-    this.roomID = props.roomID;
 
     this.width = props.width;
   }
@@ -52,9 +50,9 @@ export class SpotifyItem extends Component {
             )}
           </div>
 
-          {this.width > 600 && (
+          {/* {this.width > 600 && (
             <p className={list_style.likes}>{this.song.like_number}</p>
-          )}
+          )} */}
 
           {/* <img
             onClick={this.toggleImage}

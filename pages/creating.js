@@ -88,8 +88,6 @@ class App extends Component {
   }
 
   render() {
-    const { isLoaded, pin } = this.state;
-
     return (
       <>
         <Default title={false}>
