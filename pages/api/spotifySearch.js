@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import { endpoints } from "../../src/config";
+import { spotifySearch } from "../../src/spotifyApi";
 
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
@@ -15,10 +16,5 @@ export default async function handler(req, res) {
   if (req.method !== "GET")
     return res.status(400).json({ error: "Can not handle non-GET request" });
 
-  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-  let response = await instance.get(endpoints.search(query, country), {});
-  if (!response)
-    return res.status(400).json({ error: "Could not use the access token" });
-
-  return res.status(200).json(response.data);
+  return await spotifySearch(access_token, query, country, res);
 }
