@@ -69,7 +69,6 @@ module.exports = {
   authTokenEndpoint,
   clientId,
   clientSecret,
-  encodedClient,
   redirectUri,
   scopes,
   endpoints,
