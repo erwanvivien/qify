@@ -133,14 +133,6 @@ class Room {
     Room.ROOMS.push(room);
     return pin;
   }
-
-  addSong(songId) {
-    this.songQueue.push(songId);
-  }
-
-  getSongs() {
-    return this.songQueue.filter((e) => e.status >= 0);
-  }
 }
 
 module.exports = Room;
