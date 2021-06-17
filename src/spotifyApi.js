@@ -8,6 +8,7 @@ const {
   endpoints,
 } = require("./config");
 
+const { CLIENT_ID, CLIENT_SECRET } = require("../next.config").env;
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
 async function spotifyAuth(code, res) {
@@ -45,22 +46,27 @@ async function spotifyMe(access_token, res) {
 async function spotifyRefresh(refresh_token, res) {
   let data_params = {
     grant_type: "refresh_token",
-    refresh_token,
+    refresh_token: refresh_token,
+    client_id: CLIENT_ID,
+    client_secret: CLIENT_SECRET,
   };
-  instance.defaults.headers.common["Authorization"] = `Basic ${encodedClient}`;
 
-  let response = await axios
-    .post(authTokenEndpoint, qs.stringify(data_params), {
+  let response = await axios.post(
+    authTokenEndpoint,
+    qs.stringify(data_params),
+    {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    })
-    .catch(() => {});
+    }
+  );
 
-  console.log(response);
-  if (!response) return res.status(400).json({ error: "Data is too old" });
+  let responseData = !response ? { error: "Data is too old" } : response.data;
+  let responseStatus = !response ? 400 : 200;
 
-  return res.status(200).json(response.data);
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
 }
 
 async function spotifySearch(access_token, query, country, res) {
