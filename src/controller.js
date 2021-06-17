@@ -37,17 +37,21 @@ function checkRoom(pin, socket) {
 }
 
 function joinRoom(pin, socket) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+
   console.log(socket.id + " joined " + pin);
   socket.join(pin);
 
-  let room = Room.getRoomWithPin(pin);
   room.members.push(socket.id);
 }
 function leaveRoom(pin, socket) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+
   console.log(socket.id + " left " + pin);
   socket.leave(pin);
 
-  let room = Room.getRoomWithPin(pin);
   let idx = room.members.indexOf(socket.id);
   if (idx >= 0) room.members.splice(idx, 1);
 }

@@ -4,6 +4,7 @@ const authTokenEndpoint = "https://accounts.spotify.com/api/token";
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
+const encodedClient = btoa(`${clientId}:${clientSecret}`);
 const redirectUri = "http://localhost:8888/creating";
 
 const scopes = [
@@ -69,6 +70,7 @@ module.exports = {
   authTokenEndpoint,
   clientId,
   clientSecret,
+  encodedClient,
   redirectUri,
   scopes,
   endpoints,
