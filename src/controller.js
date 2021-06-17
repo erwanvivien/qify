@@ -37,14 +37,14 @@ function checkRoom(pin, socket) {
 }
 
 function joinRoom(pin, socket) {
-  console.log("join: " + pin);
+  console.log(socket.id + " joined " + pin);
   socket.join(pin);
 
   let room = Room.getRoomWithPin(pin);
   room.members.push(socket.id);
 }
 function leaveRoom(pin, socket) {
-  console.log("leave: " + pin);
+  console.log(socket.id + " left " + pin);
   socket.leave(pin);
 
   let room = Room.getRoomWithPin(pin);

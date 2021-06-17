@@ -27,6 +27,7 @@ const Room = require("./Room");
 setInterval(() => {
   let threshold = new Date().addHours(-2);
 
+  console.log(new Date().toLocaleString());
   console.log("from " + Room.ROOMS.length);
   Room.ROOMS = Room.ROOMS.filter((room) => {
     return room.members.length === 0 && room.createdAt > threshold;
