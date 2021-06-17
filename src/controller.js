@@ -5,7 +5,7 @@ function createRoom(admin, spotify_cred, socket) {
   let room = Room.getRoomWithAdmin(admin.id);
   if (room) return socket.emit("RES_CREATE_ROOM", room.pin);
 
-  let pin = Room.createRoom(admin, spotify_cred);
+  let pin = Room.createRoom(admin, spotify_cred, socket.id);
   socket.emit("RES_CREATE_ROOM", pin);
 }
 

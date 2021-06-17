@@ -18,6 +18,7 @@ class Room {
   pinWithRoom;
   pin;
   adminSpotifyId;
+  adminSocketId;
   spotify;
 
   createdAt;
@@ -33,10 +34,11 @@ class Room {
    * @param country The country code
    * @param spotify_cred The spotify credentials
    */
-  constructor(pin, admin, country, spotify_cred) {
+  constructor(pin, admin, country, spotify_cred, socketId) {
     this.pin = pin;
     this.pinWithRoom = "/room/" + pin;
     this.adminSpotifyId = admin;
+    this.adminSocketId = socketId;
     this.spotify = spotify_cred;
 
     this.createdAt = Date.now();
@@ -122,12 +124,12 @@ class Room {
    * @param spotify_cred The spotify credentials
    * @returns the pin of the newly created room
    */
-  static createRoom(admin, spotify_cred) {
+  static createRoom(admin, spotify_cred, socketId) {
     let pin = randomPin(maxPathLength);
     while (Room.checkRoom(pin)["exist"] === true)
       pin = randomPin(maxPathLength);
 
-    let room = new Room(pin, admin.id, admin.country, spotify_cred);
+    let room = new Room(pin, admin.id, admin.country, spotify_cred, socketId);
     Room.ROOMS.push(room);
     return pin;
   }
