@@ -48,7 +48,7 @@ function leaveRoom(pin, socket) {
   socket.leave(pin);
 
   let room = Room.getRoomWithPin(pin);
-  let idx = room.members.indexOr(socket.id);
+  let idx = room.members.indexOf(socket.id);
   if (idx >= 0) room.members.splice(idx, 1);
 }
 
