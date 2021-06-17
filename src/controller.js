@@ -1,4 +1,3 @@
-const { io } = require("socket.io-client");
 const Room = require("./Room");
 
 function createRoom(admin, spotify_cred, socket) {
@@ -45,6 +44,7 @@ function joinRoom(pin, socket) {
 
   room.members.push(socket.id);
 }
+
 function leaveRoom(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
