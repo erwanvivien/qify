@@ -25,6 +25,7 @@ const socket = io();
 class App extends Component {
   roomID;
   intervalId;
+  password;
 
   state = {
     room: null,
@@ -36,6 +37,8 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.roomID = props.roomID;
+
+    this.password = this.props.pass;
 
     if (props.room_str) this.room = JSON.parse(props.room_str, string_to_date);
   }
@@ -61,6 +64,7 @@ class App extends Component {
         width: this.state.width,
       });
       if (room) socket.emit("JOIN_ROOM", this.roomID);
+      if (room) socket.emit("JOIN_ROOM_ADMIN", this.roomID, this.password);
     });
 
     socket.on("RES_ADD_SONG", (songs) => {
@@ -145,18 +149,14 @@ class App extends Component {
 
 export default App;
 
-export async function getStaticPaths(context) {
-  return {
-    paths: [], //indicates that no page needs be created at build time
-    fallback: "blocking", //indicates the type of fallback
-  };
-}
+export async function getServerSideProps(props) {
+  let pin = props.query.roomID;
+  let pass = props.query.pass;
 
-export async function getStaticProps(props) {
-  let pin = props.params.roomID;
   return {
     props: {
       roomID: pin,
+      pass: pass === undefined ? null : pass,
     },
   };
 }

@@ -43,7 +43,7 @@ class Room {
     this.adminSocketId;
     this.spotify = spotify_cred;
 
-    this.adminPass = randomPin(16);
+    this.adminPass = randomPin(64);
 
     this.createdAt = Date.now();
     this.members = [];
