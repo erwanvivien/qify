@@ -24,14 +24,13 @@ const {
   getSongs,
   joinRoom,
   leaveRoom,
-} = require("./controller");
+  Room,
+} = require("./Room");
 
 const { spotifyRefresh } = require("./spotifyApi");
 
-const Room = require("./Room");
-
 setInterval(() => {
-  console.log(new Date().toLocaleString());
+  console.log("ROOM FILTERING: " + new Date().toLocaleString());
   let threshold = new Date().addHours(-2);
 
   console.log("from " + Room.ROOMS.length);
@@ -46,6 +45,15 @@ setInterval(() => {
 
   console.log("to " + Room.ROOMS.length);
 }, 3600 * 1000); /// Every hour
+
+setInterval(() => {
+  console.log("ROOM UPDATING: " + new Date().toLocaleString());
+  Room.ROOMS.forEach(async (room) => {
+    let refresh_token = room.spotify.refresh_token;
+    let newTokens = await spotifyRefresh(refresh_token, null);
+    console.log("INTERVAL: " + JSON.stringify(newTokens));
+  });
+}, 15 * 60 * 1000);
 
 io.on("connect", (socket) => {
   socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) => {
