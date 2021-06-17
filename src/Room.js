@@ -18,8 +18,10 @@ class Room {
   pinWithRoom;
   pin;
   adminSpotifyId;
-  adminSocketId;
+  adminSocketsId;
   spotify;
+
+  adminPass;
 
   createdAt;
   members;
@@ -34,15 +36,17 @@ class Room {
    * @param country The country code
    * @param spotify_cred The spotify credentials
    */
-  constructor(pin, admin, country, spotify_cred, socketId) {
+  constructor(pin, admin, country, spotify_cred) {
     this.pin = pin;
     this.pinWithRoom = "/room/" + pin;
     this.adminSpotifyId = admin;
-    this.adminSocketId = socketId;
+    this.adminSocketId;
     this.spotify = spotify_cred;
 
+    this.adminPass = randomPin(16);
+
     this.createdAt = Date.now();
-    this.members = [socketId];
+    this.members = [];
     this.songQueue = [];
 
     this.country = country;
@@ -124,23 +128,27 @@ class Room {
    * @param spotify_cred The spotify credentials
    * @returns the pin of the newly created room
    */
-  static createRoom(admin, spotify_cred, socketId) {
+  static createRoom(admin, spotify_cred) {
     let pin = randomPin(maxPathLength);
     while (Room.checkRoom(pin)["exist"] === true)
       pin = randomPin(maxPathLength);
 
-    let room = new Room(pin, admin.id, admin.country, spotify_cred, socketId);
+    let room = new Room(pin, admin.id, admin.country, spotify_cred);
     Room.ROOMS.push(room);
-    return pin;
+    return room;
   }
 }
 
 function createRoom(admin, spotify_cred, socket) {
   let room = Room.getRoomWithAdmin(admin.id);
-  if (room) return socket.emit("RES_CREATE_ROOM", room.pin);
+  if (room)
+    return socket.emit("RES_CREATE_ROOM", {
+      pin: room.pin,
+      adminPass: room.adminPass,
+    });
 
-  let pin = Room.createRoom(admin, spotify_cred, socket.id);
-  socket.emit("RES_CREATE_ROOM", pin);
+  let { pin, adminPass } = Room.createRoom(admin, spotify_cred);
+  socket.emit("RES_CREATE_ROOM", { pin, adminPass });
 }
 
 function addSong(pin, song, io) {

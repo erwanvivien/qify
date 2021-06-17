@@ -81,8 +81,14 @@ class App extends Component {
 
     let adminId = spotifyId.data;
 
-    socket.on("RES_CREATE_ROOM", (pin) => {
-      this.router.push("/room/" + pin);
+    socket.on("RES_CREATE_ROOM", ({ pin, adminPass }) => {
+      this.router.push({
+        pathname: "/room/[roomID]",
+        query: {
+          roomID: pin,
+          pass: adminPass,
+        },
+      });
     });
     socket.emit("CREATE_ROOM", { adminId, spotifyCreds });
   }
