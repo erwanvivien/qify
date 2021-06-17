@@ -8,7 +8,7 @@ export class Footer extends Component {
     return (
       <>
         <footer className={styles.footer}>
-          <a href={paths.root}>Back to Home</a>
+          <a href={paths.root}>Retour au menu</a>
         </footer>
       </>
     );

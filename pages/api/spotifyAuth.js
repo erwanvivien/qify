@@ -34,10 +34,7 @@ export default async function handler(req, res) {
     })
     .catch(() => {});
 
-  if (!response)
-    return res
-      .status(400)
-      .json({ error: "Les données sont trop vieilles, veuillez recommencer" });
+  if (!response) return res.status(400).json({ error: "Data is too old" });
 
   return res.status(200).json(response.data);
 }

@@ -24,7 +24,7 @@ export default function Home() {
           <a href={paths.join} className={styles.card}>
             <h3 style={{ textAlign: "center" }}>Rejoindre un salon</h3>
             <div>
-              <p>Rentrer le code ou utilser le code QR</p>
+              <p>Rentrer le code ou utiliser le code QR</p>
             </div>
           </a>
         </div>

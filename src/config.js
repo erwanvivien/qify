@@ -59,8 +59,8 @@ const paths = {
 };
 
 const navbar = [
-  { title: "Home", path: paths.root },
-  { title: "About", path: paths.about },
+  { title: "Partify", path: paths.root },
+  { title: "À propos", path: paths.about },
   { title: "Contact", path: paths.contact },
 ];
 

@@ -11,7 +11,7 @@ export class Title extends Component {
 
     let title = props.title || websiteTitle;
     let description =
-      props.description || "A simple solution to all your problems.";
+      props.description || "Une solution simple à beaucoup de problèmes.";
 
     return (
       <>
