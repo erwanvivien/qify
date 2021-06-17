@@ -25,15 +25,21 @@ const {
 const Room = require("./Room");
 
 setInterval(() => {
+  console.log(new Date().toLocaleString());
   let threshold = new Date().addHours(-2);
 
-  console.log(new Date().toLocaleString());
   console.log("from " + Room.ROOMS.length);
   Room.ROOMS = Room.ROOMS.filter((room) => {
     return room.members.length === 0 && room.createdAt > threshold;
   });
+
+  threshold = new Date().addHours(-24);
+  Room.ROOMS = Room.ROOMS.filter((room) => {
+    return room.createdAt > threshold;
+  });
+
   console.log("to " + Room.ROOMS.length);
-}, 3600 * 1000);
+}, 3600 * 1000); /// Every hour
 
 io.on("connect", (socket) => {
   socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) => {
