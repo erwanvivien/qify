@@ -21,6 +21,7 @@ class SearchSong extends Component {
     super(props);
 
     this.access_token = props.access_token;
+    this.country = props.country;
     this.addSong = props.addSong;
     this.state = { results: [] };
 
@@ -41,12 +42,15 @@ class SearchSong extends Component {
 
     if (value === this.latest) return;
     this.latest = value;
-    if (value === "") return;
+    if (value === "")
+      return this.setState({
+        results: [],
+      });
 
     let { data } = await axios.get("/api/spotifySearch", {
       params: {
         query: value,
-        country: "FR",
+        country: this.country,
         access_token: this.access_token,
       },
     });
@@ -80,10 +84,7 @@ class SearchSong extends Component {
   }
 
   handleChange = async (event) => {
-    let text = event.target.value;
-    if (text === "") this.setState({ results: null });
-
-    this.current = text;
+    this.current = event.target.value;
   };
 
   render() {
@@ -102,7 +103,6 @@ class SearchSong extends Component {
             />
             <label className={search_style.form__label}>Search</label>
           </div>
-          {/* <Results results={this.state.results} addSong={this.addSong} /> */}
           <div className={result_style.list}>
             {tracks.map((item, index) => {
               return <Items item={item} addSong={this.addSong} key={index} />;

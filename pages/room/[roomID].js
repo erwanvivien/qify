@@ -113,6 +113,7 @@ class App extends Component {
         <div className={list_style.search_div}>
           <SearchSong
             access_token={this.state.room.access_token}
+            country={this.state.room.country}
             addSong={this.addSong.bind(this)}
           />
         </div>
