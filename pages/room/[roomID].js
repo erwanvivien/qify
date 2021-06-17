@@ -50,8 +50,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    socket.emit("JOIN_ROOM", this.roomID);
-
     // this.intervalId = setInterval(this.loop.bind(this), 2000);
     window.addEventListener("resize", this.handleResize);
 
@@ -62,6 +60,7 @@ class App extends Component {
         songs: room ? room.songQueue : null,
         width: this.state.width,
       });
+      if (room) socket.emit("JOIN_ROOM", this.roomID);
     });
 
     socket.on("RES_ADD_SONG", (songs) => {
@@ -79,7 +78,7 @@ class App extends Component {
 
   componentWillUnmount() {
     clearInterval(this.intervalId);
-    socket.emit("LEAVE_ROOM", this.roomID);
+    if (this.state.room) socket.emit("LEAVE_ROOM", this.roomID);
   }
 
   addSong(song) {
