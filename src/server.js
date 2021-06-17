@@ -59,11 +59,15 @@ io.on("connect", (socket) => {
   //     removeSong(pin, songIdx);
   //   });
 
-  socket.on("DEBUG", () =>
-    Room.ROOMS.forEach((room) => {
-      console.log(room.pin);
-    })
-  );
+  if (process.env.PRODUCTION === "DEV")
+    socket.on("DEBUG", () => {
+      if (Room.ROOMS.length === 0) console.log("No rooms");
+      Room.ROOMS.forEach((room) => {
+        console.log(
+          `pin: ${room.pin} - memb.count: ${room.members.length} - songQueue: ${room.songQueue.length}`
+        );
+      });
+    });
 });
 
 app.prepare().then(() => {

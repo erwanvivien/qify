@@ -42,7 +42,7 @@ class Room {
     this.spotify = spotify_cred;
 
     this.createdAt = Date.now();
-    this.members = [];
+    this.members = [socketId];
     this.songQueue = [];
 
     this.country = country;

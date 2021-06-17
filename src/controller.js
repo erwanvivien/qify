@@ -39,10 +39,17 @@ function checkRoom(pin, socket) {
 function joinRoom(pin, socket) {
   console.log("join: " + pin);
   socket.join(pin);
+
+  let room = Room.getRoomWithPin(pin);
+  room.members.push(socket.id);
 }
 function leaveRoom(pin, socket) {
   console.log("leave: " + pin);
   socket.leave(pin);
+
+  let room = Room.getRoomWithPin(pin);
+  let idx = room.members.indexOr(socket.id);
+  if (idx >= 0) room.members.splice(idx, 1);
 }
 
 module.exports = {
