@@ -26,6 +26,8 @@ const {
   leaveRoom,
 } = require("./controller");
 
+const { spotifyRefresh } = require("./spotifyApi");
+
 const Room = require("./Room");
 
 setInterval(() => {

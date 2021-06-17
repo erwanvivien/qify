@@ -1,13 +1,12 @@
-import axios from "axios";
-import qs from "querystring";
-
-import {
+const qs = require("querystring");
+const { default: axios } = require("axios");
+const {
   redirectUri,
   clientId,
   clientSecret,
   authTokenEndpoint,
   endpoints,
-} from "./config";
+} = require("./config");
 
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
@@ -73,4 +72,9 @@ async function spotifySearch(access_token, query, country, res) {
   return res.status(200).json(response.data);
 }
 
-export { spotifyAuth, spotifyMe, spotifyRefresh, spotifySearch };
+module.exports = {
+  spotifyAuth,
+  spotifyMe,
+  spotifyRefresh,
+  spotifySearch,
+};
