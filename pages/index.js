@@ -10,7 +10,7 @@ export default function Home() {
       <Default footer={false}>
         <div className={styles.grid}>
           <a href={paths.create} className={styles.card}>
-            <h3 style={{ textAlign: "center" }}>Create a room</h3>
+            <h3 style={{ textAlign: "center" }}>Créer un salon</h3>
             <img
               style={{
                 width: "min(346px, 100%)",
@@ -22,9 +22,10 @@ export default function Home() {
           </a>
 
           <a href={paths.join} className={styles.card}>
-            <h3 style={{ textAlign: "center" }}>Join a room</h3>
-            <p>Enter the room number and join your group</p>
-            <p>You can also ask the room QR code code</p>
+            <h3 style={{ textAlign: "center" }}>Rejoindre un salon</h3>
+            <div>
+              <p>Rentrer le code ou utilser le code QR</p>
+            </div>
           </a>
         </div>
       </Default>
