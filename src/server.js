@@ -23,6 +23,7 @@ const {
   checkRoom,
   getSongs,
   joinRoom,
+  joinRoomAdmin,
   leaveRoom,
   Room,
 } = require("./Room");
@@ -51,34 +52,22 @@ setInterval(() => {
   Room.ROOMS.forEach(async (room) => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
-    console.log("INTERVAL: " + JSON.stringify(newTokens));
+    room.access_token = newTokens.access_token;
   });
-}, 15 * 60 * 1000);
+}, 45 * 60 * 1000);
 
 io.on("connect", (socket) => {
-  socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) => {
-    createRoom(adminId, spotifyCreds, socket);
-  });
-  socket.on("CHECK_ROOM", (pin) => {
-    checkRoom(pin, socket);
-  });
-
-  socket.on("JOIN_ROOM", (pin) => {
-    joinRoom(pin, socket);
-  });
-  socket.on("LEAVE_ROOM", (pin) => {
-    leaveRoom(pin, socket);
-  });
-
-  socket.on("GET_SONGS", (pin) => {
-    getSongs(pin, socket);
-  });
-  socket.on("ADD_SONG", ({ song, pin }) => {
-    addSong(pin, song, io);
-  });
-  //   socket.on("REMOVE_SONG", ({ pin, songIdx }) => {
-  //     removeSong(pin, songIdx);
-  //   });
+  socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) =>
+    createRoom(adminId, spotifyCreds, socket)
+  );
+  socket.on("CHECK_ROOM", (pin) => checkRoom(pin, socket));
+  socket.on("JOIN_ROOM", (pin) => joinRoom(pin, socket));
+  socket.on("JOIN_ROOM_ADMIN", ({ pin, pass }) =>
+    joinRoomAdmin(pin, pass, socket)
+  );
+  socket.on("LEAVE_ROOM", (pin) => leaveRoom(pin, socket));
+  socket.on("GET_SONGS", (pin) => getSongs(pin, socket));
+  socket.on("ADD_SONG", ({ song, pin }) => addSong(pin, song, io));
 
   if (process.env.PRODUCTION === "DEV")
     socket.on("DEBUG", () => {

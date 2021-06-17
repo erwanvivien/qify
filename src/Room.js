@@ -40,7 +40,7 @@ class Room {
     this.pin = pin;
     this.pinWithRoom = "/room/" + pin;
     this.adminSpotifyId = admin;
-    this.adminSocketId;
+    this.adminSocketsId = [];
     this.spotify = spotify_cred;
 
     this.adminPass = randomPin(64);
@@ -188,6 +188,19 @@ function joinRoom(pin, socket) {
   room.members.push(socket.id);
 }
 
+function joinRoomAdmin(pin, pass, socket) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+  if (room.adminPass !== pass) return;
+
+  room.adminPass = randomPin(64);
+
+  console.log(socket.id + " joined " + pin + " as admin");
+  room.adminSocketsId.push(socket.id);
+
+  socket.emit("JOIN_ROOM_ADMIN", true);
+}
+
 function leaveRoom(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
@@ -205,6 +218,7 @@ module.exports = {
   getSongs,
   checkRoom,
   joinRoom,
+  joinRoomAdmin,
   leaveRoom,
   Room,
 };

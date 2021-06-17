@@ -10,6 +10,7 @@ import { Default } from "../../components/Default";
 
 import { paths } from "../../src/config";
 import io from "socket.io-client";
+import { withRouter } from "next/router";
 
 const date_to_string = (k, v) => {
   if (v instanceof Date) return v.getMilliseconds();
@@ -26,6 +27,9 @@ class App extends Component {
   roomID;
   intervalId;
   password;
+  router;
+
+  isAdmin = false;
 
   state = {
     room: null,
@@ -37,6 +41,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.roomID = props.roomID;
+    this.router = props.router;
 
     this.password = this.props.pass;
 
@@ -56,6 +61,18 @@ class App extends Component {
     // this.intervalId = setInterval(this.loop.bind(this), 2000);
     window.addEventListener("resize", this.handleResize);
 
+    this.router.push(
+      {
+        pathname: this.router.pathname,
+        query: {
+          roomID: this.roomID,
+        },
+      },
+      undefined,
+      { shallow: true }
+    );
+
+    socket.on("JOIN_ROOM_ADMIN", (isAdmin) => (this.isAdmin = isAdmin));
     socket.on("RES_CHECK_ROOM", (room) => {
       this.setState({
         room,
@@ -64,9 +81,12 @@ class App extends Component {
         width: this.state.width,
       });
       if (room) socket.emit("JOIN_ROOM", this.roomID);
-      if (room) socket.emit("JOIN_ROOM_ADMIN", this.roomID, this.password);
+      if (room)
+        socket.emit("JOIN_ROOM_ADMIN", {
+          pin: this.roomID,
+          pass: this.password,
+        });
     });
-
     socket.on("RES_ADD_SONG", (songs) => {
       console.log(songs);
       this.setState({
@@ -147,7 +167,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
 
 export async function getServerSideProps(props) {
   let pin = props.query.roomID;
