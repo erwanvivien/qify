@@ -155,6 +155,10 @@ class App extends Component {
     });
   }
 
+  displayQR() {
+    return this.state.width > 500 && this.state.isAdmin
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -185,7 +189,7 @@ class App extends Component {
           />
         </div>
 
-        {this.state.isAdmin && (
+        {this.displayQR() && (
           <div style={{ display: "flex", justifyContent: "center" }}>
             <QRCode
               onClick={() =>
@@ -197,13 +201,7 @@ class App extends Component {
               style={{ cursor: "pointer" }}
               value={`http://localhost:8888/room/${this.roomID}`}
               bgColor={"#ecedf1"}
-              level="H"
-              imageSettings={{
-                src: "/partify/partify.svg",
-                height: 50,
-                width: 50,
-                excavate: true,
-              }}
+              level="L"
             ></QRCode>
           </div>
         )}
