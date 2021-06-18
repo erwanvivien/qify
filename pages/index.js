@@ -10,7 +10,9 @@ export default function Home() {
       <Default footer={false}>
         <div className={styles.grid}>
           <a href={paths.create} className={styles.card}>
-            <h3 style={{ textAlign: "center" }}>Créer un salon</h3>
+            <h3 style={{ textAlign: "center" }}>
+              Créer un salon<br></br>Rejoindre en admin
+            </h3>
             <img
               style={{
                 width: "min(346px, 100%)",
