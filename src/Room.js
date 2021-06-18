@@ -193,8 +193,6 @@ function joinRoomAdmin(pin, pass, socket) {
   if (!room) return;
   if (room.adminPass !== pass) return;
 
-  room.adminPass = randomPin(64);
-
   console.log(socket.id + " joined " + pin + " as admin");
   room.adminSocketsId.push(socket.id);
 

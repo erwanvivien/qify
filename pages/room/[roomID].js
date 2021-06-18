@@ -29,13 +29,12 @@ class App extends Component {
   password;
   router;
 
-  isAdmin = false;
-
   state = {
     room: null,
     loading: true,
     songs: [],
     width: 800,
+    isAdmin: false,
   };
 
   constructor(props) {
@@ -57,8 +56,38 @@ class App extends Component {
     });
   };
 
+  localStorageUpdate() {
+    const ONE_HOUR = 60 * 60 * 1000; /* ms */
+
+    const passwordKey = `${title}-password`;
+    const timestampKey = `${title}-timestamp`;
+    // const socketidKey = `${title}-socketid`;
+    const roomPinKey = `${title}-room`;
+
+    let password = localStorage.getItem(passwordKey);
+    let timestamp = localStorage.getItem(timestampKey);
+    // let socketid = localStorage.getItem(socketidKey);
+    let roomPin = localStorage.getItem(roomPinKey);
+
+    console.log(password, timestamp);
+
+    if (!timestamp || roomPin !== this.roomID) {
+      localStorage.setItem(passwordKey, this.password);
+      //   localStorage.setItem(socketidKey, socket.id);
+      localStorage.setItem(timestampKey, new Date().toString());
+      localStorage.setItem(roomPinKey, this.roomID);
+      return;
+    }
+
+    let timestampDate = Date.parse(timestamp);
+    if (new Date() - timestampDate < ONE_HOUR) {
+      /// Less than one hour
+      this.password = localStorage.getItem(passwordKey) || this.password;
+      //   socket.userId = localStorage.getItem(socketidKey) || socket.id;
+    }
+  }
+
   componentDidMount() {
-    // this.intervalId = setInterval(this.loop.bind(this), 2000);
     window.addEventListener("resize", this.handleResize);
 
     this.router.push(
@@ -72,7 +101,15 @@ class App extends Component {
       { shallow: true }
     );
 
-    socket.on("JOIN_ROOM_ADMIN", (isAdmin) => (this.isAdmin = isAdmin));
+    socket.on("JOIN_ROOM_ADMIN", (isAdmin) =>
+      this.setState({
+        room: this.state.room,
+        loading: this.state.loading,
+        songs: this.state.songs,
+        isAdmin: isAdmin,
+        width: this.state.width,
+      })
+    );
     socket.on("RES_CHECK_ROOM", (room) => {
       this.setState({
         room,
@@ -80,6 +117,9 @@ class App extends Component {
         songs: room ? room.songQueue : null,
         width: this.state.width,
       });
+
+      this.localStorageUpdate();
+
       if (room) socket.emit("JOIN_ROOM", this.roomID);
       if (room)
         socket.emit("JOIN_ROOM_ADMIN", {
