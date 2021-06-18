@@ -8,9 +8,11 @@ import SpotifyItem from "../../components/SpotifyItem";
 
 import { Default } from "../../components/Default";
 
-import { paths } from "../../src/config";
+import { paths, title } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
+
+import QRCode from "qrcode.react";
 
 const date_to_string = (k, v) => {
   if (v instanceof Date) return v.getMilliseconds();
@@ -52,6 +54,7 @@ class App extends Component {
       room: this.state.room,
       loading: this.state.loading,
       songs: this.state.songs,
+      isAdmin: this.state.isAdmin,
       width: window.innerWidth,
     });
   };
@@ -182,18 +185,28 @@ class App extends Component {
           />
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <a
-            href="#"
-            onClick={() =>
-              navigator.clipboard.writeText(
-                "http://localhost:8888/room/" + this.roomID
-              )
-            }
-          >
-            <h2 style={{ width: "fit-content" }}>Inviter des amis</h2>
-          </a>
-        </div>
+        {this.state.isAdmin && (
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <QRCode
+              onClick={() =>
+                navigator.clipboard.writeText(
+                  `http://localhost:8888/room/${this.roomID}`
+                )
+              }
+              title="Cliquer pour copier le lien"
+              style={{ cursor: "pointer" }}
+              value={`http://localhost:8888/room/${this.roomID}`}
+              bgColor={"#ecedf1"}
+              level="H"
+              imageSettings={{
+                src: "/partify/partify.svg",
+                height: 50,
+                width: 50,
+                excavate: true,
+              }}
+            ></QRCode>
+          </div>
+        )}
 
         <ul className={list_style.list}>
           {this.state.songs.map((song, index) => (
