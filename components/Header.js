@@ -11,7 +11,14 @@ export class Header extends Component {
     return (
       <>
         <header className={styles.header}>
-          <nav className={header_style.navbar}>
+          <nav
+            className={header_style.navbar}
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "center",
+            }}
+          >
             {/* To add more to the navbar change ./src/path.js */}
             {navbar.map((item, index) => (
               <Link
