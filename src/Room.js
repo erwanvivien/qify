@@ -1,4 +1,5 @@
 const { maxPathLength } = require("./config");
+const { spotifyQueue } = require("./spotifyApi");
 
 const possible =
   "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789-_";
@@ -155,6 +156,7 @@ function addSong(pin, song, io) {
   let room = Room.getRoomWithPin(pin);
   room.songQueue.push(song);
   io.to(pin).emit("RES_ADD_SONG", room.songQueue);
+  spotifyQueue(room.spotify.access_token, song.uri, null);
 }
 
 function getSongs(pin, socket) {

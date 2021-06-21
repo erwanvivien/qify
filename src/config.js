@@ -46,6 +46,7 @@ const endpoints = {
   tracks: (ids) => `https://api.spotify.com/v1/tracks?ids=${ids}&market=FR`,
   search: (query, country) =>
     `https://api.spotify.com/v1/search?q=${query}&type=track&limit=5&market=${country}`,
+  queue: (uri) => `https://api.spotify.com/v1/me/player/queue?uri=${uri}`,
 };
 
 const maxPathLength = 4;
