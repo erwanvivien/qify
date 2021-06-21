@@ -60,33 +60,27 @@ class App extends Component {
   };
 
   localStorageUpdate() {
-    const ONE_HOUR = 60 * 60 * 1000; /* ms */
+    const TWO_HOUR = 2 * 60 * 60 * 1000; /* ms */
 
     const passwordKey = `${title}-password`;
     const timestampKey = `${title}-timestamp`;
-    // const socketidKey = `${title}-socketid`;
     const roomPinKey = `${title}-room`;
 
     let password = localStorage.getItem(passwordKey);
     let timestamp = localStorage.getItem(timestampKey);
-    // let socketid = localStorage.getItem(socketidKey);
     let roomPin = localStorage.getItem(roomPinKey);
-
-    console.log(password, timestamp);
 
     if (!timestamp || roomPin !== this.roomID) {
       localStorage.setItem(passwordKey, this.password);
-      //   localStorage.setItem(socketidKey, socket.id);
       localStorage.setItem(timestampKey, new Date().toString());
       localStorage.setItem(roomPinKey, this.roomID);
       return;
     }
 
     let timestampDate = Date.parse(timestamp);
-    if (new Date() - timestampDate < ONE_HOUR) {
-      /// Less than one hour
-      this.password = localStorage.getItem(passwordKey) || this.password;
-      //   socket.userId = localStorage.getItem(socketidKey) || socket.id;
+    if (new Date() - timestampDate < TWO_HOUR) {
+      /// Less than two hours
+      this.password = password || this.password;
     }
   }
 
@@ -120,15 +114,15 @@ class App extends Component {
         songs: room ? room.songQueue : null,
         width: this.state.width,
       });
+      if (!room) return;
 
       this.localStorageUpdate();
 
-      if (room) socket.emit("JOIN_ROOM", this.roomID);
-      if (room)
-        socket.emit("JOIN_ROOM_ADMIN", {
-          pin: this.roomID,
-          pass: this.password,
-        });
+      socket.emit("JOIN_ROOM", this.roomID);
+      socket.emit("JOIN_ROOM_ADMIN", {
+        pin: this.roomID,
+        pass: this.password,
+      });
     });
     socket.on("RES_ADD_SONG", (songs) => {
       console.log(songs);
@@ -156,7 +150,7 @@ class App extends Component {
   }
 
   displayQR() {
-    return this.state.width > 500 && this.state.isAdmin
+    return this.state.width > 500 && this.state.isAdmin;
   }
 
   render() {
