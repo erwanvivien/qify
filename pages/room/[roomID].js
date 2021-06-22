@@ -112,6 +112,7 @@ class App extends Component {
         room,
         loading: false,
         songs: room ? room.songQueue : null,
+        isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
       if (!room) return;
@@ -174,7 +175,7 @@ class App extends Component {
     }
 
     return (
-      <Default title={false} classname={list_style.main}>
+      <Default title={false} classname={list_style.main} footer={false}>
         <div className={list_style.search_div}>
           <SearchSong
             access_token={this.state.room.access_token}
