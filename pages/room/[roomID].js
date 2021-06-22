@@ -8,6 +8,8 @@ import SpotifyItem from "../../components/SpotifyItem";
 
 import { Default } from "../../components/Default";
 
+import Script from "next/script";
+
 import { paths, title } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
@@ -84,6 +86,53 @@ class App extends Component {
     }
   }
 
+  defineSDKBehaviour({ access_token }) {
+    if (window.onSpotifyWebPlaybackSDKReady !== undefined) return;
+
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = access_token;
+      const player = new Spotify.Player({
+        name: "Partify 🎉",
+        getOAuthToken: (cb) => {
+          cb(token);
+        },
+      });
+
+      // Error handling
+      player.addListener("initialization_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("authentication_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("account_error", ({ message }) => {
+        console.error(message);
+      });
+      player.addListener("playback_error", ({ message }) => {
+        console.error(message);
+      });
+
+      // Playback status updates
+      player.addListener("player_state_changed", (state) => {
+        console.log(state);
+      });
+
+      // Ready
+      player.addListener("ready", ({ device_id }) => {
+        console.log("Ready with Device ID", device_id);
+        player.setVolume(0.1);
+      });
+
+      // Not Ready
+      player.addListener("not_ready", ({ device_id }) => {
+        console.log("Device ID has gone offline", device_id);
+      });
+
+      // Connect to the player!
+      player.connect();
+    };
+  }
+
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
 
@@ -98,15 +147,16 @@ class App extends Component {
       { shallow: true }
     );
 
-    socket.on("JOIN_ROOM_ADMIN", (isAdmin) =>
+    socket.on("JOIN_ROOM_ADMIN", (isAdmin) => {
+      this.defineSDKBehaviour(this.state.room);
       this.setState({
         room: this.state.room,
         loading: this.state.loading,
         songs: this.state.songs,
         isAdmin: isAdmin,
         width: this.state.width,
-      })
-    );
+      });
+    });
     socket.on("RES_CHECK_ROOM", (room) => {
       this.setState({
         room,
@@ -176,6 +226,12 @@ class App extends Component {
 
     return (
       <Default title={false} classname={list_style.main} footer={false}>
+        {this.state.isAdmin && (
+          <Script
+            src="https://sdk.scdn.co/spotify-player.js"
+            strategy="afterInteractive"
+          />
+        )}
         <div className={list_style.search_div}>
           <SearchSong
             access_token={this.state.room.access_token}

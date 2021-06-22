@@ -19,7 +19,7 @@ const scopes = [
   "user-read-currently-playing",
   // Playback
   //   "app-remote-control",
-  //   "streaming",
+  "streaming",
   // Playlists
   "playlist-modify-public",
   //   "playlist-modify-private",
