@@ -138,6 +138,12 @@ class Room {
     Room.ROOMS.push(room);
     return room;
   }
+
+  static emptyRooms() {
+    console.log("REMOVED ALL ROOMS AS REQUESTED");
+    console.log(`FROM ${Room.ROOMS.length} TO 0`);
+    Room.ROOMS = [];
+  }
 }
 
 function createRoom(admin, spotify_cred, socket) {
