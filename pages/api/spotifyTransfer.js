@@ -3,7 +3,7 @@ import { spotifyTransfer } from "../../src/spotifyApi";
 export default async function handler(req, res) {
   let { access_token, device_id } = req.body;
 
-  if ([access_token, device_id].indexOf(undefined) != -1)
+  if ([access_token, device_id].filter((e) => e === undefined).length > 0)
     /// If one is undefined
     return res
       .status(400)
