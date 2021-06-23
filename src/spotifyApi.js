@@ -87,7 +87,27 @@ async function spotifyQueue(access_token, uri, res) {
     : response.data;
   let responseStatus = !response ? 400 : 200;
 
-  console.log(endpoints.queue(uri), response.data);
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
+}
+
+async function spotifyTransfer(access_token, device_id, res) {
+  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  let data_params = {
+    device_ids: [device_id],
+  };
+
+  console.log(qs.stringify(data_params));
+  let response = await instance.put(
+    endpoints.transfer(),
+    qs.stringify(data_params)
+  );
+
+  let responseData = !response
+    ? { error: "Could not use the access token" }
+    : response.data;
+  let responseStatus = !response ? 400 : 200;
 
   return res !== null
     ? res.status(responseStatus).json(responseData)
@@ -100,4 +120,5 @@ module.exports = {
   spotifyRefresh,
   spotifySearch,
   spotifyQueue,
+  spotifyTransfer,
 };
