@@ -15,6 +15,7 @@ import io from "socket.io-client";
 import { withRouter } from "next/router";
 
 import QRCode from "qrcode.react";
+import axios from "axios";
 
 const date_to_string = (k, v) => {
   if (v instanceof Date) return v.getMilliseconds();
@@ -92,7 +93,7 @@ class App extends Component {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = access_token;
       const player = new Spotify.Player({
-        name: "Partify 🎉",
+        name: "Partify 📯",
         getOAuthToken: (cb) => {
           cb(token);
         },
@@ -121,6 +122,15 @@ class App extends Component {
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
         player.setVolume(0.1);
+
+        setTimeout(async () => {
+          await axios.put("/api/spotifyTransfer", {
+            access_token,
+            device_id,
+          });
+
+          player.resume();
+        }, 2000);
       });
 
       // Not Ready

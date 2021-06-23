@@ -98,10 +98,9 @@ async function spotifyTransfer(access_token, device_id, res) {
     device_ids: [device_id],
   };
 
-  console.log(qs.stringify(data_params));
   let response = await instance.put(
     endpoints.transfer(),
-    qs.stringify(data_params)
+    JSON.stringify(data_params)
   );
 
   let responseData = !response

@@ -11,5 +11,5 @@ export default async function handler(req, res) {
   if (req.method !== "PUT")
     return res.status(400).json({ error: "Can not handle non-PUT request" });
 
-  return await spotifyTransfer(refresh_token, res);
+  return await spotifyTransfer(access_token, device_id, res);
 }
