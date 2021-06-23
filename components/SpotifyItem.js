@@ -26,7 +26,6 @@ export class SpotifyItem extends Component {
   };
 
   render() {
-    // var heartUrl = this.state.full ? "/heart-full.svg" : "/heart-none.svg";
     var single = this.song.album === this.song.title;
 
     return (
@@ -49,16 +48,6 @@ export class SpotifyItem extends Component {
               </p>
             )}
           </div>
-
-          {/* {this.width > 600 && (
-            <p className={list_style.likes}>{this.song.like_number}</p>
-          )} */}
-
-          {/* <img
-            onClick={this.toggleImage}
-            src={heartUrl}
-            className={list_style.heart}
-          ></img> */}
         </div>
       </>
     );

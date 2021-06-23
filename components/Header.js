@@ -3,7 +3,7 @@ import header_style from "../styles/Header.module.css";
 
 import Link from "next/link";
 
-import { navbar, paths, reset } from "../src/config";
+import { navbar, paths } from "../src/config";
 import { Component } from "react";
 
 export class Header extends Component {
@@ -29,17 +29,6 @@ export class Header extends Component {
                 {item.title}
               </a>
             ))}
-            {process.env.PRODUCTION === "DEV" && (
-              <>
-                <a
-                  href={paths.root}
-                  onClick={() => reset()}
-                  className={`${header_style.items} ${styles.code}`}
-                >
-                  Reset
-                </a>
-              </>
-            )}
           </nav>
         </header>
       </>
