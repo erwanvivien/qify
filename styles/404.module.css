@@ -1,0 +1,37 @@
+.container {
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, Segoe UI, Fira Sans,
+    Avenir, Helvetica Neue, Lucida Grande, sans-serif;
+  height: 100vh;
+  justify-content: center;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error_code {
+  display: inline-block;
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 0px 20px 0px 0px;
+  padding: 10px 23px 10px 0;
+  font-size: 24px;
+  font-weight: 500;
+  vertical-align: top;
+}
+
+.error_status_container {
+  display: inline-block;
+  text-align: left;
+  line-height: 49px;
+  height: 49px;
+  vertical-align: middle;
+}
+
+.error_status {
+  font-size: 14px;
+  font-weight: normal;
+  line-height: inherit;
+  margin: 0px;
+  padding: 0px;
+}
