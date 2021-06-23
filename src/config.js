@@ -66,6 +66,8 @@ const navbar = [
   { title: "Contact", path: paths.contact },
 ];
 
+const { Room } = require("./Room");
+
 module.exports = {
   authEndpoint,
   authTokenEndpoint,
@@ -78,4 +80,5 @@ module.exports = {
   navbar,
   paths,
   title: "Partify",
+  reset: process.env.PRODUCTION === "DEV" ? Room.emptyRooms : null,
 };

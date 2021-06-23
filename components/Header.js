@@ -3,7 +3,7 @@ import header_style from "../styles/Header.module.css";
 
 import Link from "next/link";
 
-import { navbar } from "../src/config";
+import { navbar, paths, reset } from "../src/config";
 import { Component } from "react";
 
 export class Header extends Component {
@@ -21,16 +21,25 @@ export class Header extends Component {
           >
             {/* To add more to the navbar change ./src/path.js */}
             {navbar.map((item, index) => (
-              <Link
+              <a
                 href={item.path}
                 key={`navbar-item-` + index}
                 className={`${header_style.items} ${styles.code}`}
               >
-                <a className={`${header_style.items} ${styles.code}`}>
-                  {item.title}
-                </a>
-              </Link>
+                {item.title}
+              </a>
             ))}
+            {process.env.PRODUCTION === "DEV" && (
+              <>
+                <a
+                  href={paths.root}
+                  onClick={() => reset()}
+                  className={`${header_style.items} ${styles.code}`}
+                >
+                  Reset
+                </a>
+              </>
+            )}
           </nav>
         </header>
       </>
