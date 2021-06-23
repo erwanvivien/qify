@@ -78,9 +78,11 @@ async function spotifySearch(access_token, query, country, res) {
   return res.status(200).json(response.data);
 }
 
-async function spotifyQueue(access_token, uri, res) {
+async function spotifyQueue(access_token, uri, deviceId, res) {
   instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
-  let response = await instance.post(endpoints.queue(uri), {});
+  let response = await instance
+    .post(endpoints.queue(uri, deviceId), {})
+    .catch((_) => {});
 
   let responseData = !response
     ? { error: "Could not use the access token" }

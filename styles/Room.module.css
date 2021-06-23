@@ -71,7 +71,7 @@
 .search_div {
   display: flex;
   justify-content: center;
-  padding-bottom: 2em;
+  padding-bottom: 1em;
   /* width: 70%; */
 }
 
@@ -86,7 +86,7 @@
 
 .main {
   width: 550px;
-  padding-top: 4rem;
+  padding-top: 2rem;
   display: block;
 }
 

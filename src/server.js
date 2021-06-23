@@ -67,7 +67,9 @@ io.on("connect", (socket) => {
   );
   socket.on("LEAVE_ROOM", (pin) => leaveRoom(pin, socket));
   socket.on("GET_SONGS", (pin) => getSongs(pin, socket));
-  socket.on("ADD_SONG", ({ song, pin }) => addSong(pin, song, io));
+  socket.on("ADD_SONG", ({ song, pin, deviceId }) =>
+    addSong(pin, song, deviceId, io)
+  );
 
   if (process.env.PRODUCTION === "DEV")
     socket.on("DEBUG", () => {

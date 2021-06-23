@@ -34,6 +34,8 @@ class App extends Component {
   password;
   router;
 
+  deviceId;
+
   state = {
     room: null,
     loading: true,
@@ -127,7 +129,8 @@ class App extends Component {
       // Ready
       player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
-        player.setVolume(0.1);
+
+        this.deviceId = device_id;
 
         setTimeout(async () => {
           await axios.put("/api/spotifyTransfer", {
@@ -135,13 +138,14 @@ class App extends Component {
             device_id,
           });
 
+          player.setVolume(0.1);
           player.resume();
         }, 2000);
       });
 
       // Not Ready
       player.addListener("not_ready", ({ device_id }) => {
-        console.log("Device ID has gone offline", device_id);
+        console.log(device_id, " has gone offline");
       });
 
       // Connect to the player!
@@ -213,6 +217,7 @@ class App extends Component {
     socket.emit("ADD_SONG", {
       song,
       pin: this.roomID,
+      deviceId: this.deviceId,
     });
   }
 
@@ -273,7 +278,13 @@ class App extends Component {
           </div>
         )}
 
-        <ul className={list_style.list}>
+        <ul
+          className={list_style.list}
+          style={{
+            overflow: "auto",
+            maxHeight: "80vh",
+          }}
+        >
           {this.state.songs.map((song, index) => (
             <li className={list_style.listitem} key={index}>
               <SpotifyItem song={song} width={this.state.width} />

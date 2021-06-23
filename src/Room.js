@@ -138,12 +138,6 @@ class Room {
     Room.ROOMS.push(room);
     return room;
   }
-
-  static emptyRooms() {
-    console.log("REMOVED ALL ROOMS AS REQUESTED");
-    console.log(`FROM ${Room.ROOMS.length} TO 0`);
-    Room.ROOMS = [];
-  }
 }
 
 function createRoom(admin, spotify_cred, socket) {
@@ -158,11 +152,19 @@ function createRoom(admin, spotify_cred, socket) {
   socket.emit("RES_CREATE_ROOM", { pin, adminPass });
 }
 
-function addSong(pin, song, io) {
+async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+  let res = await spotifyQueue(
+    room.spotify.access_token,
+    song.uri,
+    deviceId,
+    null
+  );
+
+  if (res.error) return;
   room.songQueue.push(song);
   io.to(pin).emit("RES_ADD_SONG", room.songQueue);
-  spotifyQueue(room.spotify.access_token, song.uri, null);
 }
 
 function getSongs(pin, socket) {
