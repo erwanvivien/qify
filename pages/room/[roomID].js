@@ -42,12 +42,18 @@ class App extends Component {
     isAdmin: false,
   };
 
+  static getInitialProps({ query }) {
+    return {
+      roomID: query.roomID,
+      pass: query.pass === undefined ? null : query.pass,
+    };
+  }
+
   constructor(props) {
     super(props);
     this.roomID = props.roomID;
     this.router = props.router;
-
-    this.password = this.props.pass;
+    this.password = props.pass;
 
     if (props.room_str) this.room = JSON.parse(props.room_str, string_to_date);
   }
@@ -280,15 +286,3 @@ class App extends Component {
 }
 
 export default withRouter(App);
-
-export async function getServerSideProps(props) {
-  let pin = props.query.roomID;
-  let pass = props.query.pass;
-
-  return {
-    props: {
-      roomID: pin,
-      pass: pass === undefined ? null : pass,
-    },
-  };
-}
