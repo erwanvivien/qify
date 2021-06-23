@@ -1,9 +1,4 @@
-import axios from "axios";
-
-import { endpoints } from "../../src/config";
 import { spotifySearch } from "../../src/spotifyApi";
-
-const instance = axios.create(); /// Hack because axios removes Authorization header
 
 export default async function handler(req, res) {
   let { access_token, query, country } = req.query;
