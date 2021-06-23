@@ -49,5 +49,3 @@ export default function Home() {
     </>
   );
 }
-
-// https://twitter.com/messages/compose?recipient_id=1358769929571434498&text=Hello

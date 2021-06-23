@@ -16,6 +16,10 @@ class App extends Component {
   state;
   router;
 
+  static getInitialProps({ query }) {
+    return { query };
+  }
+
   constructor(props) {
     super(props);
     this.code = props.query["code"];
@@ -53,7 +57,7 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    this.router.replace("/creating", undefined, { shallow: true });
+    this.router.push("/creating", undefined, { shallow: true });
 
     let response = await axios.post("/api/spotifyAuth", { code: this.code });
     if (!response) {
@@ -107,14 +111,6 @@ class App extends Component {
       </>
     );
   }
-}
-
-export async function getServerSideProps({ query }) {
-  return {
-    props: {
-      query,
-    }, // will be passed to the page component as props
-  };
 }
 
 export default withRouter(App);
