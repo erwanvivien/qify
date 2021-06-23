@@ -15,7 +15,7 @@ class SearchSong extends Component {
   intervalId;
 
   latest;
-  current;
+  timeout = null;
 
   constructor(props) {
     super(props);
@@ -29,27 +29,10 @@ class SearchSong extends Component {
     this.current = "";
   }
 
-  componentDidMount() {
-    this.intervalId = setInterval(this.timer.bind(this), 500);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-  }
-
-  async timer() {
-    let value = this.current;
-
-    if (value === this.latest) return;
-    this.latest = value;
-    if (value === "")
-      return this.setState({
-        results: [],
-      });
-
+  async searchSpotify(query) {
     let { data } = await axios.get("/api/spotifySearch", {
       params: {
-        query: value,
+        query,
         country: this.country,
         access_token: this.access_token,
       },
@@ -78,13 +61,28 @@ class SearchSong extends Component {
       };
     });
 
-    this.setState({
-      results,
-    });
+    return results;
   }
 
-  handleChange = async (event) => {
-    this.current = event.target.value;
+  search = (event) => {
+    let value = event.target.value;
+
+    if (value === this.latest) return;
+    this.latest = value;
+    if (value === "")
+      return this.setState({
+        results: [],
+      });
+
+    if (this.timeout) clearTimeout(this.timeout);
+
+    this.timeout = setTimeout(async () => {
+      let results = await this.searchSpotify(value);
+
+      this.setState({
+        results,
+      });
+    }, 400);
   };
 
   render() {
@@ -96,7 +94,7 @@ class SearchSong extends Component {
             <input
               type="input"
               className={search_style.form__field}
-              onChange={this.handleChange}
+              onChange={this.search}
               id="search_box"
               name="name"
               required
