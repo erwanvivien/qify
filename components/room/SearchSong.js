@@ -1,9 +1,8 @@
-import search_style from "../styles/Search.module.css";
-import result_style from "../styles/Search.module.css";
+import search_style from "../../styles/Search.module.css";
+import result_style from "../../styles/Search.module.css";
 
 import { Component } from "react";
 import axios from "axios";
-import qs from "querystring";
 
 import Items from "./Results";
 

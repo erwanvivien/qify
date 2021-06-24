@@ -1,8 +1,6 @@
-import result_style from "../styles/Search.module.css";
+import result_style from "../../styles/Search.module.css";
 
 import { Component } from "react";
-
-import axios from "axios";
 
 class Items extends Component {
   render() {

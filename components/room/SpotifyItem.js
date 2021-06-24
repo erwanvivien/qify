@@ -1,10 +1,6 @@
-import styles from "../styles/Home.module.css";
-import list_style from "../styles/Room.module.css";
+import list_style from "../../styles/Room.module.css";
 
-import Link from "next/link";
-// import { BrowserRouter as Router, Link } from "react-router-dom";
-
-import { Component, FunctionComponent } from "react";
+import { Component } from "react";
 
 export class SpotifyItem extends Component {
   song;
