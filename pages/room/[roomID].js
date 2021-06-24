@@ -3,8 +3,8 @@ import { Component } from "react";
 import styles from "../../styles/Home.module.css";
 import list_style from "../../styles/Room.module.css";
 
-import SearchSong from "../../components/SearchSong";
-import SpotifyItem from "../../components/SpotifyItem";
+import SearchSong from "../../components/room/SearchSong";
+import SpotifyItem from "../../components/room/SpotifyItem";
 
 import { Default } from "../../components/Default";
 
@@ -222,7 +222,11 @@ class App extends Component {
   }
 
   displayQR() {
-    return this.state.width > 500 && this.state.isAdmin;
+    return (
+      this.state.width > 500 &&
+      this.state.isAdmin &&
+      process.env.PRODUCTION !== "DEV"
+    );
   }
 
   render() {
