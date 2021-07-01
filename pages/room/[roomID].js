@@ -36,6 +36,8 @@ class App extends Component {
 
   deviceId;
 
+  player;
+
   state = {
     room: null,
     loading: true,
@@ -100,7 +102,7 @@ class App extends Component {
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = access_token;
-      const player = new Spotify.Player({
+      this.player = new Spotify.Player({
         name: "Partify 📯",
         getOAuthToken: (cb) => {
           cb(token);
@@ -108,26 +110,26 @@ class App extends Component {
       });
 
       // Error handling
-      player.addListener("initialization_error", ({ message }) => {
+      this.player.addListener("initialization_error", ({ message }) => {
         console.error(message);
       });
-      player.addListener("authentication_error", ({ message }) => {
+      this.player.addListener("authentication_error", ({ message }) => {
         console.error(message);
       });
-      player.addListener("account_error", ({ message }) => {
+      this.player.addListener("account_error", ({ message }) => {
         console.error(message);
       });
-      player.addListener("playback_error", ({ message }) => {
+      this.player.addListener("playback_error", ({ message }) => {
         console.error(message);
       });
 
       // Playback status updates
-      player.addListener("player_state_changed", (state) => {
+      this.player.addListener("player_state_changed", (state) => {
         console.log(state);
       });
 
       // Ready
-      player.addListener("ready", ({ device_id }) => {
+      this.player.addListener("ready", ({ device_id }) => {
         console.log("Ready with Device ID", device_id);
 
         this.deviceId = device_id;
@@ -138,18 +140,18 @@ class App extends Component {
             device_id,
           });
 
-          player.setVolume(0.1);
-          player.resume();
+          this.player.setVolume(0.1);
+          this.player.resume();
         }, 2000);
       });
 
       // Not Ready
-      player.addListener("not_ready", ({ device_id }) => {
+      this.player.addListener("not_ready", ({ device_id }) => {
         console.log(device_id, " has gone offline");
       });
 
       // Connect to the player!
-      player.connect();
+      this.player.connect();
     };
   }
 
@@ -181,7 +183,7 @@ class App extends Component {
       this.setState({
         room,
         loading: false,
-        songs: room ? room.songQueue : null,
+        songs: this.state.songs, // room ? room.songQueue : null,
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
@@ -201,6 +203,7 @@ class App extends Component {
         room: this.state.room,
         loading: this.state.loading,
         songs,
+        isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
     });
@@ -282,13 +285,7 @@ class App extends Component {
           </div>
         )}
 
-        <ul
-          className={list_style.list}
-          style={{
-            overflow: "auto",
-            maxHeight: "80vh",
-          }}
-        >
+        <ul className={list_style.list}>
           {this.state.songs.map((song, index) => (
             <li className={list_style.listitem} key={index}>
               <SpotifyItem song={song} width={this.state.width} index={index} />{" "}
