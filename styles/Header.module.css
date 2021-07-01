@@ -1,8 +1,10 @@
 .navbar {
   padding-top: 16px;
   padding-bottom: 16px;
-}
 
-.items {
-  margin: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  grid-gap: 8px;
 }

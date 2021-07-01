@@ -11,20 +11,13 @@ export class Header extends Component {
     return (
       <>
         <header className={styles.header}>
-          <nav
-            className={header_style.navbar}
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "center",
-            }}
-          >
+          <nav className={header_style.navbar}>
             {/* To add more to the navbar change ./src/path.js */}
             {navbar.map((item, index) => (
               <a
                 href={item.path}
                 key={`navbar-item-` + index}
-                className={`${header_style.items} ${styles.code}`}
+                className={styles.code}
               >
                 {item.title}
               </a>
