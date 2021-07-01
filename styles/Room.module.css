@@ -28,17 +28,21 @@
 }
 
 /* Element counter */
-.listitem::before {
-  content: counters(index, ".", decimal-leading-zero);
+.listitem_counter {
+  /* content: counters(index, ".", decimal-leading-zero); */
   font-size: 1.5rem;
-  text-align: right;
+  text-align: center;
   font-weight: bold;
-  min-width: 50px;
-  padding-right: 12px;
+  /* min-width: 50px; */
+  position: relative;
   font-feature-settings: "tnum";
   font-variant-numeric: tabular-nums;
   align-self: flex-start;
-  background-image: linear-gradient(to bottom, rgb(148, 224, 103), orangered);
+  background-image: linear-gradient(
+    to bottom,
+    rgb(125, 191, 230),
+    rgb(110, 209, 85)
+  );
   background-attachment: fixed;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

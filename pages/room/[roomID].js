@@ -291,7 +291,7 @@ class App extends Component {
         >
           {this.state.songs.map((song, index) => (
             <li className={list_style.listitem} key={index}>
-              <SpotifyItem song={song} width={this.state.width} />
+              <SpotifyItem song={song} width={this.state.width} index={index} />{" "}
             </li>
           ))}
         </ul>

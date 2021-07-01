@@ -5,6 +5,7 @@ import { Component } from "react";
 export class SpotifyItem extends Component {
   song;
   width;
+  index;
 
   state = {
     full: false,
@@ -15,6 +16,7 @@ export class SpotifyItem extends Component {
     this.song = props.song;
 
     this.width = props.width;
+    this.index = props.index;
   }
 
   toggleImage = () => {
@@ -43,6 +45,11 @@ export class SpotifyItem extends Component {
                 {this.song.album}
               </p>
             )}
+          </div>
+          <div>
+            <p className={list_style.listitem_counter} style={{ margin: "0" }}>
+              {this.index}
+            </p>
           </div>
         </div>
       </>
