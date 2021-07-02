@@ -9,11 +9,11 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 
 Date.prototype.addHours = function (h) {
-  this.setHours(this.getHours() + h);
+  this.setTime(this.getTime() + h * 60 * 60 * 1000);
   return this;
 };
 Date.prototype.addMinutes = function (m) {
-  this.setMinutes(this.getMinutes() + m);
+  this.setTime(this.getTime() + m * 60 * 1000);
   return this;
 };
 
@@ -32,20 +32,15 @@ const { spotifyRefresh } = require("./spotifyApi");
 
 setInterval(() => {
   console.log("ROOM FILTERING: " + new Date().toLocaleString());
-  let threshold = new Date().addHours(-2);
-
   console.log("from " + Room.ROOMS.length);
-  Room.ROOMS = Room.ROOMS.filter((room) => {
-    return room.members.length === 0 && room.createdAt > threshold;
-  });
 
-  threshold = new Date().addHours(-24);
+  let threshold = new Date().addHours(-24);
   Room.ROOMS = Room.ROOMS.filter((room) => {
     return room.createdAt > threshold;
   });
 
   console.log("to " + Room.ROOMS.length);
-}, 3600 * 1000); /// Every hour
+}, 60 * 60 * 1000); /// Every hour
 
 setInterval(() => {
   console.log("ROOM UPDATING: " + new Date().toLocaleString());
@@ -54,7 +49,7 @@ setInterval(() => {
     let newTokens = await spotifyRefresh(refresh_token, null);
     room.access_token = newTokens.access_token;
   });
-}, 45 * 60 * 1000);
+}, 40 * 60 * 1000); // Every 40 minutes
 
 io.on("connect", (socket) => {
   socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) =>
