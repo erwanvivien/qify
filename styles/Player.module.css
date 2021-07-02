@@ -1,0 +1,90 @@
+.container {
+  position: fixed;
+  width: 100%;
+  height: 90px;
+  bottom: 0px;
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #202020;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: center;
+  align-items: center;
+  /* width: 50%; */
+  /* flex-grow: 2; */
+}
+
+.play_pause {
+  height: 70px;
+
+  filter: invert(100%) sepia(0%) saturate(7500%) hue-rotate(70deg)
+    brightness(99%) contrast(107%);
+}
+
+.next_prev {
+  height: 30px;
+
+  filter: invert(65%) sepia(1%) saturate(0%) hue-rotate(152deg) brightness(99%)
+    contrast(89%);
+}
+
+.next_prev,
+.play_pause {
+  cursor: pointer;
+}
+
+.next_prev:hover,
+.play_pause:hover {
+  transform: scale(1.1);
+}
+
+.title {
+  color: white;
+  overflow: hidden;
+  /* white-space: nowrap; */
+
+  text-overflow: ellipsis;
+  max-height: 2.6em;
+}
+
+.title_container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.album_cover {
+  height: 60px;
+  margin: 15px;
+}
+
+.song_container {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.volume_container {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.volume {
+  width: 90%;
+  max-width: 150px;
+  margin-right: 15px;
+}

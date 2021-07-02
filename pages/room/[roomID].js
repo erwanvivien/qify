@@ -2,9 +2,12 @@ import { Component } from "react";
 
 import styles from "../../styles/Home.module.css";
 import list_style from "../../styles/Room.module.css";
+import player_style from "../../styles/Player.module.css";
 
 import SearchSong from "../../components/room/SearchSong";
 import SpotifyItem from "../../components/room/SpotifyItem";
+
+import RoomPlayer from "../../components/room/Player";
 
 import { Default } from "../../components/Default";
 
@@ -37,6 +40,7 @@ class App extends Component {
   deviceId;
 
   player;
+  previousState;
 
   state = {
     room: null,
@@ -97,6 +101,92 @@ class App extends Component {
     }
   }
 
+  extractPlayerState(state) {
+    if (state === null) return [null, true];
+
+    let { track_window, paused } = state;
+    let { current_track, next_tracks, previous_tracks } = track_window;
+
+    current_track = {
+      title: current_track.name,
+      album: current_track.album.name,
+      arists: current_track.artists[0].name,
+      id: current_track.id,
+      uri: current_track.uri,
+    };
+
+    next_tracks = next_tracks.map((song) => {
+      return {
+        title: song.name,
+        album: song.album.name,
+        arists: song.artists[0].name,
+        id: song.id,
+        uri: song.uri,
+      };
+    });
+    previous_tracks = previous_tracks.map((song) => {
+      return {
+        title: song.name,
+        album: song.album.name,
+        arists: song.artists[0].name,
+        id: song.id,
+        uri: song.uri,
+      };
+    });
+
+    state = { paused, current_track, next_tracks, previous_tracks };
+    let prev = this.previousState;
+
+    if (prev === undefined || prev === null) return [state, true];
+
+    if (state.paused !== prev.paused) {
+      return [state, true];
+    }
+    if (state.current_track.uri !== prev.current_track.uri) {
+      return [state, true];
+    }
+
+    if (state.next_tracks.length !== prev.next_tracks.length) {
+      return [state, true];
+    }
+
+    if (
+      state.next_tracks.length > 0 &&
+      prev.next_tracks.length > 0 &&
+      state.next_tracks[0].uri !== prev.next_tracks[0].uri
+    ) {
+      return [state, true];
+    }
+    if (
+      state.next_tracks.length > 1 &&
+      prev.next_tracks.length > 1 &&
+      state.next_tracks[1].uri !== prev.next_tracks[1].uri
+    ) {
+      return [state, true];
+    }
+
+    if (state.previous_tracks.length !== prev.previous_tracks.length) {
+      return [state, true];
+    }
+
+    if (
+      state.previous_tracks.length > 0 &&
+      prev.previous_tracks.length > 0 &&
+      state.previous_tracks[0].uri !== prev.previous_tracks[0].uri
+    ) {
+      return [state, true];
+    }
+    if (
+      state.previous_tracks.length > 1 &&
+      prev.previous_tracks.length > 1 &&
+      state.previous_tracks[1].uri !== prev.previous_tracks[1].uri
+    ) {
+      return [state, true];
+    }
+
+    return [state, false];
+  }
+
   defineSDKBehaviour({ access_token }) {
     if (window.onSpotifyWebPlaybackSDKReady !== undefined) return;
 
@@ -124,8 +214,17 @@ class App extends Component {
       });
 
       // Playback status updates
-      this.player.addListener("player_state_changed", (state) => {
-        console.log(state);
+      this.player.addListener("player_state_changed", (newState) => {
+        let [state, refreshNeeded] = this.extractPlayerState(newState);
+        if (refreshNeeded === false) return;
+        this.setState({
+          room: this.state.room,
+          loading: this.state.loading,
+          songs: this.state.songs,
+          width: this.state.width,
+          isAdmin: this.state.isAdmin,
+        });
+        this.previousState = state;
       });
 
       // Ready
@@ -253,46 +352,58 @@ class App extends Component {
     }
 
     return (
-      <Default title={false} classname={list_style.main} footer={false}>
-        {this.state.isAdmin && (
-          <Script
-            src="https://sdk.scdn.co/spotify-player.js"
-            strategy="afterInteractive"
-          />
-        )}
-        <div className={list_style.search_div}>
-          <SearchSong
-            access_token={this.state.room.access_token}
-            country={this.state.room.country}
-            addSong={this.addSong.bind(this)}
-          />
-        </div>
-
-        {this.displayQR() && (
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <QRCode
-              onClick={() =>
-                navigator.clipboard.writeText(
-                  `http://localhost:8888/room/${this.roomID}`
-                )
-              }
-              title="Cliquer pour copier le lien"
-              style={{ cursor: "pointer" }}
-              value={`http://localhost:8888/room/${this.roomID}`}
-              bgColor={"#ecedf1"}
-              level="L"
-            ></QRCode>
+      <>
+        <Default title={false} classname={list_style.main} footer={false}>
+          {this.state.isAdmin && (
+            <Script
+              src="https://sdk.scdn.co/spotify-player.js"
+              strategy="afterInteractive"
+            />
+          )}
+          <div className={list_style.search_div}>
+            <SearchSong
+              access_token={this.state.room.access_token}
+              country={this.state.room.country}
+              addSong={this.addSong.bind(this)}
+            />
           </div>
-        )}
 
-        <ul className={list_style.list}>
-          {this.state.songs.map((song, index) => (
-            <li className={list_style.listitem} key={index}>
-              <SpotifyItem song={song} width={this.state.width} index={index} />{" "}
-            </li>
-          ))}
-        </ul>
-      </Default>
+          {this.displayQR() && (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <QRCode
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    `http://localhost:8888/room/${this.roomID}`
+                  )
+                }
+                title="Cliquer pour copier le lien"
+                style={{ cursor: "pointer" }}
+                value={`http://localhost:8888/room/${this.roomID}`}
+                bgColor={"#ecedf1"}
+                level="L"
+              ></QRCode>
+            </div>
+          )}
+
+          <ul className={list_style.list}>
+            {this.state.songs.map((song, index) => (
+              <li className={list_style.listitem} key={index}>
+                <SpotifyItem
+                  song={song}
+                  width={this.state.width}
+                  index={index}
+                />{" "}
+              </li>
+            ))}
+          </ul>
+          <span
+            style={{
+              height: "90px",
+            }}
+          ></span>
+        </Default>
+        {this.player && <RoomPlayer player={this.player} />}
+      </>
     );
   }
 }
