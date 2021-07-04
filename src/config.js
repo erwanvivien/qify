@@ -66,7 +66,7 @@ const websiteTitle = "Qify";
 
 const navbar = [
   { title: websiteTitle, path: paths.root },
-  { title: "À propos", path: paths.about },
+  { title: "Infos", path: paths.about },
   { title: "Contact", path: paths.contact },
 ];
 
