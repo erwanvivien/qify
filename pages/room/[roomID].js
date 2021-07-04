@@ -66,7 +66,7 @@ class App extends Component {
     if (props.room_str) this.room = JSON.parse(props.room_str, string_to_date);
   }
 
-  handleResize = (e) => {
+  handleResize = () => {
     this.setState({
       room: this.state.room,
       loading: this.state.loading,
@@ -256,6 +256,7 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
+    this.handleResize();
 
     this.router.push(
       {
@@ -402,7 +403,9 @@ class App extends Component {
             }}
           ></span>
         </Default>
-        {this.player && <RoomPlayer player={this.player} />}
+        {this.player && (
+          <RoomPlayer player={this.player} width={this.state.width} />
+        )}
       </>
     );
   }
