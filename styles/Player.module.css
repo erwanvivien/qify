@@ -50,7 +50,6 @@
 .title {
   color: white;
   overflow: hidden;
-  /* white-space: nowrap; */
 
   text-overflow: ellipsis;
   max-height: 2.6em;
@@ -87,4 +86,35 @@
   width: 90%;
   max-width: 150px;
   margin-right: 15px;
+}
+
+.volume_image {
+  height: 60px;
+  margin: 15px;
+}
+
+@media screen and (max-width: 450px) {
+  .volume {
+    height: 60px;
+    position: fixed;
+    bottom: 90px;
+    right: 8px;
+  }
+
+  .title {
+    position: fixed;
+    bottom: 90px;
+    left: 16px;
+    color: black;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .volume_image {
+    height: 50px;
+  }
+
+  .album_cover {
+    height: 50px;
+  }
 }

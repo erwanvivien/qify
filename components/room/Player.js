@@ -3,9 +3,13 @@ import player_style from "../../styles/Player.module.css";
 import { Component } from "react";
 import { title } from "../../src/config";
 
+const THRESHOLD = 450;
+
 class RoomPlayer extends Component {
   player;
   timeout;
+
+  volume;
 
   state = {
     image: "/no_image.svg",
@@ -22,7 +26,8 @@ class RoomPlayer extends Component {
 
     this.player = props.player;
     this.timeout = null;
-    // this.changeVolume.bind(this);
+
+    this.volume = 0.1;
   }
 
   updateAlbumCover(state) {
@@ -68,8 +73,8 @@ class RoomPlayer extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.player.getVolume().then((volume) => {
-        console.log(volume);
-        document.getElementById("volume-range").value = volume.toString();
+        let elem = document.getElementById("volume-range");
+        if (elem) elem.value = volume.toString();
       });
     }, 1000);
 
@@ -86,6 +91,18 @@ class RoomPlayer extends Component {
     this.timeout = setTimeout(() => {
       this.player.setVolume(ctx.target.value);
     }, 100);
+
+    let currentImage = this.getVolumeImage();
+    this.volume = ctx.target.value;
+    if (currentImage !== this.getVolumeImage()) {
+      return this.setState({
+        image: this.state.image,
+        songUri: this.state.songUri,
+        playButton: this.state.playButton,
+        paused: this.state.paused,
+        title: this.state.title,
+      });
+    }
   }
 
   next() {
@@ -98,6 +115,13 @@ class RoomPlayer extends Component {
 
   toggle() {
     this.player.togglePlay();
+  }
+
+  getVolumeImage() {
+    if (this.volume <= 0.0001) return "/player/volume_none.svg";
+    if (this.volume <= 0.33) return "/player/volume_low.svg";
+    if (this.volume <= 0.67) return "/player/volume_medium.svg";
+    if (this.volume <= 1) return "/player/volume_full.svg";
   }
 
   render() {
@@ -145,6 +169,13 @@ class RoomPlayer extends Component {
               step="any"
               onChange={(ctx) => this.changeVolume(ctx)}
             />
+
+            {this.props.width <= THRESHOLD && (
+              <img
+                className={player_style.volume_image}
+                src={this.getVolumeImage()}
+              ></img>
+            )}
           </div>
         </div>
       </>
