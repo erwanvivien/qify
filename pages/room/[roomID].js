@@ -193,7 +193,7 @@ class App extends Component {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = access_token;
       this.player = new Spotify.Player({
-        name: "Partify 📯",
+        name: `${title} 📯`,
         getOAuthToken: (cb) => {
           cb(token);
         },

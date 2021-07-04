@@ -62,8 +62,10 @@ const paths = {
   contact: "/contact",
 };
 
+const websiteTitle = "Qify";
+
 const navbar = [
-  { title: "Partify", path: paths.root },
+  { title: websiteTitle, path: paths.root },
   { title: "À propos", path: paths.about },
   { title: "Contact", path: paths.contact },
 ];
@@ -79,5 +81,5 @@ module.exports = {
   maxPathLength,
   navbar,
   paths,
-  title: "Partify",
+  title: websiteTitle,
 };
