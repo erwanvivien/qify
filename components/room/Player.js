@@ -11,6 +11,8 @@ class RoomPlayer extends Component {
 
   volume;
 
+  interval;
+
   state = {
     image: "/no_image.svg",
     songUri: null,
@@ -71,18 +73,23 @@ class RoomPlayer extends Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    this.interval = setInterval(() => {
       this.player.getVolume().then((volume) => {
+        this.updateVolumeImage(volume);
         let elem = document.getElementById("volume-range");
         if (elem) elem.value = volume.toString();
       });
-    }, 1000);
+    }, 1500);
 
     this.player.addListener("player_state_changed", (newState) =>
       this.updateAlbumCover(newState)
     );
 
     this.player.getCurrentState().then((state) => this.updateAlbumCover(state));
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   changeVolume(ctx) {
@@ -92,8 +99,12 @@ class RoomPlayer extends Component {
       this.player.setVolume(ctx.target.value);
     }, 100);
 
+    this.updateVolumeImage(ctx.target.value);
+  }
+
+  updateVolumeImage(volume) {
     let currentImage = this.getVolumeImage();
-    this.volume = ctx.target.value;
+    this.volume = volume;
     if (currentImage !== this.getVolumeImage()) {
       return this.setState({
         image: this.state.image,
