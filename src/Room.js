@@ -164,14 +164,21 @@ async function addSong(pin, song, deviceId, io) {
 
   if (res.error) return;
   room.songQueue.push(song);
-  io.to(pin).emit("RES_ADD_SONG", room.songQueue);
+
+  io.to(pin).emit(
+    "RES_ADD_SONG",
+    room.songQueue.filter((e) => e.state === 1)
+  );
 }
 
 function getSongs(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return socket.emit("RES_GET_SONGS", null);
 
-  return socket.emit("RES_GET_SONGS", room.songQueue);
+  return socket.emit(
+    "RES_GET_SONGS",
+    room.songQueue.filter((e) => e.state === 1)
+  );
 }
 
 function checkRoom(pin, socket) {
@@ -183,7 +190,7 @@ function checkRoom(pin, socket) {
     adminSpotifyId: room.adminSpotifyId,
     access_token: room.spotify.access_token,
     country: room.country,
-    songQueue: room.songQueue,
+    songQueue: room.songQueue.filter((e) => e.state === 1),
   };
   socket.emit("RES_CHECK_ROOM", roomLessInfo);
 }
