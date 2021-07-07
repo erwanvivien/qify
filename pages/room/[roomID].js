@@ -283,7 +283,7 @@ class App extends Component {
       this.setState({
         room,
         loading: false,
-        songs: this.state.songs, // room ? room.songQueue : null,
+        songs: room ? room.songQueue : [],
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
