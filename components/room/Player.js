@@ -129,7 +129,7 @@ class RoomPlayer extends Component {
   }
 
   getVolumeImage() {
-    if (this.volume <= 0.0001) return "/player/volume_none.svg";
+    if (this.volume <= 0.0) return "/player/volume_none.svg";
     if (this.volume <= 0.33) return "/player/volume_low.svg";
     if (this.volume <= 0.67) return "/player/volume_medium.svg";
     if (this.volume <= 1) return "/player/volume_full.svg";
