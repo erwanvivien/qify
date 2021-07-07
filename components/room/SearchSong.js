@@ -4,7 +4,7 @@ import result_style from "../../styles/Search.module.css";
 import { Component } from "react";
 import axios from "axios";
 
-import Items from "./Results";
+import Items from "./Items";
 
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
