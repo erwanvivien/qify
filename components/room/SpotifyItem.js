@@ -23,6 +23,8 @@ export class SpotifyItem extends Component {
     let width = this.props.width;
     let index = this.props.index;
     let song = this.props.song;
+    if (!song) return <></>;
+
     var single = song.album === song.title;
 
     return (
