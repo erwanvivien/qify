@@ -13,10 +13,6 @@ export class SpotifyItem extends Component {
 
   constructor(props) {
     super(props);
-    this.song = props.song;
-
-    this.width = props.width;
-    this.index = props.index;
   }
 
   toggleImage = () => {
@@ -24,12 +20,15 @@ export class SpotifyItem extends Component {
   };
 
   render() {
-    var single = this.song.album === this.song.title;
+    let width = this.props.width;
+    let index = this.props.index;
+    let song = this.props.song;
+    var single = song.album === song.title;
 
     return (
       <>
         <div className={list_style.card}>
-          <img src={this.song.image} style={{ height: "50px" }}></img>
+          <img src={song.image} style={{ height: "50px" }}></img>
 
           <div
             style={{
@@ -38,19 +37,24 @@ export class SpotifyItem extends Component {
             className={list_style.textcontainer}
           >
             <p className={`${list_style.title} ${list_style.text}`} style={{}}>
-              {this.song.title}
+              {song.title}
             </p>
-            {!single && this.width > 400 && (
+            {!single && width > 400 && (
               <p className={`${list_style.album} ${list_style.text}`}>
-                {this.song.album}
+                {song.album}
               </p>
             )}
           </div>
-          <div>
-            <p className={list_style.listitem_counter} style={{ margin: "0" }}>
-              {this.index}
-            </p>
-          </div>
+          {width > 300 && (
+            <div>
+              <p
+                className={list_style.listitem_counter}
+                style={{ margin: "0" }}
+              >
+                {index}
+              </p>
+            </div>
+          )}
         </div>
       </>
     );
