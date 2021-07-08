@@ -51,8 +51,10 @@ class SearchSong extends Component {
       });
 
       return {
-        title: song.name,
-        album: song.album.name,
+        title: song.name.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, ""),
+        album: song.album.name
+          .replace(/\s+\([^\)]*\)/i, "")
+          .replace(/\s+\-.*/, ""),
         arists: song.artists[0].name,
         image: imageUrl,
         id: song.id,

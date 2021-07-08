@@ -73,7 +73,9 @@ class RoomPlayer extends Component {
       songUri: currentSong.uri,
       playButton: state.paused ? "/player/play1.svg" : "/player/pause1.svg",
       paused: state.paused,
-      title: currentSong.name.replace(/\s+\([^\)]*\)/i, ""),
+      title: currentSong.name
+        .replace(/\s+\([^\)]*\)/i, "")
+        .replace(/\s+\-.*/, ""),
     });
 
     if (
