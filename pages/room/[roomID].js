@@ -42,10 +42,13 @@ class App extends Component {
   player;
   previousState;
 
+  timeout;
+
   state = {
     room: null,
     loading: true,
     songs: [],
+    paddedSongs: [],
     width: 800,
     isAdmin: false,
   };
@@ -71,6 +74,7 @@ class App extends Component {
       room: this.state.room,
       loading: this.state.loading,
       songs: this.state.songs,
+      paddedSongs: this.state.paddedSongs,
       isAdmin: this.state.isAdmin,
       width: window.innerWidth,
     });
@@ -116,12 +120,24 @@ class App extends Component {
     };
 
     next_tracks = next_tracks.map((song) => {
+      let imageUrl;
+      let max = 0;
+
+      song.album.images.forEach((image) => {
+        if (image.width > max) {
+          max = image.width;
+          imageUrl = image.url;
+        }
+      });
+
       return {
         title: trimSongs(song.name),
         album: trimSongs(song.album.name),
         arists: song.artists[0].name,
         id: song.id,
         uri: song.uri,
+        image: imageUrl,
+        state: 2,
       };
     });
     previous_tracks = previous_tracks.map((song) => {
@@ -135,6 +151,7 @@ class App extends Component {
     });
 
     state = { paused, current_track, next_tracks, previous_tracks };
+
     let prev = this.previousState;
 
     if (prev === undefined || prev === null) return [state, true];
@@ -150,6 +167,8 @@ class App extends Component {
       return [state, true];
     }
 
+    // console.log(state.next_tracks, prev.next_tracks);
+
     if (
       state.next_tracks.length > 0 &&
       prev.next_tracks.length > 0 &&
@@ -157,6 +176,7 @@ class App extends Component {
     ) {
       return [state, true];
     }
+
     if (
       state.next_tracks.length > 1 &&
       prev.next_tracks.length > 1 &&
@@ -165,24 +185,24 @@ class App extends Component {
       return [state, true];
     }
 
-    if (state.previous_tracks.length !== prev.previous_tracks.length) {
-      return [state, true];
-    }
+    // if (state.previous_tracks.length !== prev.previous_tracks.length) {
+    //   return [state, true];
+    // }
 
-    if (
-      state.previous_tracks.length > 0 &&
-      prev.previous_tracks.length > 0 &&
-      state.previous_tracks[0].uri !== prev.previous_tracks[0].uri
-    ) {
-      return [state, true];
-    }
-    if (
-      state.previous_tracks.length > 1 &&
-      prev.previous_tracks.length > 1 &&
-      state.previous_tracks[1].uri !== prev.previous_tracks[1].uri
-    ) {
-      return [state, true];
-    }
+    // if (
+    //   state.previous_tracks.length > 0 &&
+    //   prev.previous_tracks.length > 0 &&
+    //   state.previous_tracks[0].uri !== prev.previous_tracks[0].uri
+    // ) {
+    //   return [state, true];
+    // }
+    // if (
+    //   state.previous_tracks.length > 1 &&
+    //   prev.previous_tracks.length > 1 &&
+    //   state.previous_tracks[1].uri !== prev.previous_tracks[1].uri
+    // ) {
+    //   return [state, true];
+    // }
 
     return [state, false];
   }
@@ -215,16 +235,29 @@ class App extends Component {
 
       // Playback status updates
       this.player.addListener("player_state_changed", (newState) => {
-        let [state, refreshNeeded] = this.extractPlayerState(newState);
-        if (refreshNeeded === false) return;
-        this.setState({
-          room: this.state.room,
-          loading: this.state.loading,
-          songs: this.state.songs,
-          width: this.state.width,
-          isAdmin: this.state.isAdmin,
-        });
-        this.previousState = state;
+        if (this.timeout) clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          let [state, refreshNeeded] = this.extractPlayerState(newState);
+          if (refreshNeeded === false) return;
+
+          let paddedSongs = [];
+          if (this.state.songs.length <= 0)
+            paddedSongs.push(state.next_tracks[0]);
+          if (this.state.songs.length <= 1)
+            paddedSongs.push(state.next_tracks[1]);
+
+          console.log(this.state.songs, paddedSongs);
+
+          this.setState({
+            room: this.state.room,
+            loading: this.state.loading,
+            songs: this.state.songs,
+            paddedSongs: paddedSongs,
+            width: this.state.width,
+            isAdmin: this.state.isAdmin,
+          });
+          this.previousState = state;
+        }, 150);
       });
 
       // Ready
@@ -275,6 +308,7 @@ class App extends Component {
         room: this.state.room,
         loading: this.state.loading,
         songs: this.state.songs,
+        paddedSongs: this.state.paddedSongs,
         isAdmin: isAdmin,
         width: this.state.width,
       });
@@ -284,6 +318,7 @@ class App extends Component {
         room,
         loading: false,
         songs: room ? room.songQueue : [],
+        paddedSongs: this.state.paddedSongs,
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
@@ -298,11 +333,11 @@ class App extends Component {
       });
     });
     socket.on("RES_UPDATE_SONG", (songs) => {
-      console.log(songs);
       this.setState({
         room: this.state.room,
         loading: this.state.loading,
         songs,
+        paddedSongs: this.state.paddedSongs,
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
@@ -388,7 +423,29 @@ class App extends Component {
 
           <ul className={list_style.list}>
             {this.state.songs.map((song, index) => (
-              <li className={list_style.listitem} key={index}>
+              <li
+                className={list_style.listitem}
+                style={{
+                  width: "100%",
+                }}
+                key={index}
+              >
+                <SpotifyItem
+                  song={song}
+                  width={this.state.width}
+                  index={index}
+                />{" "}
+              </li>
+            ))}
+            {this.state.paddedSongs.map((song, index) => (
+              <li
+                className={list_style.listitem}
+                style={{
+                  width: "70%",
+                  color: "gray",
+                }}
+                key={index}
+              >
                 <SpotifyItem
                   song={song}
                   width={this.state.width}

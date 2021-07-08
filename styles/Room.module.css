@@ -13,6 +13,8 @@
   grid-gap: 1em;
 
   flex-grow: 1;
+
+  align-items: center;
 }
 
 /* List element */
