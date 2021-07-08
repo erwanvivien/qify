@@ -231,10 +231,10 @@ function nextSong(pin, pass, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
   if (room.adminPass !== pass) return;
-  console.log("POP");
 
   let song = room.songQueue.find((song) => song.state === 1);
-  if (song) song.state = 0;
+  if (!song) return;
+  song.state = 0;
 
   io.to(pin).emit(
     "RES_UPDATE_SONG",
