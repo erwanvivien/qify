@@ -297,7 +297,7 @@ class App extends Component {
         pass: this.password,
       });
     });
-    socket.on("RES_ADD_SONG", (songs) => {
+    socket.on("RES_UPDATE_SONG", (songs) => {
       console.log(songs);
       this.setState({
         room: this.state.room,
@@ -404,7 +404,14 @@ class App extends Component {
           ></span>
         </Default>
         {this.player && (
-          <RoomPlayer player={this.player} width={this.state.width} />
+          <RoomPlayer
+            player={this.player}
+            width={this.state.width}
+            songQueue={this.state.songs}
+            socket={socket}
+            roomPass={this.password}
+            roomPin={this.roomID}
+          />
         )}
       </>
     );

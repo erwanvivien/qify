@@ -13,6 +13,10 @@ class RoomPlayer extends Component {
 
   interval;
 
+  roomSocket;
+  roomPass;
+  roomPin;
+
   state = {
     image: "/no_image.svg",
     songUri: null,
@@ -30,6 +34,10 @@ class RoomPlayer extends Component {
     this.timeout = null;
 
     this.volume = 0.1;
+
+    this.roomSocket = props.socket;
+    this.roomPass = props.roomPass;
+    this.roomPin = props.roomPin;
   }
 
   updateAlbumCover(state) {
@@ -67,6 +75,15 @@ class RoomPlayer extends Component {
       paused: state.paused,
       title: currentSong.name.replace(/\s+\([^\)]*\)/i, ""),
     });
+
+    if (
+      this.props.songQueue.length > 0 &&
+      currentSong.uri === this.props.songQueue[0].uri
+    )
+      this.roomSocket.emit("SONG_POP", {
+        pin: this.roomPin,
+        pass: this.roomPass,
+      });
   }
 
   componentDidMount() {
