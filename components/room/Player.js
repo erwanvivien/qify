@@ -60,9 +60,6 @@ class RoomPlayer extends Component {
       }
     });
 
-    if (imageUrl === this.state.image && state.paused === this.state.paused)
-      return;
-
     this.setState({
       image: imageUrl,
       songUri: currentSong.uri,
