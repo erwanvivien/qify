@@ -166,7 +166,7 @@ async function addSong(pin, song, deviceId, io) {
   room.songQueue.push(song);
 
   io.to(pin).emit(
-    "RES_ADD_SONG",
+    "RES_UPDATE_SONG",
     room.songQueue.filter((e) => e.state === 1)
   );
 }
@@ -227,6 +227,21 @@ function leaveRoom(pin, socket) {
   if (idx >= 0) room.members.splice(idx, 1);
 }
 
+function nextSong(pin, pass, io) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+  if (room.adminPass !== pass) return;
+  console.log("POP");
+
+  let song = room.songQueue.find((song) => song.state === 1);
+  if (song) song.state = 0;
+
+  io.to(pin).emit(
+    "RES_UPDATE_SONG",
+    room.songQueue.filter((e) => e.state === 1)
+  );
+}
+
 module.exports = {
   createRoom,
   addSong,
@@ -235,5 +250,6 @@ module.exports = {
   joinRoom,
   joinRoomAdmin,
   leaveRoom,
+  nextSong,
   Room,
 };
