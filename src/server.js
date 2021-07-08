@@ -48,7 +48,7 @@ setInterval(() => {
   Room.ROOMS.forEach(async (room) => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
-    room.access_token = newTokens.access_token;
+    room.spotify.access_token = newTokens.access_token;
   });
 }, 40 * 60 * 1000); // Every 40 minutes
 
