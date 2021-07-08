@@ -54,6 +54,10 @@ const endpoints = {
   transfer: () => "https://api.spotify.com/v1/me/player",
 };
 
+function trimSongs(s) {
+  return s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");
+}
+
 const maxPathLength = 4;
 
 const paths = {
@@ -84,4 +88,5 @@ module.exports = {
   navbar,
   paths,
   title: websiteTitle,
+  trimSongs,
 };

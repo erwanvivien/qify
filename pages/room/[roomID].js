@@ -13,7 +13,7 @@ import { Default } from "../../components/Default";
 
 import Script from "next/script";
 
-import { paths, title } from "../../src/config";
+import { paths, title, trimSongs } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
 
@@ -117,8 +117,8 @@ class App extends Component {
 
     next_tracks = next_tracks.map((song) => {
       return {
-        title: song.name,
-        album: song.album.name,
+        title: trimSongs(song.name),
+        album: trimSongs(song.album.name),
         arists: song.artists[0].name,
         id: song.id,
         uri: song.uri,

@@ -5,6 +5,7 @@ import { Component } from "react";
 import axios from "axios";
 
 import Items from "./Items";
+import { trimSongs } from "../../src/config";
 
 const instance = axios.create(); /// Hack because axios removes Authorization header
 
@@ -51,10 +52,8 @@ class SearchSong extends Component {
       });
 
       return {
-        title: song.name.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, ""),
-        album: song.album.name
-          .replace(/\s+\([^\)]*\)/i, "")
-          .replace(/\s+\-.*/, ""),
+        title: trimSongs(song.name),
+        album: trimSongs(song.album.name),
         arists: song.artists[0].name,
         image: imageUrl,
         id: song.id,

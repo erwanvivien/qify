@@ -1,7 +1,7 @@
 import player_style from "../../styles/Player.module.css";
 
 import { Component } from "react";
-import { title } from "../../src/config";
+import { title, trimSongs } from "../../src/config";
 
 const THRESHOLD = 450;
 
@@ -73,9 +73,7 @@ class RoomPlayer extends Component {
       songUri: currentSong.uri,
       playButton: state.paused ? "/player/play1.svg" : "/player/pause1.svg",
       paused: state.paused,
-      title: currentSong.name
-        .replace(/\s+\([^\)]*\)/i, "")
-        .replace(/\s+\-.*/, ""),
+      title: trimSongs(currentSong.name),
     });
 
     if (
