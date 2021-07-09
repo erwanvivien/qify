@@ -343,6 +343,10 @@ class App extends Component {
       });
     });
 
+    socket.on("RES_UPDATE_SONG_FAILED", () => {
+      console.log("FAILED");
+    });
+
     socket.emit("CHECK_ROOM", this.roomID);
   }
 

@@ -155,6 +155,13 @@ function createRoom(admin, spotify_cred, socket) {
 async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
+
+  if (
+    room.songQueue.length > 0 &&
+    room.songQueue[room.songQueue.length - 1].uri === song.uri
+  )
+    return io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+
   let res = await spotifyQueue(
     room.spotify.access_token,
     song.uri,
