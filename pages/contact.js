@@ -3,6 +3,8 @@ import contact_style from "../styles/Contact.module.css";
 
 import { Default } from "../components/Default";
 
+import Image from "next/image";
+
 const contact = [
   {
     imgPath: "/other/gmail.svg",
@@ -36,7 +38,7 @@ export default function Home() {
           {contact.map((item, index) => (
             <div className={contact_style.card} key={index}>
               <a href={item.url}>
-                <img
+                <Image
                   alt={item.alt}
                   className={contact_style.img}
                   src={item.imgPath}

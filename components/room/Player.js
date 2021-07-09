@@ -2,6 +2,7 @@ import player_style from "../../styles/Player.module.css";
 
 import { Component } from "react";
 import { title, trimSongs } from "../../src/config";
+import Image from "next/image";
 
 const THRESHOLD = 450;
 
@@ -154,33 +155,37 @@ class RoomPlayer extends Component {
       <>
         <div className={player_style.container}>
           <div className={player_style.song_container}>
-            <img
+            <Image
               className={player_style.album_cover}
               src={this.state.image}
-            ></img>
+              alt={`Album cover of the current song`}
+            />
             <div className={player_style.title_container}>
               <p className={player_style.title}>{this.state.title}</p>
             </div>
           </div>
 
           <div className={player_style.buttons}>
-            <img
+            <Image
               onClick={() => this.prev()}
               className={player_style.next_prev}
               src="/player/previous2.svg"
-            ></img>
+              alt="Previous button"
+            />
 
-            <img
+            <Image
               onClick={() => this.toggle()}
               className={player_style.play_pause}
               src={this.state.playButton}
-            ></img>
+              alt="Play/pause button"
+            />
 
-            <img
+            <Image
               onClick={() => this.next()}
               className={player_style.next_prev}
               src="/player/next2.svg"
-            ></img>
+              alt="Next button"
+            />
           </div>
 
           <div className={player_style.volume_container}>
@@ -196,10 +201,11 @@ class RoomPlayer extends Component {
             />
 
             {this.props.width <= THRESHOLD && (
-              <img
+              <Image
                 className={player_style.volume_image}
                 src={this.getVolumeImage()}
-              ></img>
+                alt="Song if device is too small"
+              />
             )}
           </div>
         </div>

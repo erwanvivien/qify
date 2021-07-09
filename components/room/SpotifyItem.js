@@ -1,6 +1,7 @@
 import list_style from "../../styles/Room.module.css";
 
 import { Component } from "react";
+import Image from "next/image";
 
 export class SpotifyItem extends Component {
   song;
@@ -30,7 +31,11 @@ export class SpotifyItem extends Component {
     return (
       <>
         <div className={list_style.card}>
-          <img src={song.image} style={{ height: "50px" }}></img>
+          <Image
+            src={song.image}
+            style={{ height: "50px" }}
+            alt={`Image in the queue for song ${song.title}`}
+          />
 
           <div
             style={{

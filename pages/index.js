@@ -3,6 +3,7 @@ import styles from "../styles/Home.module.css";
 import { Default } from "../components/Default";
 
 import { paths } from "../src/config";
+import Image from "next/image";
 
 export default function Home() {
   return (
@@ -13,14 +14,15 @@ export default function Home() {
             <h3 style={{ textAlign: "center" }}>
               Créer un salon<br></br>Rejoindre en admin
             </h3>
-            <img
+            <Image
               style={{
                 width: "min(346px, 100%)",
                 minWidth: "200px",
                 alignSelf: "center",
               }}
               src="/spotify-toggle.png"
-            ></img>
+              alt="A spotify toggle image"
+            />
           </a>
 
           <a href={paths.join} className={styles.card}>

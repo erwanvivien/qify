@@ -19,7 +19,9 @@ class Custom404 extends Component {
           <div>
             <h1 className={styles404.error_code}>404</h1>
             <div className={styles404.error_status_container}>
-              <h2 className={styles404.error_status}>La page n'existe pas</h2>
+              <h2 className={styles404.error_status}>
+                La page n&apos;existe pas
+              </h2>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import result_style from "../../styles/Search.module.css";
 
 import { Component } from "react";
+import Image from "next/image";
 
 class Items extends Component {
   render() {
@@ -19,10 +20,11 @@ class Items extends Component {
           className={result_style.items}
         >
           <div className={result_style.list_container}>
-            <img
+            <Image
               src={image}
               style={{ height: "50px", paddingLeft: "1px" }}
-            ></img>
+              alt={`Spotify song ${title}`}
+            />
 
             <div style={{ width: "100%" }}>
               <p style={{ margin: "0" }}>
