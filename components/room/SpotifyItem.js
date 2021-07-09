@@ -26,7 +26,7 @@ export class SpotifyItem extends Component {
     let song = this.props.song;
     if (!song) return <></>;
 
-    var single = song.album === song.title;
+    let single = song.album === song.title;
 
     return (
       <>

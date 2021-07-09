@@ -9,7 +9,7 @@ class Items extends Component {
     let item = this.props.item;
     let { image, title, album } = item;
 
-    var slice = false;
+    let slice = false;
     if (title.length > 35) slice = true;
 
     return (

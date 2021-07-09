@@ -121,7 +121,7 @@
     ////////// Stylistic Issues //////////
 
     "brace-style": 0, // enforce one true brace style (off by default)
-    "camelcase": 1, // require camel case names
+    "camelcase": 0, // require camel case names
     "comma-spacing": 0, // enforce spacing before and after comma
     "comma-style": 0, // enforce one true comma style (off by default)
     "consistent-this": 0, // enforces consistent naming when capturing the current execution context (off by default)
@@ -165,7 +165,7 @@
 
     ////////// ECMAScript 6 //////////
 
-    "no-var": 0, // require let or const instead of var (off by default)
+    "no-var": 2, // require let or const instead of var (off by default)
     "generator-star": 0, // enforce the position of the * in generator functions (off by default)
 
     ////////// Legacy //////////
@@ -175,6 +175,6 @@
     "max-params": 0, // limits the number of parameters that can be used in the function declaration. (off by default)
     "max-statements": 0, // specify the maximum number of statement allowed in a function (off by default)
     "no-bitwise": 0, // disallow use of bitwise operators (off by default)
-    "no-plusplus": 0 // disallow use of unary operators, ++ and -- (off by default)
+    "no-plusplus": 1 // disallow use of unary operators, ++ and -- (off by default)
   }
 }
