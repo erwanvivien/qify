@@ -1,4 +1,4 @@
-import list_style from "../../styles/Room.module.css";
+import listStyle from "../../styles/Room.module.css";
 
 import { Component } from "react";
 import Image from "next/image";
@@ -30,7 +30,7 @@ export class SpotifyItem extends Component {
 
     return (
       <>
-        <div className={list_style.card}>
+        <div className={listStyle.card}>
           <Image
             src={song.image}
             style={{ height: "50px" }}
@@ -41,23 +41,20 @@ export class SpotifyItem extends Component {
             style={{
               display: single ? "flex" : "",
             }}
-            className={list_style.textcontainer}
+            className={listStyle.textcontainer}
           >
-            <p className={`${list_style.title} ${list_style.text}`} style={{}}>
+            <p className={`${listStyle.title} ${listStyle.text}`} style={{}}>
               {song.title}
             </p>
             {!single && width > 400 && (
-              <p className={`${list_style.album} ${list_style.text}`}>
+              <p className={`${listStyle.album} ${listStyle.text}`}>
                 {song.album}
               </p>
             )}
           </div>
           {width > 300 && (
             <div>
-              <p
-                className={list_style.listitem_counter}
-                style={{ margin: "0" }}
-              >
+              <p className={listStyle.listitem_counter} style={{ margin: "0" }}>
                 {index}
               </p>
             </div>

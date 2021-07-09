@@ -1,5 +1,4 @@
 // pages/404.js
-import Error from "next/error";
 import Head from "next/head";
 import { Component } from "react";
 

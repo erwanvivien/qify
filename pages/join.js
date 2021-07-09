@@ -5,7 +5,7 @@ import { Default } from "../components/Default";
 import { title } from "../src/config";
 
 import styles from "../styles/Home.module.css";
-import search_style from "../styles/Search.module.css";
+import searchStyle from "../styles/Search.module.css";
 
 const socket = io();
 
@@ -47,19 +47,19 @@ class About extends Component {
           {title}
         </h1>
         <div
-          className={search_style.form__group}
+          className={searchStyle.form__group}
           style={{ width: "50%", marginBottom: "0.75em" }}
         >
           <input
             type="input"
-            className={search_style.form__field}
+            className={searchStyle.form__field}
             onChange={this.update}
             onKeyUp={this.search}
             id="search_box"
             name="name"
             required
           />
-          <label className={search_style.form__label}>ID salon</label>
+          <label className={searchStyle.form__label}>ID salon</label>
         </div>
         <p className={styles.description} style={{ marginBottom: "0" }}>
           Vous pouvez aussi scanner le QR code disponible

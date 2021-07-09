@@ -1,9 +1,7 @@
 import styles from "../styles/Home.module.css";
-import header_style from "../styles/Header.module.css";
+import headerStyle from "../styles/Header.module.css";
 
-import Link from "next/link";
-
-import { navbar, paths } from "../src/config";
+import { navbar } from "../src/config";
 import { Component } from "react";
 
 export class Header extends Component {
@@ -11,7 +9,7 @@ export class Header extends Component {
     return (
       <>
         <header className={styles.header}>
-          <nav className={header_style.navbar}>
+          <nav className={headerStyle.navbar}>
             {/* To add more to the navbar change ./src/path.js */}
             {navbar.map((item, index) => (
               <a

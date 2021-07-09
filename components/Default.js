@@ -12,14 +12,14 @@ export class Default extends Component {
   render() {
     const props = this.props;
 
-    const displayHeader = props.header === undefined || props.header;
-    const displayTitle = props.title === undefined || props.title;
-    const displayFooter = props.footer === undefined || props.footer;
+    const displayHeader = typeof props.header === "undefined" || props.header;
+    const displayTitle = typeof props.title === "undefined" || props.title;
+    const displayFooter = typeof props.footer === "undefined" || props.footer;
 
     const name = props.name || title;
 
-    const more_styles = props.styles || {};
-    const more_classnames = props.classname || "";
+    const moreStyles = props.styles || {};
+    const moreClassnames = props.classname || "";
 
     return (
       <>
@@ -32,8 +32,8 @@ export class Default extends Component {
           {displayHeader && <Header />}
 
           <main
-            className={`${styles.main} ${more_classnames}`}
-            style={more_styles}
+            className={`${styles.main} ${moreClassnames}`}
+            style={moreStyles}
           >
             {displayTitle && <Title />}
             {props.children}

@@ -1,4 +1,4 @@
-import result_style from "../../styles/Search.module.css";
+import resultStyle from "../../styles/Search.module.css";
 
 import { Component } from "react";
 import Image from "next/image";
@@ -14,12 +14,8 @@ class Items extends Component {
 
     return (
       <>
-        <a
-          href="#"
-          onClick={() => addSong(item)}
-          className={result_style.items}
-        >
-          <div className={result_style.list_container}>
+        <a href="#" onClick={() => addSong(item)} className={resultStyle.items}>
+          <div className={resultStyle.list_container}>
             <Image
               src={image}
               style={{ height: "50px", paddingLeft: "1px" }}
@@ -28,10 +24,10 @@ class Items extends Component {
 
             <div style={{ width: "100%" }}>
               <p style={{ margin: "0" }}>
-                <span className={result_style.title}>
+                <span className={resultStyle.title}>
                   {slice ? title.slice(0, 35) + " ..." : title}
                 </span>
-                <span className={result_style.album}>
+                <span className={resultStyle.album}>
                   {title !== album && !slice ? ` - ${album}` : ""}
                 </span>
               </p>

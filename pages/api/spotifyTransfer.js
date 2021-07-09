@@ -3,8 +3,10 @@ import { spotifyTransfer } from "../../src/spotifyApi";
 export default async function handler(req, res) {
   let { access_token, device_id } = req.body;
 
-  if ([access_token, device_id].filter((e) => e === undefined).length > 0)
-    /// If one is undefined
+  if (
+    [access_token, device_id].filter((e) => typeof e === "undefined").length > 0
+  )
+    // If one is undefined
     return res
       .status(400)
       .json({ error: "Request does not contain the right fields" });

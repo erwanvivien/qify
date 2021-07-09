@@ -1,8 +1,7 @@
 import { Component } from "react";
 
 import styles from "../../styles/Home.module.css";
-import list_style from "../../styles/Room.module.css";
-import player_style from "../../styles/Player.module.css";
+import listStyle from "../../styles/Room.module.css";
 
 import SearchSong from "../../components/room/SearchSong";
 import SpotifyItem from "../../components/room/SpotifyItem";
@@ -20,10 +19,10 @@ import { withRouter } from "next/router";
 import QRCode from "qrcode.react";
 import axios from "axios";
 
-const date_to_string = (k, v) => {
-  if (v instanceof Date) return v.getMilliseconds();
-  return v;
-};
+// const date_to_string = (k, v) => {
+//   if (v instanceof Date) return v.getMilliseconds();
+//   return v;
+// };
 const string_to_date = (k, v) => {
   if (k === "creation_time") return Date.parse(v);
   return v;
@@ -56,7 +55,7 @@ class App extends Component {
   static getInitialProps({ query }) {
     return {
       roomID: query.roomID,
-      pass: query.pass === undefined ? null : query.pass,
+      pass: typeof query.pass === "undefined" ? null : query.pass,
     };
   }
 
@@ -100,7 +99,7 @@ class App extends Component {
 
     let timestampDate = Date.parse(timestamp);
     if (new Date() - timestampDate < TWO_HOUR) {
-      /// Less than two hours
+      // Less than two hours
       this.password = password || this.password;
     }
   }
@@ -154,7 +153,7 @@ class App extends Component {
 
     let prev = this.previousState;
 
-    if (prev === undefined || prev === null) return [state, true];
+    if (typeof prev === "undefined" || prev === null) return [state, true];
 
     if (state.paused !== prev.paused) {
       return [state, true];
@@ -166,8 +165,6 @@ class App extends Component {
     if (state.next_tracks.length !== prev.next_tracks.length) {
       return [state, true];
     }
-
-    // console.log(state.next_tracks, prev.next_tracks);
 
     if (
       state.next_tracks.length > 0 &&
@@ -208,7 +205,7 @@ class App extends Component {
   }
 
   defineSDKBehaviour({ access_token }) {
-    if (window.onSpotifyWebPlaybackSDKReady !== undefined) return;
+    if (typeof window.onSpotifyWebPlaybackSDKReady !== "undefined") return;
 
     window.onSpotifyWebPlaybackSDKReady = () => {
       const token = access_token;
@@ -220,18 +217,18 @@ class App extends Component {
       });
 
       // Error handling
-      this.player.addListener("initialization_error", ({ message }) => {
-        console.error(message);
-      });
-      this.player.addListener("authentication_error", ({ message }) => {
-        console.error(message);
-      });
-      this.player.addListener("account_error", ({ message }) => {
-        console.error(message);
-      });
-      this.player.addListener("playback_error", ({ message }) => {
-        console.error(message);
-      });
+      //   this.player.addListener("initialization_error", ({ message }) => {
+      //     console.error(message);
+      //   });
+      //   this.player.addListener("authentication_error", ({ message }) => {
+      //     console.error(message);
+      //   });
+      //   this.player.addListener("account_error", ({ message }) => {
+      //     console.error(message);
+      //   });
+      //   this.player.addListener("playback_error", ({ message }) => {
+      //     console.error(message);
+      //   });
 
       // Playback status updates
       this.player.addListener("player_state_changed", (newState) => {
@@ -248,8 +245,6 @@ class App extends Component {
               paddedSongs.push(state.next_tracks[1]);
           }
 
-          console.log(this.state.songs, paddedSongs);
-
           this.setState({
             room: this.state.room,
             loading: this.state.loading,
@@ -264,7 +259,7 @@ class App extends Component {
 
       // Ready
       this.player.addListener("ready", ({ device_id }) => {
-        console.log("Ready with Device ID", device_id);
+        // console.log("Ready with Device ID", device_id);
 
         this.deviceId = device_id;
 
@@ -280,9 +275,9 @@ class App extends Component {
       });
 
       // Not Ready
-      this.player.addListener("not_ready", ({ device_id }) => {
-        console.log(device_id, " has gone offline");
-      });
+      //   this.player.addListener("not_ready", ({ device_id }) => {
+      //     console.log(device_id, " has gone offline");
+      //   });
 
       // Connect to the player!
       this.player.connect();
@@ -300,7 +295,7 @@ class App extends Component {
           roomID: this.roomID,
         },
       },
-      undefined,
+      null,
       { shallow: true }
     );
 
@@ -346,7 +341,7 @@ class App extends Component {
     });
 
     socket.on("RES_UPDATE_SONG_FAILED", () => {
-      console.log("FAILED");
+      //   console.log("FAILED");
     });
 
     socket.emit("CHECK_ROOM", this.roomID);
@@ -366,11 +361,7 @@ class App extends Component {
   }
 
   displayQR() {
-    return (
-      this.state.width > 500 &&
-      this.state.isAdmin &&
-      process.env.PRODUCTION !== "DEV"
-    );
+    return this.state.width > 500 && this.state.isAdmin;
   }
 
   render() {
@@ -395,14 +386,14 @@ class App extends Component {
 
     return (
       <>
-        <Default title={false} classname={list_style.main} footer={false}>
+        <Default title={false} classname={listStyle.main} footer={false}>
           {this.state.isAdmin && (
             <Script
               src="https://sdk.scdn.co/spotify-player.js"
               strategy="afterInteractive"
             />
           )}
-          <div className={list_style.search_div}>
+          <div className={listStyle.search_div}>
             <SearchSong
               access_token={this.state.room.access_token}
               country={this.state.room.country}
@@ -427,10 +418,10 @@ class App extends Component {
             </div>
           )}
 
-          <ul className={list_style.list}>
+          <ul className={listStyle.list}>
             {this.state.songs.map((song, index) => (
               <li
-                className={list_style.listitem}
+                className={listStyle.listitem}
                 style={{
                   width: "100%",
                 }}
@@ -445,7 +436,7 @@ class App extends Component {
             ))}
             {this.state.paddedSongs.map((song, index) => (
               <li
-                className={list_style.listitem}
+                className={listStyle.listitem}
                 style={{
                   width: "70%",
                   color: "gray",

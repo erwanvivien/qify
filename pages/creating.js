@@ -6,7 +6,7 @@ import axios from "axios";
 // import qs from "querystring";
 
 import { Component } from "react";
-import { Router, withRouter } from "next/router";
+import { withRouter } from "next/router";
 
 import { io } from "socket.io-client";
 let socket = io();
@@ -22,7 +22,7 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.code = props.query["code"];
+    this.code = props.query.code;
     this.router = props.router;
 
     this.state = {
@@ -57,15 +57,16 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    this.router.push("/creating", undefined, { shallow: true });
+    this.router.push("/creating", null, { shallow: true });
 
     let response = await axios.post("/api/spotifyAuth", { code: this.code });
     if (!response) {
-      return this.setState({
+      this.setState({
         isLoaded: false,
         error: "Veuillez réessayer",
         pin: null,
       });
+      return;
     }
 
     let spotifyCreds = response.data;
@@ -76,11 +77,12 @@ class App extends Component {
       },
     });
     if (!spotifyId) {
-      return this.setState({
+      this.setState({
         isLoaded: false,
         error: "Veuillez réessayer",
         pin: null,
       });
+      return;
     }
 
     let adminId = spotifyId.data;

@@ -1,13 +1,11 @@
-import search_style from "../../styles/Search.module.css";
-import result_style from "../../styles/Search.module.css";
+import searchStyle from "../../styles/Search.module.css";
+import resultStyle from "../../styles/Search.module.css";
 
 import { Component } from "react";
 import axios from "axios";
 
 import Items from "./Items";
 import { trimSongs } from "../../src/config";
-
-const instance = axios.create(); /// Hack because axios removes Authorization header
 
 class SearchSong extends Component {
   state;
@@ -70,10 +68,12 @@ class SearchSong extends Component {
 
     if (value === this.latest) return;
     this.latest = value;
-    if (value === "")
-      return this.setState({
+    if (value === "") {
+      this.setState({
         results: [],
       });
+      return;
+    }
 
     if (this.timeout) clearTimeout(this.timeout);
 
@@ -90,19 +90,19 @@ class SearchSong extends Component {
     let tracks = this.state.results;
     return (
       <>
-        <div className={search_style.search_width}>
-          <div className={search_style.form__group}>
+        <div className={searchStyle.search_width}>
+          <div className={searchStyle.form__group}>
             <input
               type="input"
-              className={search_style.form__field}
+              className={searchStyle.form__field}
               onChange={this.search}
               id="search_box"
               name="name"
               required
             />
-            <label className={search_style.form__label}>Search</label>
+            <label className={searchStyle.form__label}>Search</label>
           </div>
-          <div className={result_style.list}>
+          <div className={resultStyle.list}>
             {tracks.map((item, index) => {
               return <Items item={item} addSong={this.addSong} key={index} />;
             })}

@@ -1,4 +1,4 @@
-import player_style from "../../styles/Player.module.css";
+import playerStyle from "../../styles/Player.module.css";
 
 import { Component } from "react";
 import { title, trimSongs } from "../../src/config";
@@ -42,15 +42,17 @@ class RoomPlayer extends Component {
   }
 
   updateAlbumCover(state) {
-    if (state === null)
-      /// Disconnected player
-      return this.setState({
+    if (state === null) {
+      // Disconnected player
+      this.setState({
         image: "/no_image.svg",
         songUri: null,
         playButton: "/player/play1.svg",
         paused: true,
         title: `${title} is disconnected`,
       });
+      return;
+    }
 
     let currentSong = state.track_window.current_track;
     if (
@@ -121,7 +123,7 @@ class RoomPlayer extends Component {
     let currentImage = this.getVolumeImage();
     this.volume = volume;
     if (currentImage !== this.getVolumeImage()) {
-      return this.setState({
+      this.setState({
         image: this.state.image,
         songUri: this.state.songUri,
         playButton: this.state.playButton,
@@ -148,49 +150,50 @@ class RoomPlayer extends Component {
     if (this.volume <= 0.33) return "/player/volume_low.svg";
     if (this.volume <= 0.67) return "/player/volume_medium.svg";
     if (this.volume <= 1) return "/player/volume_full.svg";
+    return "/no_image.svg";
   }
 
   render() {
     return (
       <>
-        <div className={player_style.container}>
-          <div className={player_style.song_container}>
+        <div className={playerStyle.container}>
+          <div className={playerStyle.song_container}>
             <Image
-              className={player_style.album_cover}
+              className={playerStyle.album_cover}
               src={this.state.image}
               alt={`Album cover of the current song`}
             />
-            <div className={player_style.title_container}>
-              <p className={player_style.title}>{this.state.title}</p>
+            <div className={playerStyle.title_container}>
+              <p className={playerStyle.title}>{this.state.title}</p>
             </div>
           </div>
 
-          <div className={player_style.buttons}>
+          <div className={playerStyle.buttons}>
             <Image
               onClick={() => this.prev()}
-              className={player_style.next_prev}
+              className={playerStyle.next_prev}
               src="/player/previous2.svg"
               alt="Previous button"
             />
 
             <Image
               onClick={() => this.toggle()}
-              className={player_style.play_pause}
+              className={playerStyle.play_pause}
               src={this.state.playButton}
               alt="Play/pause button"
             />
 
             <Image
               onClick={() => this.next()}
-              className={player_style.next_prev}
+              className={playerStyle.next_prev}
               src="/player/next2.svg"
               alt="Next button"
             />
           </div>
 
-          <div className={player_style.volume_container}>
+          <div className={playerStyle.volume_container}>
             <input
-              className={player_style.volume}
+              className={playerStyle.volume}
               id="volume-range"
               type="range"
               min="0"
@@ -202,7 +205,7 @@ class RoomPlayer extends Component {
 
             {this.props.width <= THRESHOLD && (
               <Image
-                className={player_style.volume_image}
+                className={playerStyle.volume_image}
                 src={this.getVolumeImage()}
                 alt="Song if device is too small"
               />
