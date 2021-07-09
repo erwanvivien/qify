@@ -241,10 +241,12 @@ class App extends Component {
           if (refreshNeeded === false) return;
 
           let paddedSongs = [];
-          if (this.state.songs.length <= 0)
-            paddedSongs.push(state.next_tracks[0]);
-          if (this.state.songs.length <= 1)
-            paddedSongs.push(state.next_tracks[1]);
+          if (state) {
+            if (this.state.songs.length <= 0)
+              paddedSongs.push(state.next_tracks[0]);
+            if (this.state.songs.length <= 1)
+              paddedSongs.push(state.next_tracks[1]);
+          }
 
           console.log(this.state.songs, paddedSongs);
 
