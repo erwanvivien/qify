@@ -5,19 +5,23 @@ import { Default } from "../components/Default";
 
 import Image from "next/image";
 
+import imageIconGmail from "../public/other/gmail.svg";
+import imageIconDiscord from "../public/other/discord.svg";
+import imageIconTwitter from "../public/other/twitter.svg";
+
 const contact = [
   {
-    imgPath: "/other/gmail.svg",
+    img: imageIconGmail,
     alt: "Gmail svg icon (2020)",
     url: "mailto:vivien.erwan@gmail.com",
   },
   {
-    imgPath: "/other/discord.svg",
+    img: imageIconDiscord,
     alt: "Discord svg icon (2020)",
     url: "https://discordapp.com/users/289145021922279425",
   },
   {
-    imgPath: "/other/twitter.svg",
+    img: imageIconTwitter,
     alt: "Twitter svg icon (2020)",
     url:
       "https://twitter.com/messages/compose?recipient_id=1358769929571434498" +
@@ -40,8 +44,12 @@ export default function Home() {
               <a href={item.url}>
                 <Image
                   alt={item.alt}
-                  className={contact_style.img}
-                  src={item.imgPath}
+                  src={item.img}
+                  quality={100}
+                  height={128}
+                  width={128}
+                  layout="responsive"
+                  objectFit="contain"
                 />
               </a>
             </div>
