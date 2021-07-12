@@ -169,7 +169,7 @@ class RoomPlayer extends Component {
       <>
         <div className={playerStyle.container}>
           <div className={playerStyle.song_container}>
-            <img
+            <Image
               className={playerStyle.album_cover}
               src={this.state.image}
               width={60}
