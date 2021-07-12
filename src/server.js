@@ -42,12 +42,12 @@ setInterval(() => {
     return room.createdAt > threshold;
   });
 
-  console.log(`ROOM CLEAR [${new Date().toLocaleString()}]
+  console.log(`[${new Date().toLocaleString()}] ROOM CLEAR
   from ${from} to ${Room.ROOMS.length}`);
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
-  console.log("ROOM UPDATING: " + new Date().toLocaleString());
+  console.log(`${new Date().toLocaleString()} ROOM UPDATE`);
   Room.ROOMS.forEach(async (room) => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
