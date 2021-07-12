@@ -3,6 +3,8 @@ import styles from "../styles/Home.module.css";
 import { Default } from "../components/Default";
 
 import { paths } from "../src/config";
+
+import spotifyToggle from "../public/spotify-toggle.png";
 import Image from "next/image";
 
 export default function Home() {
@@ -14,14 +16,10 @@ export default function Home() {
             <h3 style={{ textAlign: "center" }}>
               Créer un salon<br></br>Rejoindre en admin
             </h3>
+
             <Image
-              style={{
-                width: "min(346px, 100%)",
-                minWidth: "200px",
-                alignSelf: "center",
-              }}
-              src="/spotify-toggle.png"
-              alt="A spotify toggle image"
+              src={spotifyToggle}
+              alt="Spotify toggle to show that you're using your spotify account"
             />
           </a>
 
