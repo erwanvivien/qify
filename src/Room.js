@@ -7,7 +7,7 @@ const possibleLength = possible.length;
 
 function randomPin(size) {
   let str = "";
-  for (var i = 0; i < size; i++)
+  for (let i = 0; i < size; i += 1)
     str += possible[Math.floor(Math.random() * possibleLength)];
 
   return str;
@@ -131,8 +131,7 @@ class Room {
    */
   static createRoom(admin, spotify_cred) {
     let pin = randomPin(maxPathLength);
-    while (Room.checkRoom(pin)["exist"] === true)
-      pin = randomPin(maxPathLength);
+    while (Room.checkRoom(pin).exist === true) pin = randomPin(maxPathLength);
 
     let room = new Room(pin, admin.id, admin.country, spotify_cred);
     Room.ROOMS.push(room);
@@ -142,11 +141,13 @@ class Room {
 
 function createRoom(admin, spotify_cred, socket) {
   let room = Room.getRoomWithAdmin(admin.id);
-  if (room)
-    return socket.emit("RES_CREATE_ROOM", {
+  if (room) {
+    socket.emit("RES_CREATE_ROOM", {
       pin: room.pin,
       adminPass: room.adminPass,
     });
+    return;
+  }
 
   let { pin, adminPass } = Room.createRoom(admin, spotify_cred);
   socket.emit("RES_CREATE_ROOM", { pin, adminPass });
@@ -159,8 +160,10 @@ async function addSong(pin, song, deviceId, io) {
   if (
     room.songQueue.length > 0 &&
     room.songQueue[room.songQueue.length - 1].uri === song.uri
-  )
-    return io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+  ) {
+    io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+    return;
+  }
 
   let res = await spotifyQueue(
     room.spotify.access_token,
@@ -180,9 +183,12 @@ async function addSong(pin, song, deviceId, io) {
 
 function getSongs(pin, socket) {
   let room = Room.getRoomWithPin(pin);
-  if (!room) return socket.emit("RES_GET_SONGS", null);
+  if (!room) {
+    socket.emit("RES_GET_SONGS", null);
+    return;
+  }
 
-  return socket.emit(
+  socket.emit(
     "RES_GET_SONGS",
     room.songQueue.filter((e) => e.state === 1)
   );
@@ -190,7 +196,10 @@ function getSongs(pin, socket) {
 
 function checkRoom(pin, socket) {
   let room = Room.getRoomWithPin(pin);
-  if (!room) return socket.emit("RES_CHECK_ROOM", null);
+  if (!room) {
+    socket.emit("RES_CHECK_ROOM", null);
+    return;
+  }
 
   let roomLessInfo = {
     pin: room.pin,
@@ -206,7 +215,6 @@ function joinRoom(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  console.log(socket.id + " joined " + pin);
   socket.join(pin);
 
   room.members.push(socket.id);
@@ -217,7 +225,6 @@ function joinRoomAdmin(pin, pass, socket) {
   if (!room) return;
   if (room.adminPass !== pass) return;
 
-  console.log(socket.id + " joined " + pin + " as admin");
   room.adminSocketsId.push(socket.id);
 
   socket.emit("JOIN_ROOM_ADMIN", true);
@@ -227,7 +234,6 @@ function leaveRoom(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  console.log(socket.id + " left " + pin);
   socket.leave(pin);
 
   let idx = room.members.indexOf(socket.id);
@@ -239,7 +245,7 @@ function nextSong(pin, pass, io) {
   if (!room) return;
   if (room.adminPass !== pass) return;
 
-  let song = room.songQueue.find((song) => song.state === 1);
+  let song = room.songQueue.find((s) => s.state === 1);
   if (!song) return;
   song.state = 0;
 

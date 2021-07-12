@@ -8,14 +8,17 @@ const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-Date.prototype.addHours = function (h) {
+function addHours(h) {
   this.setTime(this.getTime() + h * 60 * 60 * 1000);
   return this;
-};
-Date.prototype.addMinutes = function (m) {
+}
+function addMinutes(m) {
   this.setTime(this.getTime() + m * 60 * 1000);
   return this;
-};
+}
+
+Date.prototype.addHours = addHours;
+Date.prototype.addMinutes = addMinutes;
 
 const {
   createRoom,
@@ -32,16 +35,16 @@ const {
 const { spotifyRefresh } = require("./spotifyApi");
 
 setInterval(() => {
-  console.log("ROOM FILTERING: " + new Date().toLocaleString());
-  console.log("from " + Room.ROOMS.length);
+  let from = Room.ROOMS.length;
 
   let threshold = new Date().addHours(-24);
   Room.ROOMS = Room.ROOMS.filter((room) => {
     return room.createdAt > threshold;
   });
 
-  console.log("to " + Room.ROOMS.length);
-}, 60 * 60 * 1000); /// Every hour
+  console.log(`ROOM CLEAR [${new Date().toLocaleString()}]
+  from ${from} to ${Room.ROOMS.length}`);
+}, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
   console.log("ROOM UPDATING: " + new Date().toLocaleString());
@@ -67,16 +70,6 @@ io.on("connect", (socket) => {
     addSong(pin, song, deviceId, io)
   );
   socket.on("SONG_POP", ({ pin, pass }) => nextSong(pin, pass, io));
-
-  if (process.env.PRODUCTION === "DEV")
-    socket.on("DEBUG", () => {
-      if (Room.ROOMS.length === 0) console.log("No rooms");
-      Room.ROOMS.forEach((room) => {
-        console.log(
-          `pin: ${room.pin} - memb.count: ${room.members.length} - songQueue: ${room.songQueue.length}`
-        );
-      });
-    });
 });
 
 app.prepare().then(() => {

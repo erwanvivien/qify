@@ -9,7 +9,7 @@ const {
 } = require("./config");
 
 const { CLIENT_ID, CLIENT_SECRET } = require("../next.config").env;
-const instance = axios.create(); /// Hack because axios removes Authorization header
+const instance = axios.create(); // Hack because axios removes Authorization header
 
 async function spotifyAuth(code, res) {
   let data_params = {
@@ -34,7 +34,7 @@ async function spotifyAuth(code, res) {
 }
 
 async function spotifyMe(access_token, res) {
-  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
   let response = await instance.get(endpoints.me(), {});
   if (!response)
@@ -70,7 +70,7 @@ async function spotifyRefresh(refresh_token, res) {
 }
 
 async function spotifySearch(access_token, query, country, res) {
-  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   let response = await instance.get(endpoints.search(query, country), {});
   if (!response)
     return res.status(400).json({ error: "Could not use the access token" });
@@ -79,10 +79,10 @@ async function spotifySearch(access_token, query, country, res) {
 }
 
 async function spotifyQueue(access_token, uri, deviceId, res) {
-  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   let response = await instance
     .post(endpoints.queue(uri, deviceId), {})
-    .catch((_) => {});
+    .catch((...[]) => {});
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -95,7 +95,7 @@ async function spotifyQueue(access_token, uri, deviceId, res) {
 }
 
 async function spotifyTransfer(access_token, device_id, res) {
-  instance.defaults.headers.common["Authorization"] = `Bearer ${access_token}`;
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   let data_params = {
     device_ids: [device_id],
   };

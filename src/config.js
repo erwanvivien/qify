@@ -36,7 +36,7 @@ const scopes = [
   "user-read-private",
 ];
 
-var create_url = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
+const create_url = `${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
   "%20"
 )}&response_type=code&show_dialog=false`;
 
