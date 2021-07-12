@@ -91,6 +91,9 @@
   border: 1px solid transparent;
   border-radius: 5px;
   height: 56px;
+
+  padding-left: 5px;
+  padding-right: 5px;
   /* position: relative; */
 }
 

@@ -12,13 +12,18 @@ class Items extends Component {
     let slice = false;
     if (title.length > 35) slice = true;
 
+    console.log(image);
+
     return (
       <>
         <a href="#" onClick={() => addSong(item)} className={resultStyle.items}>
           <div className={resultStyle.list_container}>
             <Image
               src={image}
-              style={{ height: "50px", paddingLeft: "1px" }}
+              width={50}
+              height={50}
+              //   layout="responsive"
+              //   style={{ height: "50px", paddingLeft: "1px" }}
               alt={`Spotify song ${title}`}
             />
 
