@@ -4,6 +4,9 @@
   height: 90px;
   bottom: 0px;
 
+  padding-left: 16px;
+  padding-right: 16px;
+
   display: flex;
   flex-direction: row;
 
@@ -66,12 +69,12 @@
 
 .album_cover {
   height: 60px;
-  margin: 15px;
 }
 
 .song_container {
   width: 40%;
   display: flex;
+  grid-gap: 16px;
   flex-direction: row;
   align-items: center;
 }
@@ -85,12 +88,10 @@
 .volume {
   width: 90%;
   max-width: 150px;
-  margin-right: 15px;
 }
 
 .volume_image {
   height: 60px;
-  margin: 15px;
 }
 
 @media screen and (max-width: 450px) {

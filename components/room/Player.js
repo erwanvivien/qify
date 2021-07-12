@@ -6,6 +6,17 @@ import Image from "next/image";
 
 const THRESHOLD = 450;
 
+import imageVolumeNone from "../../public/player/volume_none.svg";
+import imageVolumeLow from "../../public/player/volume_low.svg";
+import imageVolumeMedium from "../../public/player/volume_medium.svg";
+import imageVolumeFull from "../../public/player/volume_full.svg";
+import imageNoImage from "../../public/no_image.svg";
+
+import imagePlay from "../../public/player/play1.svg";
+import imagePause from "../../public/player/pause1.svg";
+import imagePrevious from "../../public/player/previous2.svg";
+import imageNext from "../../public/player/next2.svg";
+
 class RoomPlayer extends Component {
   player;
   timeout;
@@ -22,7 +33,7 @@ class RoomPlayer extends Component {
     image: "/no_image.svg",
     songUri: null,
 
-    playButton: "/player/play1.svg",
+    playButton: imagePlay,
     paused: false,
 
     title: "",
@@ -47,7 +58,7 @@ class RoomPlayer extends Component {
       this.setState({
         image: "/no_image.svg",
         songUri: null,
-        playButton: "/player/play1.svg",
+        playButton: imagePlay,
         paused: true,
         title: `${title} is disconnected`,
       });
@@ -74,7 +85,7 @@ class RoomPlayer extends Component {
     this.setState({
       image: imageUrl,
       songUri: currentSong.uri,
-      playButton: state.paused ? "/player/play1.svg" : "/player/pause1.svg",
+      playButton: state.paused ? imagePlay : imagePause,
       paused: state.paused,
       title: trimSongs(currentSong.name),
     });
@@ -146,11 +157,11 @@ class RoomPlayer extends Component {
   }
 
   getVolumeImage() {
-    if (this.volume <= 0.0) return "/player/volume_none.svg";
-    if (this.volume <= 0.33) return "/player/volume_low.svg";
-    if (this.volume <= 0.67) return "/player/volume_medium.svg";
-    if (this.volume <= 1) return "/player/volume_full.svg";
-    return "/no_image.svg";
+    if (this.volume <= 0.0) return imageVolumeNone;
+    if (this.volume <= 0.33) return imageVolumeLow;
+    if (this.volume <= 0.67) return imageVolumeMedium;
+    if (this.volume <= 1) return imageVolumeFull;
+    return imageNoImage;
   }
 
   render() {
@@ -158,9 +169,11 @@ class RoomPlayer extends Component {
       <>
         <div className={playerStyle.container}>
           <div className={playerStyle.song_container}>
-            <Image
+            <img
               className={playerStyle.album_cover}
               src={this.state.image}
+              width={60}
+              height={60}
               alt={`Album cover of the current song`}
             />
             <div className={playerStyle.title_container}>
@@ -172,7 +185,9 @@ class RoomPlayer extends Component {
             <Image
               onClick={() => this.prev()}
               className={playerStyle.next_prev}
-              src="/player/previous2.svg"
+              src={imagePrevious}
+              width={30}
+              height={30}
               alt="Previous button"
             />
 
@@ -180,13 +195,17 @@ class RoomPlayer extends Component {
               onClick={() => this.toggle()}
               className={playerStyle.play_pause}
               src={this.state.playButton}
+              width={70}
+              height={70}
               alt="Play/pause button"
             />
 
             <Image
               onClick={() => this.next()}
               className={playerStyle.next_prev}
-              src="/player/next2.svg"
+              src={imageNext}
+              width={30}
+              height={30}
               alt="Next button"
             />
           </div>
@@ -206,6 +225,9 @@ class RoomPlayer extends Component {
             {this.props.width <= THRESHOLD && (
               <Image
                 className={playerStyle.volume_image}
+                height={50}
+                width={50}
+                layout="fixed"
                 src={this.getVolumeImage()}
                 alt="Song if device is too small"
               />

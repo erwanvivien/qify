@@ -33,7 +33,8 @@ export class SpotifyItem extends Component {
         <div className={listStyle.card}>
           <Image
             src={song.image}
-            style={{ height: "50px" }}
+            height={50}
+            width={50}
             alt={`Image in the queue for song ${song.title}`}
           />
 
