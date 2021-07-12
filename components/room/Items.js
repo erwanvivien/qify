@@ -12,8 +12,6 @@ class Items extends Component {
     let slice = false;
     if (title.length > 35) slice = true;
 
-    console.log(image);
-
     return (
       <>
         <a href="#" onClick={() => addSong(item)} className={resultStyle.items}>
