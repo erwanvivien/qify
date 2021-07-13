@@ -12,7 +12,7 @@ import { Default } from "../../components/Default";
 
 import Script from "next/script";
 
-import { paths, title, trimSongs } from "../../src/config";
+import { currentUrl, paths, title, trimSongs } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
 
@@ -406,12 +406,12 @@ class App extends Component {
               <QRCode
                 onClick={() =>
                   navigator.clipboard.writeText(
-                    `http://localhost:8888/room/${this.roomID}`
+                    `${currentUrl}/room/${this.roomID}`
                   )
                 }
                 title="Cliquer pour copier le lien"
                 style={{ cursor: "pointer" }}
-                value={`http://localhost:8888/room/${this.roomID}`}
+                value={`${currentUrl}/room/${this.roomID}`}
                 bgColor={"#ecedf1"}
                 level="L"
               ></QRCode>

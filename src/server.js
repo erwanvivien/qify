@@ -2,6 +2,7 @@ const express = require("express")();
 const server = require("http").Server(express);
 const io = require("socket.io")(server);
 const next = require("next");
+const { currentUrl } = require("./config");
 
 const port = process.env.PORT || 8888;
 const dev = process.env.NODE_ENV !== "production";
@@ -42,12 +43,15 @@ setInterval(() => {
     return room.createdAt > threshold;
   });
 
-  console.log(`[${new Date().toLocaleString()}] ROOM CLEAR
-  from ${from} to ${Room.ROOMS.length}`);
+  console.log(
+    `[${new Date().toLocaleString()}] ROOM CLEAR  => from ${from} to ${
+      Room.ROOMS.length
+    }`
+  );
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
-  console.log(`${new Date().toLocaleString()} ROOM UPDATE`);
+  console.log(`[${new Date().toLocaleString()}] ROOM UPDATE`);
   Room.ROOMS.forEach(async (room) => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
@@ -79,6 +83,10 @@ app.prepare().then(() => {
 
   server.listen(port, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${port}`);
+    console.log(`> Ready on ${currentUrl}:${port}`);
   });
 });
+
+module.exports = {
+  dev,
+};

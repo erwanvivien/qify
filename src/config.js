@@ -1,10 +1,13 @@
+const { dev } = require("./server");
+
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const authTokenEndpoint = "https://accounts.spotify.com/api/token";
 
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const redirectUri = "http://localhost:8888/creating";
+const currentUrl = dev ? "http://localhost:8888" : "http://15.237.134.217";
+const redirectUri = `${currentUrl}/creating`;
 
 const scopes = [
   // Images
@@ -88,5 +91,6 @@ module.exports = {
   navbar,
   paths,
   title: websiteTitle,
+  currentUrl,
   trimSongs,
 };
