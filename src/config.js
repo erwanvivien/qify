@@ -1,4 +1,5 @@
-const { dev } = require("./server");
+const dev = process.env.NODE_ENV !== "production";
+const port = process.env.PORT || 8888;
 
 const authEndpoint = "https://accounts.spotify.com/authorize";
 const authTokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -6,7 +7,7 @@ const authTokenEndpoint = "https://accounts.spotify.com/api/token";
 // Replace with your app's client ID, redirect URI and desired scopes
 const clientId = process.env.CLIENT_ID;
 const clientSecret = process.env.CLIENT_SECRET;
-const currentUrl = dev ? "http://localhost:8888" : "http://15.237.134.217";
+const currentUrl = dev ? `http://localhost:${port}` : "http://15.237.134.217";
 const redirectUri = `${currentUrl}/creating`;
 
 const scopes = [
