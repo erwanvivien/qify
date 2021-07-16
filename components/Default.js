@@ -26,7 +26,7 @@ export class Default extends Component {
         <div className={styles.container}>
           <Head>
             <title>{name}</title>
-            <link rel="icon" href="/partify/partify.svg" />
+            <link rel="icon" href="/qify/qify.svg" />
           </Head>
 
           {displayHeader && <Header />}

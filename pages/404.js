@@ -11,7 +11,7 @@ class Custom404 extends Component {
       <>
         <Head>
           <title>Page non-existante</title>
-          <link rel="icon" href="/partify/partify.svg" />
+          <link rel="icon" href="/qify/qify.svg" />
         </Head>
 
         <div className={styles404.container}>

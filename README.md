@@ -1,4 +1,4 @@
-# PARTIFY
+# QIFY
 
 A simple user interface to have multiple people add music to your spotify song queue.
 
