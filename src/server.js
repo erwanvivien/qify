@@ -51,7 +51,9 @@ setInterval(() => {
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
-  console.log(`[${new Date().toLocaleString()}] ROOM UPDATE`);
+  console.log(
+    `[${new Date().toLocaleString()}] ROOM UPDATE => Updating access_tokens`
+  );
   Room.ROOMS.forEach(async (room) => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
