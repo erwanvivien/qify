@@ -27,6 +27,16 @@ export class Default extends Component {
           <Head>
             <title>{name}</title>
             <link rel="icon" href="/qify/qify.svg" />
+            <meta property="og:title" content="Qify" key="title" />
+            <meta
+              name="description"
+              content="A website that manages spotify queues"
+            />
+            <meta name="author" content="Erwan VIVIEN (github: erwan_vivien)" />
+            <meta
+              name="keywords"
+              content="Spotify, Queue, File d'attente, Musique, Song, Songs, Song queue"
+            />
           </Head>
 
           {displayHeader && <Header />}
