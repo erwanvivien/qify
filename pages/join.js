@@ -37,7 +37,7 @@ class About extends Component {
   };
 
   update = (e) => {
-    this.pin = e.target.value;
+    this.pin = e.target.value ? e.target.value.toUpperCase() : "";
   };
 
   render() {

@@ -1,8 +1,7 @@
 const { maxPathLength } = require("./config");
 const { spotifyQueue } = require("./spotifyApi");
 
-const possible =
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNPQRSTUVWXYZ0123456789-_";
+const possible = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 const possibleLength = possible.length;
 
 function randomPin(size) {

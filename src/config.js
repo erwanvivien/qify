@@ -62,7 +62,7 @@ function trimSongs(s) {
   return s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");
 }
 
-const maxPathLength = 4;
+const maxPathLength = 5;
 
 const paths = {
   root: "/",
