@@ -13,9 +13,9 @@ export default function Home() {
       <Default footer={false}>
         <div className={styles.grid}>
           <a href={paths.create} className={styles.card}>
-            <h3 style={{ textAlign: "center" }}>
+            <h2 style={{ textAlign: "center", margin: "0" }}>
               Créer un salon<br></br>Rejoindre en admin
-            </h3>
+            </h2>
 
             <Image
               src={spotifyToggle}
@@ -24,7 +24,9 @@ export default function Home() {
           </a>
 
           <a href={paths.join} className={styles.card}>
-            <h3 style={{ textAlign: "center" }}>Rejoindre un salon</h3>
+            <h2 style={{ textAlign: "center", margin: "0" }}>
+              Rejoindre un salon
+            </h2>
             <div
               style={{
                 height: "100%",
