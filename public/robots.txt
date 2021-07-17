@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /room/
+Sitemap: https://qify.app/sitemap.xml
