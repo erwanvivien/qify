@@ -68,6 +68,8 @@ class App extends Component {
   }
 
   handleResize = () => {
+    if (Math.abs(window.innerWidth - this.state.width) < 10) return;
+
     this.setState({
       room: this.state.room,
       loading: this.state.loading,
