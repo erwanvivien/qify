@@ -1,7 +1,7 @@
 const authEndpoint = "https://accounts.spotify.com/authorize";
 
 const dev = process.env.NODE_ENV !== "production";
-const currentUrl = dev ? `http://localhost:${port}` : "http://localhost:3000";
+const currentUrl = dev ? `http://localhost:${port}` : "https://qify.app";
 const redirectUri = `${currentUrl}/creating`;
 const scopes = [
   "user-read-playback-state",
