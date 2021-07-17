@@ -16,8 +16,6 @@ export class Default extends Component {
     const displayTitle = typeof props.title === "undefined" || props.title;
     const displayFooter = typeof props.footer === "undefined" || props.footer;
 
-    const name = props.name || title;
-
     const moreStyles = props.styles || {};
     const moreClassnames = props.classname || "";
 
@@ -25,7 +23,7 @@ export class Default extends Component {
       <>
         <div className={styles.container}>
           <Head>
-            <title>{name}</title>
+            <title>{title} - La musique en commun</title>
             <link rel="icon" href="/qify/qify.svg" />
             <meta property="og:title" content="Qify" key="title" />
             <meta

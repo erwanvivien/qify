@@ -14,7 +14,11 @@ export class Title extends Component {
     return (
       <>
         <h1 className={styles.title}>{h1Content}</h1>
-        <p className={styles.description}>{description}</p>
+        <p className={styles.description}>
+          {description}
+          <br />
+          Qify vous permet de mettre en commun vos musiques en attente.
+        </p>
       </>
     );
   }
