@@ -3,11 +3,7 @@ import fs from "fs";
 const Sitemap = () => {};
 
 export const getServerSideProps = ({ res }) => {
-  const baseUrl = {
-    development: "http://localhost:8888",
-    production: "https://qify.app",
-  }[process.env.NODE_ENV];
-
+  const baseUrl = "https://qify.app";
   const staticPages = fs
     .readdirSync("pages")
     .filter((staticPage) => {
