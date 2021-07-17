@@ -4,7 +4,7 @@ import styles from "../../styles/Home.module.css";
 import listStyle from "../../styles/Room.module.css";
 
 import SearchSong from "../../components/room/SearchSong";
-import SpotifyItem from "../../components/room/SpotifyItem";
+import SpotifyItems from "../../components/room/SpotifyItems";
 
 import RoomPlayer from "../../components/room/Player";
 
@@ -47,7 +47,6 @@ class App extends Component {
     room: null,
     loading: true,
     songs: [],
-    paddedSongs: [],
     width: 800,
     isAdmin: false,
   };
@@ -73,7 +72,6 @@ class App extends Component {
       room: this.state.room,
       loading: this.state.loading,
       songs: this.state.songs,
-      paddedSongs: this.state.paddedSongs,
       isAdmin: this.state.isAdmin,
       width: window.innerWidth,
     });
@@ -237,19 +235,10 @@ class App extends Component {
           let [state, refreshNeeded] = this.extractPlayerState(newState);
           if (refreshNeeded === false) return;
 
-          let paddedSongs = [];
-          if (state) {
-            if (this.state.songs.length <= 0)
-              paddedSongs.push(state.next_tracks[0]);
-            if (this.state.songs.length <= 1)
-              paddedSongs.push(state.next_tracks[1]);
-          }
-
           this.setState({
             room: this.state.room,
             loading: this.state.loading,
             songs: this.state.songs,
-            paddedSongs: paddedSongs,
             width: this.state.width,
             isAdmin: this.state.isAdmin,
           });
@@ -305,7 +294,6 @@ class App extends Component {
         room: this.state.room,
         loading: this.state.loading,
         songs: this.state.songs,
-        paddedSongs: this.state.paddedSongs,
         isAdmin: isAdmin,
         width: this.state.width,
       });
@@ -315,7 +303,6 @@ class App extends Component {
         room,
         loading: false,
         songs: room ? room.songQueue : [],
-        paddedSongs: this.state.paddedSongs,
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
@@ -334,7 +321,6 @@ class App extends Component {
         room: this.state.room,
         loading: this.state.loading,
         songs,
-        paddedSongs: this.state.paddedSongs,
         isAdmin: this.state.isAdmin,
         width: this.state.width,
       });
@@ -418,39 +404,8 @@ class App extends Component {
             </div>
           )}
 
-          <ul className={listStyle.list}>
-            {this.state.songs.map((song, index) => (
-              <li
-                className={listStyle.listitem}
-                style={{
-                  width: "100%",
-                }}
-                key={index}
-              >
-                <SpotifyItem
-                  song={song}
-                  width={this.state.width}
-                  index={index}
-                />{" "}
-              </li>
-            ))}
-            {this.state.paddedSongs.map((song, index) => (
-              <li
-                className={listStyle.listitem}
-                style={{
-                  width: "70%",
-                  color: "gray",
-                }}
-                key={index}
-              >
-                <SpotifyItem
-                  song={song}
-                  width={this.state.width}
-                  index={index}
-                />{" "}
-              </li>
-            ))}
-          </ul>
+          <SpotifyItems songs={this.state.songs} width={this.state.width} />
+
           <span
             style={{
               height: "90px",

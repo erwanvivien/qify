@@ -3,22 +3,10 @@ import listStyle from "../../styles/Room.module.css";
 import { Component } from "react";
 import Image from "next/image";
 
-export class SpotifyItem extends Component {
-  song;
-  width;
-  index;
-
-  state = {
-    full: false,
-  };
-
+class Item extends Component {
   constructor(props) {
     super(props);
   }
-
-  toggleImage = () => {
-    this.setState({ full: !this.state.full });
-  };
 
   render() {
     let width = this.props.width;
@@ -66,4 +54,25 @@ export class SpotifyItem extends Component {
   }
 }
 
-export default SpotifyItem;
+class SpotifyItems extends Component {
+  render() {
+    console.log(this.props);
+    return (
+      <ul className={listStyle.list}>
+        {this.props.songs.map((song, index) => (
+          <li
+            className={listStyle.listitem}
+            style={{
+              width: "100%",
+            }}
+            key={index}
+          >
+            <Item song={song} width={this.props.width} index={index} />{" "}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+}
+
+export default SpotifyItems;
