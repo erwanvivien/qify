@@ -292,7 +292,7 @@ class App extends Component {
       {
         pathname: this.router.pathname,
         query: {
-          roomID: this.roomID,
+          roomID: this.roomID.toUpperCase(),
         },
       },
       null,
