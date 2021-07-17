@@ -46,5 +46,5 @@ next.config.js
 public/.idea
 
 # PWA build
-public/sw.js
-public/workbox-*.js
+public/sw.js*
+public/workbox-*
