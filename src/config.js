@@ -1,4 +1,23 @@
-const { create_url } = require("./spotifyApi");
+const authEndpoint = "https://accounts.spotify.com/authorize";
+
+const dev = process.env.NODE_ENV !== "production";
+const currentUrl = dev ? `http://localhost:${port}` : "http://localhost:3000";
+const redirectUri = `${currentUrl}/creating`;
+const scopes = [
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+  "streaming",
+  "playlist-modify-public",
+  "user-read-email",
+  "user-read-private",
+];
+
+const CLIENT_ID = "51a53fa310ec4fd99951b1c964a91a10";
+
+const create_url = `${authEndpoint}?client_id=${CLIENT_ID}&redirect_uri=${redirectUri}&scope=${scopes.join(
+  "%20"
+)}&response_type=code&show_dialog=false`;
 
 function trimSongs(s) {
   return s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");

@@ -8,8 +8,8 @@ const authEndpoint = "https://accounts.spotify.com/authorize";
 const authTokenEndpoint = "https://accounts.spotify.com/api/token";
 
 // Replace with your app's client ID, redirect URI and desired scopes
-const CLIENT_ID = process.env.CLIENT_ID;
-const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const CLIENT_ID = "51a53fa310ec4fd99951b1c964a91a10";
+const { CLIENT_SECRET } = require("../next.config.js").env;
 const currentUrl = dev ? `http://localhost:${port}` : "https://qify.app";
 const redirectUri = `${currentUrl}/creating`;
 
