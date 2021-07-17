@@ -260,8 +260,7 @@ class App extends Component {
             device_id,
           });
 
-          this.player.setVolume(0.1);
-          this.player.resume();
+          this.player.setVolume(0.5);
         }, 2000);
       });
 

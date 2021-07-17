@@ -45,7 +45,7 @@ class RoomPlayer extends Component {
     this.player = props.player;
     this.timeout = null;
 
-    this.volume = 0.1;
+    this.volume = 0.5;
 
     this.roomSocket = props.socket;
     this.roomPass = props.roomPass;
@@ -217,7 +217,7 @@ class RoomPlayer extends Component {
               type="range"
               min="0"
               max="1"
-              defaultValue="0.1"
+              defaultValue="0.5"
               step="any"
               onChange={(ctx) => this.changeVolume(ctx)}
             />
