@@ -2,7 +2,7 @@ const express = require("express")();
 const server = require("http").Server(express);
 const io = require("socket.io")(server);
 const next = require("next");
-const { currentUrl } = require("./config");
+const { currentUrl } = require("./spotifyApi");
 
 const port = process.env.PORT || 8888;
 const dev = process.env.NODE_ENV !== "production";
