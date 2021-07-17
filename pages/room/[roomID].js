@@ -287,7 +287,7 @@ class App extends Component {
         },
       },
       null,
-      { shallow: true }
+      { shallow: this.roomID.toUpperCase() === this.roomID }
     );
 
     socket.on("JOIN_ROOM_ADMIN", (isAdmin) => {
