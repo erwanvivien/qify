@@ -11,7 +11,9 @@ class Rooms extends Component {
       let textRooms = rooms.map((room) => {
         let { createdAt } = room;
         room.createdAt = new Date(createdAt).toISOString();
-        return JSON.stringify(room);
+        let { pin } = room;
+        room.pin = undefined;
+        return pin + ": " + JSON.stringify(room);
       });
 
       this.setState({
