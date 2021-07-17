@@ -30,6 +30,7 @@ const {
   joinRoomAdmin,
   leaveRoom,
   nextSong,
+  getRooms,
   Room,
 } = require("./Room");
 
@@ -76,6 +77,7 @@ io.on("connect", (socket) => {
     addSong(pin, song, deviceId, io)
   );
   socket.on("SONG_POP", ({ pin, pass }) => nextSong(pin, pass, io));
+  socket.on("DEBUG", () => getRooms(socket));
 });
 
 app.prepare().then(() => {

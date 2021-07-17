@@ -254,6 +254,20 @@ function nextSong(pin, pass, io) {
   );
 }
 
+function getRooms(socket) {
+  let rooms = Room.ROOMS.map((room) => {
+    return {
+      pin: room.pin,
+      nbSongs: room.songQueue.length,
+      nbMembers: room.members.length,
+      admin: room.adminSpotifyId,
+      createdAt: room.createdAt,
+    };
+  });
+
+  socket.emit("RES_DEBUG", rooms);
+}
+
 module.exports = {
   createRoom,
   addSong,
@@ -264,4 +278,5 @@ module.exports = {
   leaveRoom,
   nextSong,
   Room,
+  getRooms,
 };
