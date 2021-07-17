@@ -9,6 +9,38 @@ import Image from "next/image";
 import { Component } from "react";
 
 class Home extends Component {
+  state = { canInstall: false };
+
+  componentDidMount() {
+    let promptEvent;
+
+    // Capture event and defer
+    window.addEventListener("beforeinstallprompt", (e) => {
+      this.setState({ canInstall: true });
+      e.preventDefault();
+      promptEvent = e;
+      listenToUserAction();
+    });
+
+    // listen to install button clic
+    function listenToUserAction() {
+      const installBtn = document.querySelector(".add-button");
+      installBtn.addEventListener("click", presentAddToHome);
+    }
+
+    // present install prompt to user
+    function presentAddToHome() {
+      promptEvent.prompt(); // Wait for the user to respond to the prompt
+      promptEvent.userChoice.then((choice) => {
+        if (choice.outcome === "accepted") {
+          console.log("User accepted");
+        } else {
+          console.log("User dismissed");
+        }
+      });
+    }
+  }
+
   render() {
     return (
       <>
@@ -39,6 +71,19 @@ class Home extends Component {
                 <p>Rentrer le code ou utiliser le code QR</p>
               </div>
             </a>
+
+            {this.state.canInstall && (
+              <a href="#" className={`${styles.card} add-button`}>
+                <h2
+                  style={{
+                    textAlign: "center",
+                    margin: "0",
+                  }}
+                >
+                  Installer
+                </h2>
+              </a>
+            )}
           </div>
         </Default>
       </>
