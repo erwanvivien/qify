@@ -119,24 +119,12 @@ class App extends Component {
     };
 
     next_tracks = next_tracks.map((song) => {
-      let imageUrl;
-      let max = 0;
-
-      song.album.images.forEach((image) => {
-        if (image.width > max) {
-          max = image.width;
-          imageUrl = image.url;
-        }
-      });
-
       return {
         title: trimSongs(song.name),
         album: trimSongs(song.album.name),
         arists: song.artists[0].name,
         id: song.id,
         uri: song.uri,
-        image: imageUrl,
-        state: 2,
       };
     });
     previous_tracks = previous_tracks.map((song) => {
@@ -166,12 +154,13 @@ class App extends Component {
       return [state, true];
     }
 
-    if (
-      state.next_tracks.length > 0 &&
-      prev.next_tracks.length > 0 &&
-      state.next_tracks[0].uri !== prev.next_tracks[0].uri
-    ) {
-      return [state, true];
+    for (
+      let i = 0;
+      i < prev.next_tracks.length && state.next_tracks.length;
+      i += 1
+    )
+      if (state.next_tracks[i].uri !== prev.next_tracks[i].uri)
+        return [state, true];
     }
 
     if (
@@ -199,20 +188,17 @@ class App extends Component {
 
       // Playback status updates
       this.player.addListener("player_state_changed", (newState) => {
-        if (this.timeout) clearTimeout(this.timeout);
-        this.timeout = setTimeout(() => {
-          let [state, refreshNeeded] = this.extractPlayerState(newState);
-          if (refreshNeeded === false) return;
+        let [state, refreshNeeded] = this.extractPlayerState(newState);
+        if (refreshNeeded === false) return;
 
-          this.setState({
-            room: this.state.room,
-            loading: this.state.loading,
-            songs: this.state.songs,
-            width: this.state.width,
-            isAdmin: this.state.isAdmin,
-          });
-          this.previousState = state;
-        }, 150);
+        this.setState({
+          room: this.state.room,
+          loading: this.state.loading,
+          songs: this.state.songs,
+          width: this.state.width,
+          isAdmin: this.state.isAdmin,
+        });
+        this.previousState = state;
       });
 
       // Ready
