@@ -56,7 +56,6 @@ class Item extends Component {
 
 class SpotifyItems extends Component {
   render() {
-    console.log(this.props);
     return (
       <ul className={listStyle.list}>
         {this.props.songs.map((song, index) => (
