@@ -154,22 +154,10 @@ class App extends Component {
       return [state, true];
     }
 
-    for (
-      let i = 0;
-      i < prev.next_tracks.length && state.next_tracks.length;
-      i += 1
-    )
+    /// No need to check both sizes, check was before
+    for (let i = 0; i < prev.next_tracks.length; i += 1)
       if (state.next_tracks[i].uri !== prev.next_tracks[i].uri)
         return [state, true];
-    }
-
-    if (
-      state.next_tracks.length > 1 &&
-      prev.next_tracks.length > 1 &&
-      state.next_tracks[1].uri !== prev.next_tracks[1].uri
-    ) {
-      return [state, true];
-    }
 
     return [state, false];
   }
