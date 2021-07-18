@@ -138,8 +138,9 @@ class Room {
   }
 }
 
-function getSongs(room) {
-  return room.songQueue.filter((e) => e.state === 1) || [];
+function getSongsRoom(room) {
+  let songs = room.songQueue.filter((e) => e.state === 1);
+  return songs || [];
 }
 
 function createRoom(admin, spotify_cred, socket) {
@@ -162,9 +163,8 @@ async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  let songs = getSongs(room);
+  let songs = getSongsRoom(room);
   if (songs.length === 0) {
-    console.log("playing instead of queueing");
     let res = await spotifyPlay(
       room.spotify.access_token,
       song.uri,
@@ -174,7 +174,7 @@ async function addSong(pin, song, deviceId, io) {
     if (res.error) return;
 
     room.songQueue.push(song);
-    io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
+    io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
     return;
   }
 
@@ -196,14 +196,14 @@ async function addSong(pin, song, deviceId, io) {
   if (res.error) return;
   room.songQueue.push(song);
 
-  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
+  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
 function getSongs(pin, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
+  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
 function checkRoom(pin, socket) {
@@ -218,7 +218,7 @@ function checkRoom(pin, socket) {
     adminSpotifyId: room.adminSpotifyId,
     access_token: room.spotify.access_token,
     country: room.country,
-    songQueue: getSongs(room),
+    songQueue: getSongsRoom(room),
   };
   socket.emit("RES_CHECK_ROOM", roomLessInfo);
 }
@@ -265,7 +265,7 @@ function nextSong(pin, pass, io) {
   if (!song) return;
   song.state = 0;
 
-  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
+  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
 function getRooms(socket) {
