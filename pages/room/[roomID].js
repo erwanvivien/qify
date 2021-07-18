@@ -90,7 +90,7 @@ class App extends Component {
     let timestamp = localStorage.getItem(timestampKey);
     let roomPin = localStorage.getItem(roomPinKey);
 
-    if (!timestamp || roomPin !== this.roomID) {
+    if (!timestamp || roomPin !== this.roomID || this.password) {
       localStorage.setItem(passwordKey, this.password);
       localStorage.setItem(timestampKey, new Date().toString());
       localStorage.setItem(roomPinKey, this.roomID);
