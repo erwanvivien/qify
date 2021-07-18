@@ -201,17 +201,12 @@ async function addSong(pin, song, deviceId, io) {
   );
 }
 
-function getSongs(pin, socket) {
+function getSongs(pin, io) {
   let room = Room.getRoomWithPin(pin);
-  if (!room) {
-    socket.emit("RES_GET_SONGS", null);
-    return;
-  }
+  if (!room) return;
 
-  socket.emit(
-    "RES_GET_SONGS",
-    room.songQueue.filter((e) => e.state === 1)
-  );
+  let songs = room.songQueue.filter((e) => e.state === 1) || [];
+  io.to(pin).emit("RES_UPDATE_SONG", songs);
 }
 
 function checkRoom(pin, socket) {

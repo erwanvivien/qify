@@ -259,8 +259,7 @@ class App extends Component {
             access_token,
             device_id,
           });
-
-          this.player.setVolume(0.5);
+          this.player.setVolume(0.1);
         }, 2000);
       });
 
@@ -276,6 +275,9 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
+    window.addEventListener("pageshow", () =>
+      socket.emit("GET_SONGS", this.roomID)
+    );
     this.handleResize();
 
     this.router.push(
