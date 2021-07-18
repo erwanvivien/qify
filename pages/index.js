@@ -18,9 +18,7 @@ class Home extends Component {
       promptEvent.prompt(); // Wait for the user to respond to the prompt
       promptEvent.userChoice.then((choice) => {
         if (choice.outcome === "accepted") {
-          //   console.log("User accepted");
         } else {
-          //   console.log("User dismissed");
         }
       });
     }

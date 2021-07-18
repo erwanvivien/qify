@@ -173,12 +173,9 @@ async function spotifyTransfer(access_token, device_id, res) {
 async function spotifyPlay(access_token, uri, device_id, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
-  console.log(endpoints.play(device_id));
-  let response = await instance
-    .put(endpoints.play(device_id), {
-      uris: [uri],
-    })
-    .catch((e) => console.log(e.data));
+  let response = await instance.put(endpoints.play(device_id), {
+    uris: [uri],
+  });
 
   let responseData = !response
     ? { error: "Could not use the access token" }

@@ -217,8 +217,6 @@ class App extends Component {
 
       // Ready
       this.player.addListener("ready", ({ device_id }) => {
-        // console.log("Ready with Device ID", device_id);
-
         this.deviceId = device_id;
 
         setTimeout(async () => {
@@ -229,11 +227,6 @@ class App extends Component {
           this.player.setVolume(0.1);
         }, 2000);
       });
-
-      // Not Ready
-      //   this.player.addListener("not_ready", ({ device_id }) => {
-      //     console.log(device_id, " has gone offline");
-      //   });
 
       // Connect to the player!
       this.player.connect();
@@ -296,9 +289,7 @@ class App extends Component {
       });
     });
 
-    socket.on("RES_UPDATE_SONG_FAILED", () => {
-      //   console.log("FAILED");
-    });
+    socket.on("RES_UPDATE_SONG_FAILED", () => {});
 
     socket.emit("CHECK_ROOM", this.roomID);
   }
