@@ -182,25 +182,6 @@ class App extends Component {
       return [state, true];
     }
 
-    // if (state.previous_tracks.length !== prev.previous_tracks.length) {
-    //   return [state, true];
-    // }
-
-    // if (
-    //   state.previous_tracks.length > 0 &&
-    //   prev.previous_tracks.length > 0 &&
-    //   state.previous_tracks[0].uri !== prev.previous_tracks[0].uri
-    // ) {
-    //   return [state, true];
-    // }
-    // if (
-    //   state.previous_tracks.length > 1 &&
-    //   prev.previous_tracks.length > 1 &&
-    //   state.previous_tracks[1].uri !== prev.previous_tracks[1].uri
-    // ) {
-    //   return [state, true];
-    // }
-
     return [state, false];
   }
 
@@ -215,20 +196,6 @@ class App extends Component {
           cb(token);
         },
       });
-
-      // Error handling
-      //   this.player.addListener("initialization_error", ({ message }) => {
-      //     console.error(message);
-      //   });
-      //   this.player.addListener("authentication_error", ({ message }) => {
-      //     console.error(message);
-      //   });
-      //   this.player.addListener("account_error", ({ message }) => {
-      //     console.error(message);
-      //   });
-      //   this.player.addListener("playback_error", ({ message }) => {
-      //     console.error(message);
-      //   });
 
       // Playback status updates
       this.player.addListener("player_state_changed", (newState) => {
