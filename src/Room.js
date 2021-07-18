@@ -1,5 +1,5 @@
 const { maxPathLength } = require("./config");
-const { spotifyQueue } = require("./spotifyApi");
+const { spotifyQueue, spotifyPlay } = require("./spotifyApi");
 
 const possible = "ABCDEFGHIJKLMNPQRSTUVWXYZ0123456789";
 const possibleLength = possible.length;
@@ -157,6 +157,25 @@ function createRoom(admin, spotify_cred, socket) {
 async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
+
+  let songs = room.songQueue.filter((e) => e.state === 1) || [];
+  if (songs.length === 0) {
+    console.log("playing instead of queueing");
+    let res = await spotifyPlay(
+      room.spotify.access_token,
+      song.uri,
+      deviceId,
+      null
+    );
+    if (res.error) return;
+
+    room.songQueue.push(song);
+    io.to(pin).emit(
+      "RES_UPDATE_SONG",
+      room.songQueue.filter((e) => e.state === 1)
+    );
+    return;
+  }
 
   if (
     room.songQueue.length > 0 &&

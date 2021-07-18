@@ -59,6 +59,9 @@ const endpoints = {
     `https://api.spotify.com/v1/me/player/queue?uri=${uri}` +
     (deviceId ? `&device_id=${deviceId}` : ""),
   transfer: () => "https://api.spotify.com/v1/me/player",
+  play: (deviceId) =>
+    "https://api.spotify.com/v1/me/player/play" +
+    (deviceId ? `?device_id=${deviceId}` : ""),
 };
 
 const instance = axios.create(); // Hack because axios removes Authorization header
@@ -167,6 +170,26 @@ async function spotifyTransfer(access_token, device_id, res) {
     : responseData;
 }
 
+async function spotifyPlay(access_token, uri, device_id, res) {
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+
+  console.log(endpoints.play(device_id));
+  let response = await instance
+    .put(endpoints.play(device_id), {
+      uris: [uri],
+    })
+    .catch((e) => console.log(e.data));
+
+  let responseData = !response
+    ? { error: "Could not use the access token" }
+    : response.data;
+  let responseStatus = !response ? 400 : 200;
+
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
+}
+
 module.exports = {
   spotifyAuth,
   spotifyMe,
@@ -174,6 +197,7 @@ module.exports = {
   spotifySearch,
   spotifyQueue,
   spotifyTransfer,
+  spotifyPlay,
   currentUrl,
   create_url,
 };
