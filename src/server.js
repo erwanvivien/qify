@@ -85,7 +85,7 @@ app.prepare().then(() => {
     return handle(req, res);
   });
 
-  server.listen(port, (err) => {
+  server.listen(port, "0.0.0.0", (err) => {
     if (err) throw err;
     console.log(`> Ready on ${currentUrl}`);
   });
