@@ -138,6 +138,10 @@ class Room {
   }
 }
 
+function getSongs(room) {
+  return room.songQueue.filter((e) => e.state === 1) || [];
+}
+
 function createRoom(admin, spotify_cred, socket) {
   let room = Room.getRoomWithAdmin(admin.id);
   if (room) {
@@ -158,7 +162,7 @@ async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  let songs = room.songQueue.filter((e) => e.state === 1) || [];
+  let songs = getSongs(room);
   if (songs.length === 0) {
     console.log("playing instead of queueing");
     let res = await spotifyPlay(
@@ -170,10 +174,7 @@ async function addSong(pin, song, deviceId, io) {
     if (res.error) return;
 
     room.songQueue.push(song);
-    io.to(pin).emit(
-      "RES_UPDATE_SONG",
-      room.songQueue.filter((e) => e.state === 1)
-    );
+    io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
     return;
   }
 
@@ -195,18 +196,14 @@ async function addSong(pin, song, deviceId, io) {
   if (res.error) return;
   room.songQueue.push(song);
 
-  io.to(pin).emit(
-    "RES_UPDATE_SONG",
-    room.songQueue.filter((e) => e.state === 1)
-  );
+  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
 }
 
 function getSongs(pin, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  let songs = room.songQueue.filter((e) => e.state === 1) || [];
-  io.to(pin).emit("RES_UPDATE_SONG", songs);
+  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
 }
 
 function checkRoom(pin, socket) {
@@ -221,7 +218,7 @@ function checkRoom(pin, socket) {
     adminSpotifyId: room.adminSpotifyId,
     access_token: room.spotify.access_token,
     country: room.country,
-    songQueue: room.songQueue.filter((e) => e.state === 1),
+    songQueue: getSongs(room),
   };
   socket.emit("RES_CHECK_ROOM", roomLessInfo);
 }
@@ -268,10 +265,7 @@ function nextSong(pin, pass, io) {
   if (!song) return;
   song.state = 0;
 
-  io.to(pin).emit(
-    "RES_UPDATE_SONG",
-    room.songQueue.filter((e) => e.state === 1)
-  );
+  io.to(pin).emit("RES_UPDATE_SONG", getSongs(room));
 }
 
 function getRooms(socket) {
