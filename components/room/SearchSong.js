@@ -56,7 +56,6 @@ class SearchSong extends Component {
         image: imageUrl,
         id: song.id,
         uri: song.uri,
-        state: 1,
       };
     });
 

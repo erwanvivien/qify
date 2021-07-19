@@ -16,6 +16,8 @@ import imagePlay from "../../public/player/play1.svg";
 import imagePause from "../../public/player/pause1.svg";
 import imagePrevious from "../../public/player/previous2.svg";
 import imageNext from "../../public/player/next2.svg";
+import Script from "next/script";
+import axios from "axios";
 
 class RoomPlayer extends Component {
   player;
@@ -42,7 +44,6 @@ class RoomPlayer extends Component {
   constructor(props) {
     super(props);
 
-    this.player = props.player;
     this.timeout = null;
 
     this.volume = 0.5;
@@ -89,31 +90,129 @@ class RoomPlayer extends Component {
       paused: state.paused,
       title: trimSongs(currentSong.name),
     });
+  }
 
-    if (
-      this.props.songQueue.length > 0 &&
-      currentSong.uri === this.props.songQueue[0].uri
-    )
-      this.roomSocket.emit("SONG_POP", {
-        pin: this.roomPin,
-        pass: this.roomPass,
-      });
+  extractPlayerState(state) {
+    if (state === null) return [null, true];
+
+    let { track_window, paused } = state;
+    let { current_track, next_tracks, previous_tracks } = track_window;
+
+    current_track = {
+      title: current_track.name,
+      album: current_track.album.name,
+      arists: current_track.artists[0].name,
+      id: current_track.id,
+      uri: current_track.uri,
+    };
+
+    next_tracks = next_tracks.map((song) => {
+      return {
+        title: trimSongs(song.name),
+        album: trimSongs(song.album.name),
+        arists: song.artists[0].name,
+        id: song.id,
+        uri: song.uri,
+      };
+    });
+    previous_tracks = previous_tracks.map((song) => {
+      return {
+        title: song.name,
+        album: song.album.name,
+        arists: song.artists[0].name,
+        id: song.id,
+        uri: song.uri,
+      };
+    });
+
+    state = { paused, current_track, next_tracks, previous_tracks };
+
+    let prev = this.previousState;
+
+    if (typeof prev === "undefined" || prev === null) return [state, true];
+
+    if (state.paused !== prev.paused) {
+      return [state, true];
+    }
+    if (state.current_track.uri !== prev.current_track.uri) {
+      return [state, true];
+    }
+
+    if (state.next_tracks.length !== prev.next_tracks.length) {
+      return [state, true];
+    }
+
+    /// No need to check both sizes, check was before
+    for (let i = 0; i < prev.next_tracks.length; i += 1)
+      if (state.next_tracks[i].uri !== prev.next_tracks[i].uri)
+        return [state, true];
+
+    return [state, false];
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => {
-      this.player.getVolume().then((volume) => {
-        this.updateVolumeImage(volume);
-        let elem = document.getElementById("volume-range");
-        if (elem) elem.value = volume.toString();
+    window.onSpotifyWebPlaybackSDKReady = () => {
+      const token = this.props.access_token;
+      this.player = new Spotify.Player({
+        name: `${title} 📯`,
+        getOAuthToken: (cb) => {
+          cb(token);
+        },
       });
-    }, 1500);
 
-    this.player.addListener("player_state_changed", (newState) =>
-      this.updateAlbumCover(newState)
-    );
+      // Playback status updates
+      this.player.addListener("player_state_changed", (newState) => {
+        let [state, refreshNeeded] = this.extractPlayerState(newState);
+        if (refreshNeeded === false) return;
 
-    this.player.getCurrentState().then((state) => this.updateAlbumCover(state));
+        this.setState({
+          room: this.state.room,
+          loading: this.state.loading,
+          songs: this.state.songs,
+          width: this.state.width,
+          isAdmin: this.state.isAdmin,
+        });
+        this.previousState = state;
+      });
+
+      // Ready
+      this.player.addListener("ready", ({ device_id }) => {
+        console.log(`Ready with ID : ${device_id}`);
+        console.log(this.player);
+
+        this.deviceId = device_id;
+
+        setTimeout(async () => {
+          await axios.put("/api/spotifyTransfer", {
+            access_token: this.props.access_token,
+            device_id,
+          });
+
+          this.player.setVolume(0.1);
+        }, 2000);
+      });
+
+      // Connect to the player!
+      this.player.connect();
+
+      //   this.interval = setInterval(() => {
+      //     this.player.getVolume().then((volume) => {
+      //       this.updateVolumeImage(volume);
+      //       let elem = document.getElementById("volume-range");
+      //       if (elem) elem.value = volume.toString();
+      //     });
+      //   }, 1500);
+
+      //   console.log(this.player);
+      //   this.player.addListener("player_state_changed", (newState) =>
+      //     this.updateAlbumCover(newState)
+      //   );
+      //   console.log(this.player);
+
+      //   this.player
+      //     .getCurrentState()
+      //     .then((state) => this.updateAlbumCover(state));
+    };
   }
 
   componentWillUnmount() {
@@ -146,14 +245,17 @@ class RoomPlayer extends Component {
 
   next() {
     this.player.nextTrack();
+    this.roomSocket.emit("NEXT", this.roomPin);
   }
 
   prev() {
     this.player.previousTrack();
+    this.roomSocket.emit("PREV", this.roomPin);
   }
 
   toggle() {
     this.player.togglePlay();
+    // roomSocket.emit("PAUSE");
   }
 
   getVolumeImage() {
@@ -167,6 +269,10 @@ class RoomPlayer extends Component {
   render() {
     return (
       <>
+        <Script
+          src="https://sdk.scdn.co/spotify-player.js"
+          strategy="afterInteractive"
+        />
         <div className={playerStyle.container}>
           <div className={playerStyle.song_container}>
             <Image
