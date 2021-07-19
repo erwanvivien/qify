@@ -32,6 +32,8 @@ const {
   nextSong,
   getRooms,
   Room,
+  prevSong,
+  skipSong,
 } = require("./Room");
 
 const { spotifyRefresh } = require("./spotifyApi");
@@ -78,6 +80,9 @@ io.on("connect", (socket) => {
   );
   socket.on("SONG_POP", ({ pin, pass }) => nextSong(pin, pass, io));
   socket.on("DEBUG", () => getRooms(socket));
+
+  socket.on("NEXT", (pin) => skipSong(pin, io));
+  socket.on("PREV", (pin) => prevSong(pin, io));
 });
 
 app.prepare().then(() => {

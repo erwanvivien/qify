@@ -28,6 +28,7 @@ class Room {
 
   country;
   songQueue;
+  songCursor;
 
   /**
    * Creates a new room
@@ -48,6 +49,7 @@ class Room {
     this.createdAt = Date.now();
     this.members = [];
     this.songQueue = [];
+    this.songCursor = 0;
 
     this.country = country;
   }
@@ -139,8 +141,9 @@ class Room {
 }
 
 function getSongsRoom(room) {
-  let songs = room.songQueue.filter((e) => e.state === 1);
-  return songs || [];
+  if (room.songCursor >= room.songQueue.length || room.songQueue.length === 0)
+    return [];
+  return room.songQueue.slice(room.songCursor);
 }
 
 function createRoom(admin, spotify_cred, socket) {
@@ -261,9 +264,8 @@ function nextSong(pin, pass, io) {
   if (!room) return;
   if (room.adminPass !== pass) return;
 
-  let song = room.songQueue.find((s) => s.state === 1);
-  if (!song) return;
-  song.state = 0;
+  if (room.songCursor >= room.songQueue.length || room.songQueue.length === 0)
+    return;
 
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
@@ -282,6 +284,25 @@ function getRooms(socket) {
   socket.emit("RES_DEBUG", rooms);
 }
 
+function skipSong(pin, io) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+
+  room.songCursor = Math.max(room.songQueue.length, room.songCursor + 1);
+  room.songCursor = 1;
+
+  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
+}
+
+function prevSong(pin, io) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+
+  room.songCursor = Math.max(0, room.songCursor - 1);
+
+  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
+}
+
 module.exports = {
   createRoom,
   addSong,
@@ -293,4 +314,6 @@ module.exports = {
   nextSong,
   Room,
   getRooms,
+  skipSong,
+  prevSong,
 };
