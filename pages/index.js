@@ -35,8 +35,6 @@ class Home extends Component {
       promptEvent = e;
       listenToUserAction();
     });
-
-    // present install prompt to user
   }
 
   render() {
