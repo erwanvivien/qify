@@ -71,12 +71,9 @@ class App extends Component {
     if (Math.abs(window.innerWidth - this.state.width) < 10) return;
 
     this.setState({
-      room: this.state.room,
-      loading: this.state.loading,
-      songs: this.state.songs,
-      isAdmin: this.state.isAdmin,
       width: window.innerWidth,
     });
+    console.log(this.state);
   };
 
   handlePlaying = (playing) => {
@@ -130,11 +127,7 @@ class App extends Component {
 
     socket.on("JOIN_ROOM_ADMIN", (isAdmin) => {
       this.setState({
-        room: this.state.room,
-        loading: this.state.loading,
-        songs: this.state.songs,
         isAdmin: isAdmin,
-        width: this.state.width,
       });
     });
     socket.on("RES_CHECK_ROOM", (room) => {
@@ -142,8 +135,6 @@ class App extends Component {
         room,
         loading: false,
         songs: room ? room.songQueue : [],
-        isAdmin: this.state.isAdmin,
-        width: this.state.width,
       });
       if (!room) return;
 
@@ -157,11 +148,7 @@ class App extends Component {
     });
     socket.on("RES_UPDATE_SONG", (songs) => {
       this.setState({
-        room: this.state.room,
-        loading: this.state.loading,
         songs,
-        isAdmin: this.state.isAdmin,
-        width: this.state.width,
       });
     });
 

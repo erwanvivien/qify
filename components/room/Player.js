@@ -15,6 +15,7 @@ import imageNoImage from "../../public/no_image.svg";
 import imagePlay from "../../public/player/play1.svg";
 import imagePause from "../../public/player/pause1.svg";
 import imageNext from "../../public/player/next2.svg";
+// import imagePrev from "../../public/player/previous2.svg";
 import Script from "next/script";
 import axios from "axios";
 
@@ -173,13 +174,7 @@ class RoomPlayer extends Component {
           this.roomSocket.emit("NEXT", this.roomPin);
         }
 
-        this.setState({
-          image: this.state.image,
-          songUri: this.state.songUri,
-          playButton: this.state.playButton,
-          paused: this.state.paused,
-          title: this.state.title,
-        });
+        this.setState(this.state);
 
         this.previousState = state;
       });
@@ -245,22 +240,24 @@ class RoomPlayer extends Component {
     let currentImage = this.getVolumeImage();
     this.volume = volume;
     if (currentImage !== this.getVolumeImage()) {
-      this.setState({
-        image: this.state.image,
-        songUri: this.state.songUri,
-        playButton: this.state.playButton,
-        paused: this.state.paused,
-        title: this.state.title,
-      });
+      this.setState(this.state);
     }
   }
 
+  nextTimeout;
   next() {
-    this.player.nextTrack();
+    clearTimeout(this.nextTimeout);
+    this.nextTimeout = setTimeout(() => {
+      this.player.nextTrack();
+    }, 200);
   }
 
+  toggleTimeout;
   toggle() {
-    this.player.togglePlay();
+    clearTimeout(this.toggleTimeout);
+    this.toggleTimeout = setTimeout(() => {
+      this.player.togglePlay();
+    }, 200);
     // roomSocket.emit("PAUSE");
   }
 
@@ -294,6 +291,13 @@ class RoomPlayer extends Component {
           </div>
 
           <div className={playerStyle.buttons}>
+            <span
+              style={{
+                height: "30px",
+                width: "30px",
+              }}
+            ></span>
+
             <Image
               onClick={() => this.toggle()}
               className={playerStyle.play_pause}
