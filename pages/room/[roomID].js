@@ -182,7 +182,6 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.room) console.log(this.state.room.access_token);
     if (this.state.loading) {
       return (
         <Default title={false}>
@@ -205,12 +204,6 @@ class App extends Component {
     return (
       <>
         <Default title={false} classname={listStyle.main} footer={false}>
-          {this.state.isAdmin && (
-            <Script
-              src="https://sdk.scdn.co/spotify-player.js"
-              strategy="afterInteractive"
-            />
-          )}
           <div className={listStyle.search_div}>
             <SearchSong
               access_token={this.state.room.access_token}

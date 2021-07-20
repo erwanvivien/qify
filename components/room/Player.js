@@ -176,42 +176,34 @@ class RoomPlayer extends Component {
       });
 
       // Ready
-      this.player.addListener("ready", ({ device_id }) => {
+      this.player.addListener("ready", async ({ device_id }) => {
         console.log(`Ready with ID : ${device_id}`);
-        console.log(this.player);
-
         this.deviceId = device_id;
 
-        setTimeout(async () => {
-          await axios.put("/api/spotifyTransfer", {
-            access_token: this.props.access_token,
-            device_id,
-          });
+        await axios.put("/api/spotifyTransfer", {
+          access_token: this.props.access_token,
+          //   uri: this.state.songUri,
+          device_id,
+        });
 
-          this.player.setVolume(0.1);
-        }, 2000);
+        this.player.setVolume(0.1);
+        this.player.resume();
+
+        this.interval = setInterval(() => {
+          this.player.getVolume().then((volume) => {
+            this.updateVolumeImage(volume);
+            let elem = document.getElementById("volume-range");
+            if (elem) elem.value = volume.toString();
+          });
+        }, 1500);
+      });
+
+      this.player.addListener("player_state_changed", (newState) => {
+        this.updateAlbumCover(newState);
       });
 
       // Connect to the player!
       this.player.connect();
-
-      //   this.interval = setInterval(() => {
-      //     this.player.getVolume().then((volume) => {
-      //       this.updateVolumeImage(volume);
-      //       let elem = document.getElementById("volume-range");
-      //       if (elem) elem.value = volume.toString();
-      //     });
-      //   }, 1500);
-
-      //   console.log(this.player);
-      //   this.player.addListener("player_state_changed", (newState) =>
-      //     this.updateAlbumCover(newState)
-      //   );
-      //   console.log(this.player);
-
-      //   this.player
-      //     .getCurrentState()
-      //     .then((state) => this.updateAlbumCover(state));
     };
   }
 
@@ -271,7 +263,7 @@ class RoomPlayer extends Component {
       <>
         <Script
           src="https://sdk.scdn.co/spotify-player.js"
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
         <div className={playerStyle.container}>
           <div className={playerStyle.song_container}>
