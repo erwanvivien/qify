@@ -297,7 +297,6 @@ module.exports = {
   joinRoom,
   joinRoomAdmin,
   leaveRoom,
-  nextSong,
   Room,
   getRooms,
   skipSong,
