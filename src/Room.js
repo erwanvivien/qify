@@ -176,12 +176,12 @@ async function addSong(pin, song, deviceId, playing, io) {
 
   let res = null;
 
-  //   console.log({
-  //     cursor: room.songCursor,
-  //     queueLength: room.songQueue.length,
-  //     playing,
-  //   });
-  if (room.songCursor >= room.songQueue.length && playing === false) {
+  console.log({
+    cursor: room.songCursor,
+    queueLength: room.songQueue.length,
+    playing,
+  });
+  if (room.songCursor >= room.songQueue.length) {
     res = await spotifyPlay(
       room.spotify.access_token,
       song.uri,
