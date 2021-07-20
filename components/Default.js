@@ -1,4 +1,3 @@
-import Head from "next/head";
 import styles from "../styles/Home.module.css";
 
 import { Header } from "./Header";
@@ -6,7 +5,6 @@ import { Title } from "./Title";
 
 import { Footer } from "./Footer";
 import { Component } from "react";
-import { title } from "../src/config";
 
 export class Default extends Component {
   render() {

@@ -80,7 +80,6 @@ class App extends Component {
   };
 
   handlePlaying = (playing) => {
-    console.log(playing);
     this.playing = playing;
   };
 
