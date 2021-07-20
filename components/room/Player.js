@@ -18,6 +18,7 @@ import imagePrevious from "../../public/player/previous2.svg";
 import imageNext from "../../public/player/next2.svg";
 import Script from "next/script";
 import axios from "axios";
+import { Socket } from "socket.io-client";
 
 class RoomPlayer extends Component {
   player;
@@ -30,6 +31,8 @@ class RoomPlayer extends Component {
   roomSocket;
   roomPass;
   roomPin;
+
+  songNextTimeout;
 
   state = {
     image: "/no_image.svg",
@@ -166,12 +169,13 @@ class RoomPlayer extends Component {
         if (refreshNeeded === false) return;
 
         this.setState({
-          room: this.state.room,
-          loading: this.state.loading,
-          songs: this.state.songs,
-          width: this.state.width,
-          isAdmin: this.state.isAdmin,
+          image: this.state.image,
+          songUri: this.state.songUri,
+          playButton: this.state.playButton,
+          paused: this.state.paused,
+          title: this.state.title,
         });
+
         this.previousState = state;
       });
 
@@ -199,7 +203,22 @@ class RoomPlayer extends Component {
       });
 
       this.player.addListener("player_state_changed", (newState) => {
+        const oldState = this.state;
         this.updateAlbumCover(newState);
+
+        if (newState.paused === true) {
+          clearTimeout(this.songNextTimeout);
+          return;
+        }
+
+        if (oldState.songUri === this.state.songUri) {
+          console.log(newState.duration - newState.position);
+          clearTimeout(this.songNextTimeout);
+          this.songNextTimeout = setTimeout(() => {
+            console.log("NEXT");
+            this.roomSocket.emit("NEXT", this.roomPin);
+          }, newState.duration - newState.position);
+        }
       });
 
       // Connect to the player!
