@@ -167,6 +167,15 @@ class RoomPlayer extends Component {
         let [state, refreshNeeded] = this.extractPlayerState(newState);
         if (refreshNeeded === false) return;
 
+        if (
+          this.props.songQueue.length >= 1 &&
+          this.props.songQueue[0].uri !== state.current_track.uri
+        ) {
+          console.log(state.current_track.uri);
+          console.log(this.props.songQueue[0].uri);
+          this.roomSocket.emit("NEXT", this.roomPin);
+        }
+
         this.setState({
           image: this.state.image,
           songUri: this.state.songUri,
@@ -251,12 +260,6 @@ class RoomPlayer extends Component {
 
   next() {
     this.player.nextTrack();
-    this.roomSocket.emit("NEXT", this.roomPin);
-  }
-
-  prev() {
-    this.player.previousTrack();
-    this.roomSocket.emit("PREV", this.roomPin);
   }
 
   toggle() {
@@ -294,15 +297,6 @@ class RoomPlayer extends Component {
           </div>
 
           <div className={playerStyle.buttons}>
-            <Image
-              onClick={() => this.prev()}
-              className={playerStyle.next_prev}
-              src={imagePrevious}
-              width={30}
-              height={30}
-              alt="Previous button"
-            />
-
             <Image
               onClick={() => this.toggle()}
               className={playerStyle.play_pause}
