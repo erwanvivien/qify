@@ -1,5 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import { title } from "../src/config";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -11,8 +10,6 @@ class MyDocument extends Document {
     return (
       <Html lang="fr">
         <Head>
-          <title>{title} - La musique en commun</title>
-
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon.png"></link>
           <meta name="theme-color" content="#fff" />
