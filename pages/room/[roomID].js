@@ -210,40 +210,51 @@ class App extends Component {
 
     return (
       <>
-        <Default title={false} classname={listStyle.main} footer={false}>
-          <div className={listStyle.search_div}>
-            <SearchSong
-              access_token={this.state.room.access_token}
-              country={this.state.room.country}
-              addSong={this.addSong.bind(this)}
-            />
-          </div>
+        <div className={styles.container}>
+          <Header />
 
-          {this.displayQR() && (
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <QRCode
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `${currentUrl}/room/${this.roomID}`
-                  )
-                }
-                title="Cliquer pour copier le lien"
-                style={{ cursor: "pointer" }}
-                value={`${currentUrl}/room/${this.roomID}`}
-                bgColor={"#ecedf1"}
-                level="L"
-              ></QRCode>
+          <main className={`${styles.main} ${listStyle.main}`}>
+            <div
+              className={listStyle.search_div}
+              style={{ zIndex: "9999" }}
+              onClick={() => {
+                console.log("etst");
+              }}
+            >
+              <SearchSong
+                access_token={this.state.room.access_token}
+                country={this.state.room.country}
+                addSong={this.addSong.bind(this)}
+              />
             </div>
-          )}
 
-          <SpotifyItems songs={this.state.songs} width={this.state.width} />
+            {this.displayQR() && (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <QRCode
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `${currentUrl}/room/${this.roomID}`
+                    )
+                  }
+                  title="Cliquer pour copier le lien"
+                  style={{ cursor: "pointer" }}
+                  value={`${currentUrl}/room/${this.roomID}`}
+                  bgColor={"#ecedf1"}
+                  level="L"
+                ></QRCode>
+              </div>
+            )}
 
-          <span
-            style={{
-              height: "90px",
-            }}
-          ></span>
-        </Default>
+            <SpotifyItems songs={this.state.songs} width={this.state.width} />
+
+            <span
+              style={{
+                height: "90px",
+              }}
+            ></span>
+          </main>
+        </div>
+
         {this.state.isAdmin && (
           <RoomPlayer
             width={this.state.width}
