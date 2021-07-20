@@ -15,6 +15,7 @@ import io from "socket.io-client";
 import { withRouter } from "next/router";
 
 import QRCode from "qrcode.react";
+import { Header } from "../../components/Header";
 
 // const date_to_string = (k, v) => {
 //   if (v instanceof Date) return v.getMilliseconds();
@@ -188,6 +189,28 @@ class App extends Component {
     return this.state.width > 500 && this.state.isAdmin;
   }
 
+  resetTitle(event) {
+    let element = event.target;
+
+    let divs = [listStyle.list, styles.container, listStyle.search_div];
+    while (element !== null) {
+      if (divs.includes(element.className)) break;
+      element = element.parentElement;
+    }
+
+    if (!element) return;
+    if (![listStyle.list, styles.container].includes(element.className)) {
+      return;
+    }
+
+    let input = document.getElementById("roomSongSearchInput");
+    if (!input) return;
+    if (input.value === "") return;
+    input.value = "";
+
+    this.setState(this.state);
+  }
+
   render() {
     if (this.state.loading) {
       return (
@@ -210,17 +233,14 @@ class App extends Component {
 
     return (
       <>
-        <div className={styles.container}>
+        <div
+          className={styles.container}
+          onClick={(event) => this.resetTitle(event)}
+        >
           <Header />
 
           <main className={`${styles.main} ${listStyle.main}`}>
-            <div
-              className={listStyle.search_div}
-              style={{ zIndex: "9999" }}
-              onClick={() => {
-                console.log("etst");
-              }}
-            >
+            <div className={listStyle.search_div}>
               <SearchSong
                 access_token={this.state.room.access_token}
                 country={this.state.room.country}

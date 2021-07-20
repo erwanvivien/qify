@@ -62,6 +62,18 @@ class SearchSong extends Component {
     return results;
   }
 
+  componentDidUpdate() {
+    let input = document.getElementById("roomSongSearchInput");
+    if (!input) return;
+
+    if (input.value !== this.latest)
+      this.search({
+        target: {
+          value: input.value,
+        },
+      });
+  }
+
   search = (event) => {
     let value = event.target.value;
 
@@ -92,11 +104,10 @@ class SearchSong extends Component {
         <div className={searchStyle.search_width}>
           <div className={searchStyle.form__group}>
             <input
+              id="roomSongSearchInput"
               type="input"
               className={searchStyle.form__field}
               onChange={this.search}
-              id="search_box"
-              name="name"
               required
             />
             <label className={searchStyle.form__label}>Search</label>
