@@ -288,8 +288,7 @@ function skipSong(pin, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  room.songCursor = Math.max(room.songQueue.length, room.songCursor + 1);
-  room.songCursor = 1;
+  room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
 
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
