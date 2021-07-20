@@ -9,8 +9,8 @@ class Items extends Component {
     let item = this.props.item;
     let { image, title, album } = item;
 
-    let slice = false;
-    if (title.length > 35) slice = true;
+    let sliceTitle = title.length > 30;
+    let sliceAlbum = album.length > 30;
 
     return (
       <>
@@ -28,11 +28,15 @@ class Items extends Component {
             <div style={{ width: "100%" }}>
               <p style={{ margin: "0" }}>
                 <span className={resultStyle.title}>
-                  {slice ? title.slice(0, 35) + " ..." : title}
+                  {sliceTitle ? title.slice(0, 35) : title}
                 </span>
-                <span className={resultStyle.album}>
-                  {title !== album && !slice ? ` - ${album}` : ""}
-                </span>
+                {title !== album && (
+                  <span className={resultStyle.album}>
+                    {!sliceAlbum
+                      ? ` - ${album}`
+                      : ` - ${album.slice(0, 15)}...`}
+                  </span>
+                )}
               </p>
             </div>
           </div>
