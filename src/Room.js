@@ -258,17 +258,6 @@ function leaveRoom(pin, socket) {
   console.log(`ROOM ${pin} -> ${socket.id}`);
 }
 
-function nextSong(pin, pass, io) {
-  let room = Room.getRoomWithPin(pin);
-  if (!room) return;
-  if (room.adminPass !== pass) return;
-
-  if (room.songCursor >= room.songQueue.length || room.songQueue.length === 0)
-    return;
-
-  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
-}
-
 function getRooms(socket) {
   let rooms = Room.ROOMS.map((room) => {
     return {
