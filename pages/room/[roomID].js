@@ -233,24 +233,28 @@ class App extends Component {
               />
             </div>
 
-            {this.displayQR() && (
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <QRCode
-                  onClick={() =>
-                    navigator.clipboard.writeText(
-                      `${currentUrl}/room/${this.roomID}`
-                    )
-                  }
-                  title="Cliquer pour copier le lien"
-                  style={{ cursor: "pointer" }}
-                  value={`${currentUrl}/room/${this.roomID}`}
-                  bgColor={"#ecedf1"}
-                  level="L"
-                ></QRCode>
-              </div>
-            )}
+            {/* {this.displayQR() && ( */}
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <QRCode
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    `${currentUrl}/room/${this.roomID}`
+                  )
+                }
+                title="Cliquer pour copier le lien"
+                style={{ cursor: "pointer" }}
+                value={`${currentUrl}/room/${this.roomID}`}
+                bgColor={"#ecedf1"}
+                level="L"
+              ></QRCode>
+            </div>
+            {/* )} */}
 
-            <SpotifyItems songs={this.state.songs} width={this.state.width} />
+            <SpotifyItems
+              songs={this.state.songs}
+              width={this.state.width}
+              player={this.player}
+            />
 
             <span
               style={{
