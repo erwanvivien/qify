@@ -166,8 +166,7 @@ async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  let songs = getSongsRoom(room);
-  if (songs.length === 0) {
+  if (room.songQueue.length === 0) {
     let res = await spotifyPlay(
       room.spotify.access_token,
       song.uri,

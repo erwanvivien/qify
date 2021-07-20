@@ -78,7 +78,6 @@ io.on("connect", (socket) => {
   socket.on("ADD_SONG", ({ song, pin, deviceId }) =>
     addSong(pin, song, deviceId, io)
   );
-  socket.on("SONG_POP", ({ pin, pass }) => nextSong(pin, pass, io));
   socket.on("DEBUG", () => getRooms(socket));
 
   socket.on("NEXT", (pin) => skipSong(pin, io));
