@@ -16,11 +16,11 @@ class Home extends Component {
 
     function presentAddToHome() {
       promptEvent.prompt(); // Wait for the user to respond to the prompt
-      promptEvent.userChoice.then((choice) => {
-        if (choice.outcome === "accepted") {
-        } else {
-        }
-      });
+      //   promptEvent.userChoice.then((choice) => {
+      //     if (choice.outcome === "accepted") {
+      //     } else {
+      //     }
+      //   });
     }
 
     // listen to install button clic

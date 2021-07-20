@@ -10,14 +10,11 @@ import RoomPlayer from "../../components/room/Player";
 
 import { Default } from "../../components/Default";
 
-import Script from "next/script";
-
-import { currentUrl, paths, title, trimSongs } from "../../src/config";
+import { currentUrl, paths, title } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
 
 import QRCode from "qrcode.react";
-import axios from "axios";
 
 // const date_to_string = (k, v) => {
 //   if (v instanceof Date) return v.getMilliseconds();

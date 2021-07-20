@@ -18,7 +18,6 @@ import imagePrevious from "../../public/player/previous2.svg";
 import imageNext from "../../public/player/next2.svg";
 import Script from "next/script";
 import axios from "axios";
-import { Socket } from "socket.io-client";
 
 class RoomPlayer extends Component {
   player;
@@ -145,7 +144,7 @@ class RoomPlayer extends Component {
       return [state, true];
     }
 
-    /// No need to check both sizes, check was before
+    // No need to check both sizes, check was before
     for (let i = 0; i < prev.next_tracks.length; i += 1)
       if (state.next_tracks[i].uri !== prev.next_tracks[i].uri)
         return [state, true];
@@ -181,7 +180,6 @@ class RoomPlayer extends Component {
 
       // Ready
       this.player.addListener("ready", async ({ device_id }) => {
-        console.log(`Ready with ID : ${device_id}`);
         this.deviceId = device_id;
 
         await axios.put("/api/spotifyTransfer", {
@@ -212,10 +210,8 @@ class RoomPlayer extends Component {
         }
 
         if (oldState.songUri === this.state.songUri) {
-          console.log(newState.duration - newState.position);
           clearTimeout(this.songNextTimeout);
           this.songNextTimeout = setTimeout(() => {
-            console.log("NEXT");
             this.roomSocket.emit("NEXT", this.roomPin);
           }, newState.duration - newState.position);
         }
