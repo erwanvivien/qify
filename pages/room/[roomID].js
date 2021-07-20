@@ -73,7 +73,6 @@ class App extends Component {
     this.setState({
       width: window.innerWidth,
     });
-    console.log(this.state);
   };
 
   handlePlaying = (playing) => {
