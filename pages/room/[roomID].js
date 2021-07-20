@@ -106,9 +106,11 @@ class App extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.handleResize);
-    window.addEventListener("pageshow", () =>
-      socket.emit("GET_SONGS", this.roomID)
-    );
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden === false) {
+        socket.emit("GET_SONGS", this.roomID);
+      }
+    });
     this.handleResize();
 
     this.router.push(
