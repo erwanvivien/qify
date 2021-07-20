@@ -48,4 +48,5 @@ module.exports = {
   paths,
   title: websiteTitle,
   trimSongs,
+  currentUrl,
 };
