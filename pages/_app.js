@@ -1,3 +1,5 @@
+import Head from "next/head";
+import { title } from "../src/config";
 import "../styles/globals.css";
 
 const MyApp = ({ Component, pageProps }) => {
