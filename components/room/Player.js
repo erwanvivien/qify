@@ -14,7 +14,6 @@ import imageNoImage from "../../public/no_image.svg";
 
 import imagePlay from "../../public/player/play1.svg";
 import imagePause from "../../public/player/pause1.svg";
-import imagePrevious from "../../public/player/previous2.svg";
 import imageNext from "../../public/player/next2.svg";
 import Script from "next/script";
 import axios from "axios";
@@ -171,8 +170,6 @@ class RoomPlayer extends Component {
           this.props.songQueue.length >= 1 &&
           this.props.songQueue[0].uri !== state.current_track.uri
         ) {
-          console.log(state.current_track.uri);
-          console.log(this.props.songQueue[0].uri);
           this.roomSocket.emit("NEXT", this.roomPin);
         }
 
