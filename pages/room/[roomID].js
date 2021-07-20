@@ -40,6 +40,8 @@ class App extends Component {
 
   timeout;
 
+  playing = false;
+
   state = {
     room: null,
     loading: true,
@@ -74,6 +76,11 @@ class App extends Component {
       isAdmin: this.state.isAdmin,
       width: window.innerWidth,
     });
+  };
+
+  handlePlaying = (playing) => {
+    console.log(playing);
+    this.playing = playing;
   };
 
   localStorageUpdate() {
@@ -173,6 +180,7 @@ class App extends Component {
       song,
       pin: this.roomID,
       deviceId: this.deviceId,
+      playing: this.playing,
     });
   }
 
@@ -244,6 +252,7 @@ class App extends Component {
             roomPass={this.password}
             roomPin={this.roomID}
             access_token={this.state.room.access_token}
+            isPlaying={this.handlePlaying}
           />
         )}
       </>

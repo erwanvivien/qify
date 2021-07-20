@@ -162,7 +162,7 @@ function createRoom(admin, spotify_cred, socket) {
   console.log(`ROOM ${pin} ++`);
 }
 
-async function addSong(pin, song, deviceId, io) {
+async function addSong(pin, song, deviceId, playing, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
@@ -175,7 +175,13 @@ async function addSong(pin, song, deviceId, io) {
   }
 
   let res = null;
-  if (room.songQueue.length === 0) {
+
+  //   console.log({
+  //     cursor: room.songCursor,
+  //     queueLength: room.songQueue.length,
+  //     playing,
+  //   });
+  if (room.songCursor >= room.songQueue.length && playing === false) {
     res = await spotifyPlay(
       room.spotify.access_token,
       song.uri,

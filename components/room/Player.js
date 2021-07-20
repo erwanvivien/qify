@@ -201,20 +201,19 @@ class RoomPlayer extends Component {
       });
 
       this.player.addListener("player_state_changed", (newState) => {
-        const oldState = this.state;
         this.updateAlbumCover(newState);
 
+        this.props.isPlaying(newState ? this.state.paused === false : false);
+        if (!newState) return;
+
+        clearTimeout(this.songNextTimeout);
         if (newState.paused === true) {
-          clearTimeout(this.songNextTimeout);
           return;
         }
 
-        if (oldState.songUri === this.state.songUri) {
-          clearTimeout(this.songNextTimeout);
-          this.songNextTimeout = setTimeout(() => {
-            this.roomSocket.emit("NEXT", this.roomPin);
-          }, newState.duration - newState.position);
-        }
+        this.songNextTimeout = setTimeout(() => {
+          this.roomSocket.emit("NEXT", this.roomPin);
+        }, newState.duration - newState.position);
       });
 
       // Connect to the player!
