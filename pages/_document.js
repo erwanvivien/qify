@@ -1,4 +1,5 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
+import { title } from "../src/config";
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -10,9 +11,23 @@ class MyDocument extends Document {
     return (
       <Html lang="fr">
         <Head>
+          <title>{title} - La musique en commun</title>
+
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon.png"></link>
           <meta name="theme-color" content="#fff" />
+
+          <link rel="icon" href="/qify/qify.svg" />
+          <meta property="og:title" content="Qify" key="title" />
+          <meta
+            name="description"
+            content="A website that manages spotify queues"
+          />
+          <meta name="author" content="Erwan VIVIEN (github: erwan_vivien)" />
+          <meta
+            name="keywords"
+            content="Spotify, Queue, File d'attente, Musique, Song, Songs, Song queue"
+          />
         </Head>
         <body>
           <Main />

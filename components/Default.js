@@ -22,21 +22,6 @@ export class Default extends Component {
     return (
       <>
         <div className={styles.container}>
-          <Head>
-            <title>{title} - La musique en commun</title>
-            <link rel="icon" href="/qify/qify.svg" />
-            <meta property="og:title" content="Qify" key="title" />
-            <meta
-              name="description"
-              content="A website that manages spotify queues"
-            />
-            <meta name="author" content="Erwan VIVIEN (github: erwan_vivien)" />
-            <meta
-              name="keywords"
-              content="Spotify, Queue, File d'attente, Musique, Song, Songs, Song queue"
-            />
-          </Head>
-
           {displayHeader && <Header />}
 
           <main
