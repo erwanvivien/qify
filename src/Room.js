@@ -166,20 +166,6 @@ async function addSong(pin, song, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  if (room.songQueue.length === 0) {
-    let res = await spotifyPlay(
-      room.spotify.access_token,
-      song.uri,
-      deviceId,
-      null
-    );
-    if (res.error) return;
-
-    room.songQueue.push(song);
-    io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
-    return;
-  }
-
   if (
     room.songQueue.length > 0 &&
     room.songQueue[room.songQueue.length - 1].uri === song.uri
@@ -188,16 +174,29 @@ async function addSong(pin, song, deviceId, io) {
     return;
   }
 
-  let res = await spotifyQueue(
-    room.spotify.access_token,
-    song.uri,
-    deviceId,
-    null
-  );
+  let res = null;
+  if (room.songQueue.length === 0) {
+    res = await spotifyPlay(
+      room.spotify.access_token,
+      song.uri,
+      deviceId,
+      null
+    );
+  } else {
+    res = await spotifyQueue(
+      room.spotify.access_token,
+      song.uri,
+      deviceId,
+      null
+    );
+  }
 
-  if (res.error) return;
+  if (res.error) {
+    io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+    return;
+  }
+
   room.songQueue.push(song);
-
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
