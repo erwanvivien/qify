@@ -72,10 +72,17 @@
   text-align: center;
   padding-top: 8px;
   grid-gap: 8px;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(90%, 1fr));
 
-  flex-wrap: wrap;
-  flex-direction: column;
+  /* flex-wrap: wrap; */
+  /* flex-direction: column; */
+  height: 350px;
+  overflow-x: auto;
+}
+
+.list:nth-child(2n) {
+  flex-basis: 100%;
 }
 
 .items {

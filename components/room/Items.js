@@ -30,7 +30,7 @@ class Items extends Component {
                 <span className={resultStyle.title}>
                   {sliceTitle ? title.slice(0, 35) : title}
                 </span>
-                {title !== album && (
+                {title !== album && this.props.width >= 400 && (
                   <span className={resultStyle.album}>
                     {!sliceAlbum
                       ? ` - ${album}`

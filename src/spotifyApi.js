@@ -53,7 +53,7 @@ const endpoints = {
   tracks: (ids) => `https://api.spotify.com/v1/tracks?ids=${ids}&market=FR`,
   search: (query, country) => {
     query = query.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return `https://api.spotify.com/v1/search?q=${query}&type=track&limit=5&market=${country}`;
+    return `https://api.spotify.com/v1/search?q=${query}&type=track&market=${country}`;
   },
   queue: (uri, deviceId) =>
     `https://api.spotify.com/v1/me/player/queue?uri=${uri}` +

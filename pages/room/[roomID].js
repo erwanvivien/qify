@@ -230,6 +230,7 @@ class App extends Component {
                 access_token={this.state.room.access_token}
                 country={this.state.room.country}
                 addSong={this.addSong.bind(this)}
+                width={this.state.width}
               />
             </div>
 

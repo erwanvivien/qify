@@ -112,11 +112,20 @@ class SearchSong extends Component {
             />
             <label className={searchStyle.form__label}>Search</label>
           </div>
-          <div className={resultStyle.list}>
-            {tracks.map((item, index) => {
-              return <Items item={item} addSong={this.addSong} key={index} />;
-            })}
-          </div>
+          {tracks && tracks.length !== 0 && (
+            <div className={resultStyle.list}>
+              {tracks.map((item, index) => {
+                return (
+                  <Items
+                    item={item}
+                    addSong={this.addSong}
+                    key={index}
+                    width={this.props.width}
+                  />
+                );
+              })}
+            </div>
+          )}
         </div>
       </>
     );
