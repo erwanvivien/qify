@@ -63,74 +63,74 @@
   </g>
   
   <style>
-	#rect1 {
-		fill: #16A349;
-		animation: move1 3.5s infinite;
-		animation-timing-function: ease-in-out;
-	}
-	#rect2 {
-		fill: #1ED760;
-		animation: move2 3s infinite;
-		animation-timing-function: ease-in-out;
-	}
-	#rect3 {
-		fill: #23FD71;
-		animation: move3 4s infinite;
-		animation-timing-function: ease-in-out;
-	}
-	
-	@keyframes move1 {
-		0% {
-			height: 15px;
-			y: 5px;
-		}
+  #rect1 {
+    fill: #16A349;
+    animation: move1 3.5s infinite;
+    animation-timing-function: ease-in-out;
+  }
+  #rect2 {
+    fill: #1ED760;
+    animation: move2 3s infinite;
+    animation-timing-function: ease-in-out;
+  }
+  #rect3 {
+    fill: #23FD71;
+    animation: move3 4s infinite;
+    animation-timing-function: ease-in-out;
+  }
+  
+  @keyframes move1 {
+    0% {
+      height: 15px;
+      y: 5px;
+    }
 
-		50% {
-			height: 1px;
-			y: 19px;
-			fill: #1ED760;
-		}
-			
-		100% {
-			height: 15px;
-			y: 5px;
-		}
-		
-	}
-	
-	@keyframes move2 {
-		0% {
-			height: 19px;
-			y: 1px;
-		}
+    50% {
+      height: 1px;
+      y: 19px;
+      fill: #1ED760;
+    }
+      
+    100% {
+      height: 15px;
+      y: 5px;
+    }
+    
+  }
+  
+  @keyframes move2 {
+    0% {
+      height: 19px;
+      y: 1px;
+    }
 
-		50% {
-			height: 4px;
-			y: 16px;
-		}
-			
-		100% {
-			height: 19px;
-			y: 1px;
-		}
-	}
-	
-	@keyframes move3 {
-		0% {
-			height: 11px;
-			y: 9px;
-		}	
+    50% {
+      height: 4px;
+      y: 16px;
+    }
+      
+    100% {
+      height: 19px;
+      y: 1px;
+    }
+  }
+  
+  @keyframes move3 {
+    0% {
+      height: 11px;
+      y: 9px;
+    }	
 
-		50% {
-			height: 2px;
-			fill: #1ED760;
-			y: 18px;
-		}
-			
-		100% {
-			height: 11px;
-			y: 9px;
-		}
-	}
+    50% {
+      height: 2px;
+      fill: #1ED760;
+      y: 18px;
+    }
+      
+    100% {
+      height: 11px;
+      y: 9px;
+    }
+  }
   </style>
 </svg>
