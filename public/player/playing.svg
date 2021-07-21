@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="20mm"
+   height="20mm"
+   viewBox="0 0 20 20"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1 (c68e22c387, 2021-05-23)"
+   sodipodi:docname="playing.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     height="200mm"
+     inkscape:zoom="6.2217172"
+     inkscape:cx="34.958195"
+     inkscape:cy="45.084017"
+     inkscape:window-width="2560"
+     inkscape:window-height="1387"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="stroke-width:0.264583;stroke-opacity:0.49505"
+       id="rect1"
+       width="5"
+       height="15"
+       x="2.5"
+       y="5" />
+    <rect
+       style="stroke-width:0.264583;stroke-opacity:0.49505"
+       id="rect2"
+       width="5"
+       height="19"
+       x="7.5"
+       y="1" />
+    <rect
+       style="stroke-width:0.264583;stroke-opacity:0.49505"
+       id="rect3"
+       width="5"
+       height="11"
+       x="12.5"
+       y="9" />
+  </g>
+  
+  <style>
+	#rect1 {
+		fill: #16A349;
+		animation: move1 3.5s infinite;
+		animation-timing-function: ease-in-out;
+	}
+	#rect2 {
+		fill: #1ED760;
+		animation: move2 3s infinite;
+		animation-timing-function: ease-in-out;
+	}
+	#rect3 {
+		fill: #23FD71;
+		animation: move3 4s infinite;
+		animation-timing-function: ease-in-out;
+	}
+	
+	@keyframes move1 {
+		0% {
+			height: 15px;
+			y: 5;
+		}
+
+		50% {
+			height: 1px;
+			y: 19;
+			fill: #1ED760;
+		}
+			
+		100% {
+			height: 15px;
+			y: 5;
+		}
+		
+	}
+	
+	@keyframes move2 {
+		0% {
+			height: 19px;
+			y: 1;
+		}
+
+		50% {
+			height: 4px;
+			y: 16;
+		}
+			
+		100% {
+			height: 19px;
+			y: 1;
+		}
+	}
+	
+	@keyframes move3 {
+		0% {
+			height: 11px;
+			y: 9;
+		}	
+
+		50% {
+			height: 2px;
+			fill: #1ED760;
+			y: 18;
+		}
+			
+		100% {
+			height: 11px;
+			y: 9;
+		}
+	}
+  </style>
+</svg>

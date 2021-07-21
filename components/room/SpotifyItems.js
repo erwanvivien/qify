@@ -3,10 +3,25 @@ import listStyle from "../../styles/Room.module.css";
 import { Component } from "react";
 import Image from "next/image";
 
+import heartFull from "../../public/heart-full.svg";
+import heartVoid from "../../public/heart-none.svg";
+
+import imagePlay from "../../public/player/playing.svg";
+
 class Item extends Component {
   constructor(props) {
     super(props);
   }
+
+  state = {
+    image: heartVoid,
+  };
+
+  handleClick = () => {
+    this.setState({
+      image: this.state.image.src === heartVoid.src ? heartFull : heartVoid,
+    });
+  };
 
   render() {
     let width = this.props.width;
@@ -42,11 +57,16 @@ class Item extends Component {
             )}
           </div>
           {width > 300 && (
-            <div>
-              <p className={listStyle.listitem_counter} style={{ margin: "0" }}>
-                {index}
-              </p>
-            </div>
+            <span style={{ cursor: index !== 0 ? "pointer" : "" }}>
+              <Image
+                src={index !== 0 ? this.state.image : imagePlay}
+                height={50}
+                width={50}
+                quality={100}
+                alt={`Image in the queue for song ${song.title}`}
+                onClick={index !== 0 ? () => this.handleClick() : () => {}}
+              />
+            </span>
           )}
         </div>
       </>
