@@ -304,6 +304,7 @@ class RoomPlayer extends Component {
               src={this.state.playButton}
               width={70}
               height={70}
+              quality={100}
               alt="Play/pause button"
             />
 
@@ -313,6 +314,7 @@ class RoomPlayer extends Component {
               src={imageNext}
               width={30}
               height={30}
+              quality={100}
               alt="Next button"
             />
           </div>

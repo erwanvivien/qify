@@ -233,7 +233,6 @@ class App extends Component {
               />
             </div>
 
-            {/* {this.displayQR() && ( */}
             <div style={{ display: "flex", justifyContent: "center" }}>
               <QRCode
                 onClick={() =>
@@ -248,13 +247,8 @@ class App extends Component {
                 level="L"
               ></QRCode>
             </div>
-            {/* )} */}
 
-            <SpotifyItems
-              songs={this.state.songs}
-              width={this.state.width}
-              player={this.player}
-            />
+            <SpotifyItems songs={this.state.songs} width={this.state.width} />
 
             <span
               style={{

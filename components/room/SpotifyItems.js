@@ -66,7 +66,7 @@ class SpotifyItems extends Component {
             }}
             key={index}
           >
-            <Item song={song} width={this.props.width} index={index} />{" "}
+            <Item song={song} width={this.props.width} index={index} />
           </li>
         ))}
       </ul>
