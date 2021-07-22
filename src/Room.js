@@ -177,7 +177,10 @@ async function addSong(pin, song, deviceId, playing, io) {
     room.songQueue.length > 0 &&
     room.songQueue[room.songQueue.length - 1].uri === song.uri
   ) {
-    io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+    io.to(pin).emit(
+      "RES_UPDATE_SONG_FAILED",
+      "Vous essayez de rajouter la chanson en doublon"
+    );
     return;
   }
 
@@ -194,18 +197,21 @@ async function addSong(pin, song, deviceId, playing, io) {
       song.uri,
       deviceId,
       null
-    );
+    ).catch((e) => console.error(e.response.data));
   } else {
     res = await spotifyQueue(
       room.spotify.access_token,
       song.uri,
       deviceId,
       null
-    );
+    ).catch((e) => console.error(e.response.data));
   }
 
-  if (res.error) {
-    io.to(pin).emit("RES_UPDATE_SONG_FAILED");
+  if (!res || res.error) {
+    io.to(pin).emit(
+      "RES_UPDATE_SONG_FAILED",
+      "Le lecteur est probablement déconnecté.\nVeuillez rafraichir."
+    );
     return;
   }
 

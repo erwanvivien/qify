@@ -83,7 +83,7 @@ async function spotifyAuth(code, res) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-    .catch(() => {});
+    .catch((e) => console.error(`[ERROR] spotifyAuth\t- ${e.response.data}`));
 
   if (!response) return res.status(400).json({ error: "Data is too old" });
 
@@ -93,7 +93,9 @@ async function spotifyAuth(code, res) {
 async function spotifyMe(access_token, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
-  let response = await instance.get(endpoints.me(), {});
+  let response = await instance
+    .get(endpoints.me(), {})
+    .catch((e) => console.error(`[ERROR] spotifyMe\t- ${e.response.data}`));
   if (!response)
     return res.status(400).json({ error: "Could not use the access token" });
 
@@ -128,7 +130,10 @@ async function spotifyRefresh(refresh_token, res) {
 
 async function spotifySearch(access_token, query, country, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-  let response = await instance.get(endpoints.search(query, country), {});
+  let response = await instance
+    .get(endpoints.search(query, country), {})
+    .catch((e) => console.error(`[ERROR] spotifySearch\t- ${e.response.data}`));
+
   if (!response)
     return res.status(400).json({ error: "Could not use the access token" });
 
@@ -137,8 +142,9 @@ async function spotifySearch(access_token, query, country, res) {
 
 async function spotifyQueue(access_token, uri, deviceId, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-  let response = await instance.post(endpoints.queue(uri, deviceId), {});
-  // .catch((...[]) => {});
+  let response = await instance
+    .post(endpoints.queue(uri, deviceId), {})
+    .catch((e) => console.error(`[ERROR] spotifyQueue\t- ${e.response.data}`));
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -156,10 +162,11 @@ async function spotifyTransfer(access_token, device_id, res) {
     device_ids: [device_id],
   };
 
-  let response = await instance.put(
-    endpoints.transfer(),
-    JSON.stringify(data_params)
-  );
+  let response = await instance
+    .put(endpoints.transfer(), JSON.stringify(data_params))
+    .catch((e) =>
+      console.error(`[ERROR] spotifyTransfer\t- ${e.response.data}`)
+    );
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -174,10 +181,11 @@ async function spotifyTransfer(access_token, device_id, res) {
 async function spotifyPlay(access_token, uri, device_id, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
 
-  let response = await instance.put(endpoints.play(device_id), {
-    uris: [uri],
-  });
-  // .catch((e) => console.log(e.response.data));
+  let response = await instance
+    .put(endpoints.play(device_id), {
+      uris: [uri],
+    })
+    .catch((e) => console.error(`[ERROR] spotifyPlay\t- ${e.response.data}`));
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -191,7 +199,11 @@ async function spotifyPlay(access_token, uri, device_id, res) {
 
 async function spotifyPlaying(access_token, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
-  let response = await instance.get(endpoints.playing(), {});
+  let response = await instance
+    .get(endpoints.playing(), {})
+    .catch((e) =>
+      console.error(`[ERROR] spotifyPlaying\t- ${e.response.data}`)
+    );
 
   let responseData = !response
     ? { error: "Could not use the access token" }
