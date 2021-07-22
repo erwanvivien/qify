@@ -4,8 +4,50 @@ import resultStyle from "../../styles/Search.module.css";
 import { Component } from "react";
 import axios from "axios";
 
-import Items from "./Items";
 import { trimSongs } from "../../src/config";
+
+import Image from "next/image";
+
+class Items extends Component {
+  render() {
+    let addSong = this.props.addSong;
+    let item = this.props.item;
+    let { image, title, album } = item;
+
+    let sliceTitle = title.length > 30;
+    let sliceAlbum = album.length > 30;
+
+    return (
+      <>
+        <a href="#" onClick={() => addSong(item)} className={resultStyle.items}>
+          <div className={resultStyle.list_container}>
+            <Image
+              src={image}
+              width={50}
+              height={50}
+              alt={`Spotify song ${title}`}
+            />
+
+            <div style={{ width: "100%" }}>
+              <p style={{ margin: "0" }}>
+                <span className={resultStyle.title}>
+                  {sliceTitle ? title.slice(0, 35) : title}
+                </span>
+                {title !== album && this.props.width >= 400 && (
+                  <span className={resultStyle.album}>
+                    {!sliceAlbum
+                      ? ` - ${album}`
+                      : ` - ${album.slice(0, 15)}...`}
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+        </a>
+      </>
+    );
+  }
+}
 
 class SearchSong extends Component {
   state;
@@ -21,6 +63,8 @@ class SearchSong extends Component {
     this.access_token = props.access_token;
     this.country = props.country;
     this.addSong = props.addSong;
+    console.log(this.addSong);
+    console.log(typeof this.addSong);
     this.state = { results: [] };
 
     this.latest = "";
