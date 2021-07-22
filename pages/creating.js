@@ -50,7 +50,7 @@ class App extends Component {
       : ["Soyez patient"];
 
     if (this.state.error) {
-      infos = [this.state.error, "Veuillez contacter l'administateur du site."];
+      infos = [this.state.error];
     }
 
     return infos;
@@ -87,7 +87,14 @@ class App extends Component {
 
     let adminId = spotifyId.data;
 
-    socket.on("RES_CREATE_ROOM", ({ pin, adminPass }) => {
+    socket.on("RES_CREATE_ROOM", ({ error, pin, adminPass }) => {
+      if (error) {
+        this.setState({
+          error,
+        });
+        return;
+      }
+
       this.router.push({
         pathname: "/room/[roomID]",
         query: {
@@ -106,7 +113,7 @@ class App extends Component {
           <h1 className={styles.title}>{this.getTitle()}</h1>
           {this.getInfos().map((item, index) => (
             <p className={styles.description} key={index}>
-              {item}
+              <u>{item}</u>
             </p>
           ))}
         </Default>

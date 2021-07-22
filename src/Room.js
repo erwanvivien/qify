@@ -147,6 +147,13 @@ function getSongsRoom(room) {
 }
 
 function createRoom(admin, spotify_cred, socket) {
+  if (admin.product !== "premium") {
+    socket.emit("RES_CREATE_ROOM", {
+      error: "Le compte que vous souhaitez utiliser n'est pas premium.",
+    });
+    return;
+  }
+
   let room = Room.getRoomWithAdmin(admin.id);
   if (room) {
     socket.emit("RES_CREATE_ROOM", {
