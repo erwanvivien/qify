@@ -197,17 +197,17 @@ async function addSong(pin, song, deviceId, playing, io) {
       song.uri,
       deviceId,
       null
-    ).catch((e) => console.error(e.response.data));
+    );
   } else {
     res = await spotifyQueue(
       room.spotify.access_token,
       song.uri,
       deviceId,
       null
-    ).catch((e) => console.error(e.response.data));
+    );
   }
 
-  if (!res || res.error) {
+  if (res.error) {
     io.to(pin).emit(
       "RES_UPDATE_SONG_FAILED",
       "Le lecteur est probablement déconnecté.\nVeuillez rafraichir."
