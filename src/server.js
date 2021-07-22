@@ -65,6 +65,9 @@ setInterval(() => {
 }, 40 * 60 * 1000); // Every 40 minutes
 
 io.on("connect", (socket) => {
+  socket.prependAny((eventName, ...args) => {
+    console.info(`[EVENT] ${eventName} Fired`);
+  });
   socket.on("CREATE_ROOM", ({ adminId, spotifyCreds }) =>
     createRoom(adminId, spotifyCreds, socket)
   );
