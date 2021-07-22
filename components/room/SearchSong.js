@@ -19,7 +19,7 @@ class Items extends Component {
 
     return (
       <>
-        <a href="#" onClick={() => addSong(item)} className={resultStyle.items}>
+        <div onClick={() => addSong(item)} className={resultStyle.items}>
           <div className={resultStyle.list_container}>
             <Image
               src={image}
@@ -43,18 +43,19 @@ class Items extends Component {
               </p>
             </div>
           </div>
-        </a>
+        </div>
       </>
     );
   }
 }
 
 class SearchSong extends Component {
-  state;
+  state = { results: [] };
   access_token;
   intervalId;
 
-  latest;
+  latest = "";
+  current = "";
   timeout = null;
 
   constructor(props) {
@@ -63,12 +64,6 @@ class SearchSong extends Component {
     this.access_token = props.access_token;
     this.country = props.country;
     this.addSong = props.addSong;
-    console.log(this.addSong);
-    console.log(typeof this.addSong);
-    this.state = { results: [] };
-
-    this.latest = "";
-    this.current = "";
   }
 
   async searchSpotify(query) {
@@ -96,9 +91,7 @@ class SearchSong extends Component {
       return {
         title: trimSongs(song.name),
         album: trimSongs(song.album.name),
-        arists: song.artists[0].name,
         image: imageUrl,
-        id: song.id,
         uri: song.uri,
       };
     });
@@ -118,6 +111,10 @@ class SearchSong extends Component {
       });
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
   search = (event) => {
     let value = event.target.value;
 
@@ -130,8 +127,7 @@ class SearchSong extends Component {
       return;
     }
 
-    if (this.timeout) clearTimeout(this.timeout);
-
+    clearTimeout(this.timeout);
     this.timeout = setTimeout(async () => {
       let results = await this.searchSpotify(value);
 
