@@ -7,6 +7,7 @@ import { paths } from "../src/config";
 import spotifyToggle from "../public/spotify-toggle.png";
 import Image from "next/image";
 import { Component } from "react";
+import Link from "next/link";
 
 class Home extends Component {
   state = { canInstall: false };
@@ -42,34 +43,41 @@ class Home extends Component {
       <>
         <Default footer={false}>
           <div className={styles.grid}>
-            <a href={paths.create} className={styles.card}>
-              <h2 style={{ textAlign: "center", margin: "0" }}>
-                Créer un salon<br></br>Rejoindre en admin
-              </h2>
+            <Link href={paths.create}>
+              <a className={styles.card}>
+                <h2 style={{ textAlign: "center", margin: "0" }}>
+                  Créer un salon<br></br>Rejoindre en admin
+                </h2>
 
-              <Image
-                src={spotifyToggle}
-                alt="Spotify toggle to show that you're using your spotify account"
-              />
-            </a>
+                <Image
+                  src={spotifyToggle}
+                  alt="Spotify toggle to show that you're using your spotify account"
+                />
+              </a>
+            </Link>
 
-            <a href={paths.join} className={styles.card}>
-              <h2 style={{ textAlign: "center", margin: "0" }}>
-                Rejoindre un salon
-              </h2>
-              <div
-                style={{
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <p>Rentrer le code ou utiliser le code QR</p>
-              </div>
-            </a>
+            <Link href={paths.join}>
+              <a className={styles.card}>
+                <h2 style={{ textAlign: "center", margin: "0" }}>
+                  Rejoindre un salon
+                </h2>
+                <div
+                  style={{
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <p>Rentrer le code ou utiliser le code QR</p>
+                </div>
+              </a>
+            </Link>
 
             {this.state.canInstall && (
-              <a href="#" className={`${styles.card} add-button`}>
+              <div
+                className={`${styles.card} add-button`}
+                style={{ cursor: "pointer" }}
+              >
                 <h2
                   style={{
                     textAlign: "center",
@@ -78,7 +86,7 @@ class Home extends Component {
                 >
                   Installer
                 </h2>
-              </a>
+              </div>
             )}
           </div>
         </Default>

@@ -16,6 +16,7 @@ import { withRouter } from "next/router";
 
 import QRCode from "qrcode.react";
 import { Header } from "../../components/Header";
+import Link from "next/link";
 
 // const date_to_string = (k, v) => {
 //   if (v instanceof Date) return v.getMilliseconds();
@@ -209,9 +210,11 @@ class App extends Component {
       return (
         <Default title={false}>
           <h1 className={styles.title}>Ce salon n&apos;existe pas</h1>
-          <a href={paths.create} className={styles.description}>
-            Veuillez en créer un ou rejoindre un salon existant
-          </a>
+          <Link href={paths.create}>
+            <a className={styles.description}>
+              <u>Veuillez en créer un ou rejoindre un salon existant</u>
+            </a>
+          </Link>
         </Default>
       );
     }
