@@ -161,17 +161,17 @@ class App extends Component {
     if (this.state.room) socket.emit("LEAVE_ROOM", this.roomID);
   }
 
-  addSong(song) {
+  addSong = (song) => {
     socket.emit("ADD_SONG", {
       song,
       pin: this.roomID,
       deviceId: this.deviceId,
       playing: this.playing,
     });
-  }
+  };
 
   displayQR() {
-    return this.state.width > 500 && this.state.isAdmin;
+    return false && this.state.isAdmin;
   }
 
   resetTitle(event) {
@@ -229,25 +229,27 @@ class App extends Component {
               <SearchSong
                 access_token={this.state.room.access_token}
                 country={this.state.room.country}
-                addSong={this.addSong.bind(this)}
+                addSong={this.addSong}
                 width={this.state.width}
               />
             </div>
 
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <QRCode
-                onClick={() =>
-                  navigator.clipboard.writeText(
-                    `${currentUrl}/room/${this.roomID}`
-                  )
-                }
-                title="Cliquer pour copier le lien"
-                style={{ cursor: "pointer" }}
-                value={`${currentUrl}/room/${this.roomID}`}
-                bgColor={"#ecedf1"}
-                level="L"
-              ></QRCode>
-            </div>
+            {this.displayQR() && (
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <QRCode
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `${currentUrl}/room/${this.roomID}`
+                    )
+                  }
+                  title="Cliquer pour copier le lien"
+                  style={{ cursor: "pointer" }}
+                  value={`${currentUrl}/room/${this.roomID}`}
+                  bgColor={"#ecedf1"}
+                  level="L"
+                ></QRCode>
+              </div>
+            )}
 
             <SpotifyItems songs={this.state.songs} width={this.state.width} />
 
