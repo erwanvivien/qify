@@ -257,7 +257,14 @@ class RoomPlayer extends Component {
   toggleTimeout;
   toggle() {
     clearTimeout(this.toggleTimeout);
-    this.toggleTimeout = setTimeout(() => {
+    this.toggleTimeout = setTimeout(async () => {
+      if (!this.player || this.state.title === `${title} is disconnected`) {
+        await axios.put("/api/spotifyTransfer", {
+          access_token: this.props.access_token,
+          //   uri: this.state.songUri,
+          device_id: this.deviceId,
+        });
+      }
       this.player.togglePlay();
     }, 200);
     // roomSocket.emit("PAUSE");
