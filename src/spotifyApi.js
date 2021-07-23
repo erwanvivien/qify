@@ -85,9 +85,12 @@ async function spotifyAuth(code, res) {
     })
     .catch((e) => console.error(`[ERROR] spotifyAuth\t- ${e.response.data}`));
 
-  if (!response) return res.status(400).json({ error: "Data is too old" });
+  let responseData = !response ? { error: "Data is too old" } : response.data;
+  let responseStatus = !response ? 400 : 200;
 
-  return res.status(200).json(response.data);
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
 }
 
 async function spotifyMe(access_token, res) {
@@ -96,10 +99,13 @@ async function spotifyMe(access_token, res) {
   let response = await instance
     .get(endpoints.me(), {})
     .catch((e) => console.error(`[ERROR] spotifyMe\t- ${e.response.data}`));
-  if (!response)
-    return res.status(400).json({ error: "Could not use the access token" });
 
-  return res.status(200).json(response.data);
+  let responseData = !response ? { error: "Data is too old" } : response.data;
+  let responseStatus = !response ? 400 : 200;
+
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
 }
 
 async function spotifyRefresh(refresh_token, res) {
@@ -110,15 +116,13 @@ async function spotifyRefresh(refresh_token, res) {
     client_secret: CLIENT_SECRET,
   };
 
-  let response = await axios.post(
-    authTokenEndpoint,
-    qs.stringify(data_params),
-    {
+  let response = await axios
+    .post(authTokenEndpoint, qs.stringify(data_params), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
       },
-    }
-  );
+    })
+    .catch((e) => console.log(`[ERROR] spotifyRefresh\t- ${e.response.data}`));
 
   let responseData = !response ? { error: "Data is too old" } : response.data;
   let responseStatus = !response ? 400 : 200;
@@ -134,10 +138,12 @@ async function spotifySearch(access_token, query, country, res) {
     .get(endpoints.search(query, country), {})
     .catch((e) => console.error(`[ERROR] spotifySearch\t- ${e.response.data}`));
 
-  if (!response)
-    return res.status(400).json({ error: "Could not use the access token" });
+  let responseData = !response ? { error: "Data is too old" } : response.data;
+  let responseStatus = !response ? 400 : 200;
 
-  return res.status(200).json(response.data);
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
 }
 
 async function spotifyQueue(access_token, uri, deviceId, res) {
