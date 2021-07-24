@@ -88,7 +88,9 @@ async function spotifyAuth(code, res) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-    .catch((e) => console.error(`[ERROR] spotifyAuth\t- ${e.response.data}`));
+    .catch((e) =>
+      console.error(`[ERROR] spotifyAuth\t- ${JSON.stringify(e.response.data)}`)
+    );
 
   let responseData = !response ? { error: "Data is too old" } : response.data;
   let responseStatus = !response ? 400 : 200;
@@ -103,7 +105,9 @@ async function spotifyMe(access_token, res) {
 
   let response = await instance
     .get(endpoints.me(), {})
-    .catch((e) => console.error(`[ERROR] spotifyMe\t- ${e.response.data}`));
+    .catch((e) =>
+      console.error(`[ERROR] spotifyMe\t- ${JSON.stringify(e.response.data)}`)
+    );
 
   let responseData = !response ? { error: "Data is too old" } : response.data;
   let responseStatus = !response ? 400 : 200;
@@ -127,7 +131,11 @@ async function spotifyRefresh(refresh_token, res) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     })
-    .catch((e) => console.log(`[ERROR] spotifyRefresh\t- ${e.response.data}`));
+    .catch((e) =>
+      console.log(
+        `[ERROR] spotifyRefresh\t- ${JSON.stringify(e.response.data)}`
+      )
+    );
 
   let responseData = !response ? { error: "Data is too old" } : response.data;
   let responseStatus = !response ? 400 : 200;
@@ -141,7 +149,11 @@ async function spotifySearch(access_token, query, country, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   let response = await instance
     .get(endpoints.search(query, country), {})
-    .catch((e) => console.error(`[ERROR] spotifySearch\t- ${e.response.data}`));
+    .catch((e) =>
+      console.error(
+        `[ERROR] spotifySearch\t- ${JSON.stringify(e.response.data)}`
+      )
+    );
 
   let responseData = !response ? { error: "Data is too old" } : response.data;
   let responseStatus = !response ? 400 : 200;
@@ -155,7 +167,11 @@ async function spotifyQueue(access_token, uri, deviceId, res) {
   instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
   let response = await instance
     .post(endpoints.queue(uri, deviceId), {})
-    .catch((e) => console.error(`[ERROR] spotifyQueue\t- ${e.response.data}`));
+    .catch((e) =>
+      console.error(
+        `[ERROR] spotifyQueue\t- ${JSON.stringify(e.response.data)}`
+      )
+    );
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -176,7 +192,9 @@ async function spotifyTransfer(access_token, device_id, res) {
   let response = await instance
     .put(endpoints.transfer(), JSON.stringify(data_params))
     .catch((e) =>
-      console.error(`[ERROR] spotifyTransfer\t- ${e.response.data}`)
+      console.error(
+        `[ERROR] spotifyTransfer\t- ${JSON.stringify(e.response.data)}`
+      )
     );
 
   let responseData = !response
@@ -196,7 +214,9 @@ async function spotifyPlay(access_token, uri, device_id, res) {
     .put(endpoints.play(device_id), {
       uris: [uri],
     })
-    .catch((e) => console.error(`[ERROR] spotifyPlay\t- ${e.response.data}`));
+    .catch((e) =>
+      console.error(`[ERROR] spotifyPlay\t- ${JSON.stringify(e.response.data)}`)
+    );
 
   let responseData = !response
     ? { error: "Could not use the access token" }
@@ -213,7 +233,9 @@ async function spotifyPlaying(access_token, res) {
   let response = await instance
     .get(endpoints.playing(), {})
     .catch((e) =>
-      console.error(`[ERROR] spotifyPlaying\t- ${e.response.data}`)
+      console.error(
+        `[ERROR] spotifyPlaying\t- ${JSON.stringify(e.response.data)}`
+      )
     );
 
   let responseData = !response
@@ -242,7 +264,9 @@ async function spotifyCreatePlaylist(access_token, user_id, creationDate, res) {
       description: `Playlist générée par ${title}, le ${day}/${month}/${year}`,
     })
     .catch((e) =>
-      console.error(`[ERROR] spotifyCreatePlaylist\t- ${e.response.data}`)
+      console.error(
+        `[ERROR] spotifyCreatePlaylist\t- ${JSON.stringify(e.response.data)}`
+      )
     );
 
   let responseData = !response
@@ -263,7 +287,9 @@ async function spotifyAddTracks(access_token, playlist_id, tracks, res) {
       uris: tracks,
     })
     .catch((e) =>
-      console.error(`[ERROR] spotifyCreatePlaylist\t- ${e.response.data}`)
+      console.error(
+        `[ERROR] spotifyCreatePlaylist\t- ${JSON.stringify(e.response.data)}`
+      )
     );
 
   let responseData = !response
