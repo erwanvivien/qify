@@ -16,7 +16,7 @@ export class Title extends Component {
 
     return (
       <>
-        <div style={{ width: "40%" }}>
+        <div style={{ width: "40%", textAlign: "center" }}>
           <Image src={imageLogo} layout="responsive" alt="Qify's logo"></Image>
           <h1 className={styles.title}>{h1Content}</h1>
         </div>
