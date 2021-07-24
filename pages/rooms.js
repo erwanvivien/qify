@@ -9,8 +9,11 @@ class Rooms extends Component {
   componentDidMount() {
     socket.on("RES_DEBUG", (rooms) => {
       let textRooms = rooms.map((room) => {
-        let { createdAt } = room;
+        let { createdAt, lastPushedSongAt } = room;
+
         room.createdAt = new Date(createdAt).toISOString();
+        room.lastPushedSongAt = new Date(lastPushedSongAt).toISOString();
+
         return JSON.stringify(room);
       });
 

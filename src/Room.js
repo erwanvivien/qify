@@ -24,6 +24,7 @@ class Room {
   adminPass;
 
   createdAt;
+  lastPushedSongAt;
   members;
 
   country;
@@ -215,6 +216,7 @@ async function addSong(pin, song, deviceId, playing, io) {
     return;
   }
 
+  room.lastPushedSongAt = Date.now();
   room.songQueue.push(song);
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
@@ -284,6 +286,7 @@ function getRooms(socket) {
       nbMembers: room.members.length,
       admin: room.adminSpotifyId,
       createdAt: room.createdAt,
+      lastPushedSongAt: room.lastPushedSongAt,
     };
   });
 
