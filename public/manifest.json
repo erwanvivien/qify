@@ -3,32 +3,32 @@
   "short_name": "Qify",
   "icons": [
     {
-      "src": "/qify/qify_10.png",
+      "src": "/qify/icons/qify_10.png",
       "sizes": "10x10",
       "type": "image/png"
     },
     {
-      "src": "/qify/qify_100.png",
+      "src": "/qify/icons/qify_100.png",
       "sizes": "100x100",
       "type": "image/png"
     },
     {
-      "src": "/qify/qify_200.png",
+      "src": "/qify/icons/qify_200.png",
       "sizes": "200x200",
       "type": "image/png"
     },
     {
-      "src": "/qify/qify_300.png",
+      "src": "/qify/icons/qify_300.png",
       "sizes": "300x300",
       "type": "image/png"
     },
     {
-      "src": "/qify/qify_500.png",
+      "src": "/qify/icons/qify_500.png",
       "sizes": "500x500",
       "type": "image/png"
     },
     {
-      "src": "/qify/qify_1000.png",
+      "src": "/qify/icons/qify_1000.png",
       "sizes": "1000x1000",
       "type": "image/png"
     },
