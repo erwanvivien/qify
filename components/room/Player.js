@@ -171,7 +171,8 @@ class RoomPlayer extends Component {
         if (
           state &&
           this.props.songQueue.length >= 1 &&
-          this.props.songQueue[0].uri !== state.current_track.uri
+          (this.props.songQueue[0].uri !== state.current_track.uri ||
+            (this.props.songQueue.length === 1 && state.paused))
         ) {
           this.roomSocket.emit("NEXT", this.roomPin);
         }
