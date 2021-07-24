@@ -42,31 +42,11 @@ const {
 
 const { spotifyRefresh } = require("./spotifyApi");
 
-setInterval(() => {
-  let from = Room.ROOMS.length;
+async function saveRooms(rooms) {
+  console.log("TEST");
 
-  let thresholdMax = new Date().addHours(-24);
-  let thresholdSong = new Date().addHours(-2);
-
-  let doneRooms = Room.ROOMS.filter((room) => {
-    return !(
-      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
-    );
-  });
-
-  Room.ROOMS = Room.ROOMS.filter((room) => {
-    return (
-      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
-    );
-  });
-
-  console.log(
-    `[${new Date().toLocaleString()}] ROOM CLEAR  => from ${from} to ${
-      Room.ROOMS.length
-    }`
-  );
-
-  doneRooms.forEach(async (room) => {
+  for (const room of rooms) {
+    console.log(room.adminSpotifyId);
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
     let access_token = newTokens.access_token;
@@ -96,7 +76,34 @@ setInterval(() => {
         room.songQueue.length
       } songs have been added.`
     );
+  }
+}
+
+setInterval(async () => {
+  let from = Room.ROOMS.length;
+
+  let thresholdMax = new Date().addHours(-24);
+  let thresholdSong = new Date().addHours(-2);
+
+  let doneRooms = Room.ROOMS.filter((room) => {
+    return !(
+      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
+    );
   });
+
+  Room.ROOMS = Room.ROOMS.filter((room) => {
+    return (
+      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
+    );
+  });
+
+  console.log(
+    `[${new Date().toLocaleString()}] ROOM CLEAR  => from ${from} to ${
+      Room.ROOMS.length
+    }`
+  );
+
+  await saveRooms(doneRooms);
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
@@ -143,5 +150,31 @@ app.prepare().then(() => {
   server.listen(port, "0.0.0.0", (err) => {
     if (err) throw err;
     console.log(`> Ready on ${currentUrl}`);
+  });
+});
+
+// catching signals and do something before exit
+[
+  "SIGHUP",
+  "SIGINT",
+  "SIGQUIT",
+  "SIGILL",
+  "SIGTRAP",
+  "SIGABRT",
+  "SIGBUS",
+  "SIGFPE",
+  "SIGUSR1",
+  "SIGSEGV",
+  "SIGUSR2",
+  "SIGTERM",
+].forEach((sig) => {
+  process.on(sig, async () => {
+    console.log(`\nGracefully shutting down from ${sig} (Ctrl-C)`);
+    console.log(`${Room.ROOMS.length} were remaining`);
+
+    await saveRooms(Room.ROOMS);
+
+    io.emit("ROOM_CLOSED");
+    process.exit(1);
   });
 });
