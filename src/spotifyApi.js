@@ -10,6 +10,7 @@ const authTokenEndpoint = "https://accounts.spotify.com/api/token";
 // Replace with your app's client ID, redirect URI and desired scopes
 const CLIENT_ID = "51a53fa310ec4fd99951b1c964a91a10";
 const { CLIENT_SECRET } = require("../next.config.js").env;
+const { title } = require("./config.js");
 const currentUrl = dev ? `http://localhost:${port}` : "https://qify.app";
 const redirectUri = `${currentUrl}/creating`;
 
@@ -64,6 +65,10 @@ const endpoints = {
     (deviceId ? `?device_id=${deviceId}` : ""),
   playing: () =>
     "https://api.spotify.com/v1/me/player/currently-playing?market=FR",
+  createPlaylist: (user_id) =>
+    `https://api.spotify.com/v1/users/${user_id}/playlists`,
+  addTracks: (playlist_id) =>
+    `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
 };
 
 const instance = axios.create(); // Hack because axios removes Authorization header
@@ -221,6 +226,56 @@ async function spotifyPlaying(access_token, res) {
     : responseData;
 }
 
+async function spotifyCreatePlaylist(access_token, user_id, creationDate, res) {
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+
+  creationDate = new Date(creationDate);
+
+  let year = creationDate.getFullYear();
+  let month = creationDate.getMonth();
+  let day = creationDate.getDate();
+
+  let response = await instance
+    .post(endpoints.createPlaylist(user_id), {
+      name: `${title} 📯 - ${day}/${month}/${year}`,
+      public: false,
+      description: `Playlist générée par ${title}, le ${day}/${month}/${year}`,
+    })
+    .catch((e) =>
+      console.error(`[ERROR] spotifyCreatePlaylist\t- ${e.response.data}`)
+    );
+
+  let responseData = !response
+    ? { error: "Could not use the access token" }
+    : response.data;
+  let responseStatus = !response ? 400 : 200;
+
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
+}
+
+async function spotifyAddTracks(access_token, playlist_id, tracks, res) {
+  instance.defaults.headers.common.Authorization = `Bearer ${access_token}`;
+
+  let response = await instance
+    .post(endpoints.addTracks(playlist_id), {
+      uris: tracks,
+    })
+    .catch((e) =>
+      console.error(`[ERROR] spotifyCreatePlaylist\t- ${e.response.data}`)
+    );
+
+  let responseData = !response
+    ? { error: "Could not use the access token" }
+    : response.data;
+  let responseStatus = !response ? 400 : 200;
+
+  return res !== null
+    ? res.status(responseStatus).json(responseData)
+    : responseData;
+}
+
 module.exports = {
   spotifyAuth,
   spotifyMe,
@@ -230,6 +285,8 @@ module.exports = {
   spotifyTransfer,
   spotifyPlay,
   spotifyPlaying,
+  spotifyCreatePlaylist,
+  spotifyAddTracks,
   currentUrl,
   create_url,
 };

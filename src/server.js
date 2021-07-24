@@ -2,7 +2,12 @@ const express = require("express")();
 const server = require("http").Server(express);
 const io = require("socket.io")(server);
 const next = require("next");
-const { currentUrl } = require("./spotifyApi");
+
+const {
+  currentUrl,
+  spotifyCreatePlaylist,
+  spotifyAddTracks,
+} = require("./spotifyApi");
 
 const port = process.env.PORT || 8888;
 const dev = process.env.NODE_ENV !== "production";
@@ -40,9 +45,19 @@ const { spotifyRefresh } = require("./spotifyApi");
 setInterval(() => {
   let from = Room.ROOMS.length;
 
-  let threshold = new Date().addHours(-24);
+  let thresholdMax = new Date().addHours(-24);
+  let thresholdSong = new Date().addHours(-2);
+
+  let doneRooms = Room.ROOMS.filter((room) => {
+    return !(
+      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
+    );
+  });
+
   Room.ROOMS = Room.ROOMS.filter((room) => {
-    return room.createdAt > threshold;
+    return (
+      room.createdAt > thresholdMax && room.lastPushedSongAt > thresholdSong
+    );
   });
 
   console.log(
@@ -50,6 +65,38 @@ setInterval(() => {
       Room.ROOMS.length
     }`
   );
+
+  doneRooms.forEach(async (room) => {
+    let refresh_token = room.spotify.refresh_token;
+    let newTokens = await spotifyRefresh(refresh_token, null);
+    let access_token = newTokens.access_token;
+
+    let playlist = await spotifyCreatePlaylist(
+      access_token,
+      room.adminSpotifyId,
+      room.createdAt,
+      null
+    );
+
+    for (let i = 0; i < room.songQueue.length; i += 100) {
+      let to =
+        i + 100 > room.songQueue.length ? room.songQueue.length : i + 100;
+      let songs = room.songQueue.slice(i, to);
+      let songsUris = songs.map((song) => song.uri);
+      let addedTracks = await spotifyAddTracks(
+        access_token,
+        playlist.id,
+        songsUris,
+        null
+      );
+    }
+
+    console.log(
+      `[${new Date().toLocaleString()}] ROOM TRACKS => ${
+        room.songQueue.length
+      } songs have been added.`
+    );
+  });
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
@@ -82,7 +129,7 @@ io.on("connect", (socket) => {
   socket.on("ADD_SONG", ({ song, pin, deviceId, playing }) =>
     addSong(pin, song, deviceId, playing, io)
   );
-  socket.on("DEBUG", () => getRooms(socket));
+  if (dev) socket.on("DEBUG", () => getRooms(socket));
 
   socket.on("NEXT", (pin) => skipSong(pin, io));
   socket.on("PREV", (pin) => prevSong(pin, io));

@@ -48,6 +48,7 @@ class Room {
     this.adminPass = randomPin(64);
 
     this.createdAt = Date.now();
+    this.lastPushedSongAt = Date.now();
     this.members = [];
     this.songQueue = [];
     this.songCursor = 0;
