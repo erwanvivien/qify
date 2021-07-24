@@ -154,7 +154,9 @@ class App extends Component {
 
     socket.on("RES_UPDATE_SONG_FAILED", () => {});
     socket.on("RES_ACCESS_TOKEN_UPDATE", (access_token) => {
-      this.state.room.access_token = access_token;
+      let room = this.state.room;
+      room.access_token = access_token;
+      this.setState({ room });
     });
 
     socket.emit("CHECK_ROOM", this.roomID);
