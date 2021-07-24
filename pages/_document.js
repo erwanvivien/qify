@@ -18,7 +18,7 @@ class MyDocument extends Document {
           <meta property="og:title" content="Qify" key="title" />
           <meta
             name="description"
-            content="A website that manages spotify queues"
+            content="Le site qui gère les files d'attente partagées sur Spotify."
           />
           <meta name="author" content="Erwan VIVIEN (github: erwan_vivien)" />
           <meta
