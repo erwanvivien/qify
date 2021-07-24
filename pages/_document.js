@@ -12,7 +12,9 @@ class MyDocument extends Document {
         <Head>
           <link rel="manifest" href="/manifest.json" />
           <link rel="apple-touch-icon" href="/icon.png"></link>
-          <meta name="theme-color" content="#fff" />
+          <meta name="apple-mobile-web-app-status-bar" content="#181818" />
+
+          <meta name="theme-color" content="#181818" />
 
           <link rel="icon" href="/qify/qify.svg" />
           <meta property="og:title" content="Qify" key="title" />
