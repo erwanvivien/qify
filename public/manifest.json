@@ -3,20 +3,45 @@
   "short_name": "Qify",
   "icons": [
     {
-      "src": "/qify/qify-192x192.png",
-      "sizes": "192x192",
+      "src": "/qify/qify_10.png",
+      "sizes": "10x10",
       "type": "image/png"
     },
-
     {
-      "src": "/qify/qify-512x512.png",
-      "sizes": "512x512",
+      "src": "/qify/qify_100.png",
+      "sizes": "100x100",
       "type": "image/png"
+    },
+    {
+      "src": "/qify/qify_200.png",
+      "sizes": "200x200",
+      "type": "image/png"
+    },
+    {
+      "src": "/qify/qify_300.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "/qify/qify_500.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    },
+    {
+      "src": "/qify/qify_1000.png",
+      "sizes": "1000x1000",
+      "type": "image/png"
+    },
+    {
+      "src": "/qify/qify.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "maskable any"
     }
   ],
   "theme_color": "#181818",
   "background_color": "#181818",
   "start_url": "/",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait-primary"
 }
