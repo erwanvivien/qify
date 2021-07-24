@@ -159,6 +159,10 @@ class App extends Component {
       this.setState({ room });
     });
 
+    socket.on("ROOM_CLOSED", () => {
+      this.router.push("/");
+    });
+
     socket.emit("CHECK_ROOM", this.roomID);
   }
 

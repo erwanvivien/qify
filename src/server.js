@@ -71,6 +71,7 @@ async function saveRooms(rooms) {
       );
     }
 
+    io.to(room.pin).emit("ROOM_CLOSED");
     console.log(
       `[${new Date().toLocaleString()}] ROOM TRACKS => ${
         room.songQueue.length
