@@ -6,7 +6,7 @@ import Image from "next/image";
 import heartFull from "../../public/heart-full.svg";
 import heartVoid from "../../public/heart-none.svg";
 
-import imagePlay from "../../public/player/playing.svg";
+import imagePlay from "../../public/qify/qify.svg";
 
 class Item extends Component {
   constructor(props) {
