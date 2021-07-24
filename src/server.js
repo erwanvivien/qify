@@ -29,7 +29,6 @@ const {
   joinRoom,
   joinRoomAdmin,
   leaveRoom,
-  nextSong,
   getRooms,
   Room,
   prevSong,
@@ -61,6 +60,8 @@ setInterval(() => {
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
     room.spotify.access_token = newTokens.access_token;
+
+    io.to(room.pin).emit("RES_ACCESS_TOKEN_UPDATE", room.spotify.access_token);
   });
 }, 40 * 60 * 1000); // Every 40 minutes
 

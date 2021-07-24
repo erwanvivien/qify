@@ -153,6 +153,9 @@ class App extends Component {
     });
 
     socket.on("RES_UPDATE_SONG_FAILED", () => {});
+    socket.on("RES_ACCESS_TOKEN_UPDATE", (access_token) => {
+      this.state.room.access_token = access_token;
+    });
 
     socket.emit("CHECK_ROOM", this.roomID);
   }
