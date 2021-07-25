@@ -4,8 +4,9 @@ export default async function handler(req, res) {
   let { access_token, uri, device_id } = req.body;
 
   if (
-    [access_token, uri, device_id].filter((e) => typeof e === "undefined")
-      .length > 0
+    [access_token, uri, device_id].findIndex(
+      (e) => typeof e === "undefined"
+    ) !== -1
   )
     // If one is undefined
     return res

@@ -3,7 +3,7 @@ import { spotifyPlaying } from "../../src/spotifyApi";
 export default async function handler(req, res) {
   let { access_token } = req.query;
 
-  if ([access_token].filter((e) => typeof e === "undefined").length > 0)
+  if ([access_token].findIndex((e) => typeof e === "undefined") !== -1)
     return res.status(400).json({
       error: "Request does not contain the right fields",
     });

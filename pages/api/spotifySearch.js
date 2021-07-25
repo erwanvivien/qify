@@ -4,8 +4,9 @@ export default async function handler(req, res) {
   let { access_token, query, country } = req.query;
 
   if (
-    [access_token, query, country].filter((e) => typeof e === "undefined")
-      .length > 0
+    [access_token, query, country].findIndex(
+      (e) => typeof e === "undefined"
+    ) !== -1
   )
     // If one is undefined
     return res.status(400).json({
