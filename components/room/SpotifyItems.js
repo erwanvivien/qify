@@ -7,6 +7,7 @@ import heartFull from "../../public/heart-full.svg";
 import heartVoid from "../../public/heart-none.svg";
 
 import imagePlay from "../../public/qify/qify.svg";
+import { trimSongs } from "../../src/config";
 
 class Item extends Component {
   constructor(props) {
@@ -30,6 +31,8 @@ class Item extends Component {
     if (!song) return <></>;
 
     let single = song.album === song.title;
+    song.title = trimSongs(song.title);
+    song.album = trimSongs(song.album);
 
     return (
       <>

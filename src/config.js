@@ -21,7 +21,9 @@ const create_url = `${authEndpoint}?client_id=${CLIENT_ID}&redirect_uri=${redire
 )}&response_type=code&show_dialog=false`;
 
 function trimSongs(s) {
-  return s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");
+  let newS = s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");
+  if (newS.length > 30) newS = newS.slice(0, 27) + "...";
+  return newS;
 }
 
 const maxPathLength = 5;
