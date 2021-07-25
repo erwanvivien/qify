@@ -64,15 +64,11 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(85%, 1fr));
 
-  /* flex-wrap: wrap; */
-  /* flex-direction: column; */
-  /* height: max-content; */
-
   padding-top: 16px;
   padding-bottom: 16px;
   overflow-x: auto;
 
-  /* grid-auto-flow: row; */
+  max-width: 100%;
 }
 
 .list:nth-child(2n) {
