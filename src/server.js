@@ -136,11 +136,14 @@ io.on("connect", (socket) => {
   );
   if (dev) socket.on("DEBUG", () => getRooms(socket));
 
-  socket.on("NEXT", (pin) => skipSong(pin, io));
+  socket.on(
+    "NEXT",
+    async ({ pin, deviceId }) => await skipSong(pin, deviceId, io)
+  );
   socket.on(
     "UPDATE_STATE",
-    ({ pin, timer, paused, title, album, uri, image }) =>
-      updateState(pin, timer, paused, title, album, uri, image, io)
+    ({ pin, deviceId, timer, paused, title, album, uri, image }) =>
+      updateState(pin, deviceId, timer, paused, title, album, uri, image, io)
   );
 });
 

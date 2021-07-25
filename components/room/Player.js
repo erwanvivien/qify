@@ -163,6 +163,8 @@ class RoomPlayer extends Component {
       });
 
       this.player.addListener("player_state_changed", (newState) => {
+        if (!this.deviceId) return;
+
         let [state, refreshNeeded] = this.extractPlayerState(newState);
         if (refreshNeeded) this.updateAlbumCover(newState);
 
@@ -183,9 +185,10 @@ class RoomPlayer extends Component {
             pin: this.roomPin,
             timer: state.duration - state.position,
             paused: state.paused || !state,
+            image: this.state.image,
+            deviceId: this.deviceId,
           },
           ...state.current_track,
-          ...{ image: this.state.image },
         });
 
         this.previousState = state;
@@ -242,17 +245,11 @@ class RoomPlayer extends Component {
   nextTimeout;
   next() {
     clearTimeout(this.nextTimeout);
-    this.nextTimeout = setTimeout(async () => {
-      if (!this.player || this.state.title === `${title} is disconnected`) {
-        await axios.put("/api/spotifyTransfer", {
-          access_token: this.props.access_token,
-          device_id: this.deviceId,
-        });
-      }
-      this.player.nextTrack();
-    }, 200);
 
-    this.roomSocket.emit("NEXT", this.roomPin);
+    this.roomSocket.emit("NEXT", {
+      pin: this.roomPin,
+      deviceId: this.deviceId,
+    });
   }
 
   toggleTimeout;

@@ -188,17 +188,10 @@ async function addSong(pin, song, deviceId, playing, io) {
     return;
   }
 
-  let res = null;
+  let res = {};
 
   if (room.songCursor >= room.songQueue.length) {
     res = await spotifyPlay(
-      room.spotify.access_token,
-      song.uri,
-      deviceId,
-      null
-    );
-  } else {
-    res = await spotifyQueue(
       room.spotify.access_token,
       song.uri,
       deviceId,
@@ -291,17 +284,35 @@ function getRooms(socket) {
   socket.emit("RES_DEBUG", rooms);
 }
 
-function skipSong(pin, io) {
+async function spotifyNextSong(room, deviceId, io) {
+  room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
+
+  let songs = getSongsRoom(room);
+  if (songs[0])
+    await spotifyPlay(room.spotify.access_token, songs[0].uri, deviceId, null);
+
+  io.to(room.pin).emit("RES_UPDATE_SONG", songs);
+}
+
+async function skipSong(pin, deviceId, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
   clearTimeout(room.nextAtTimeout);
-  room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
-
-  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
+  await spotifyNextSong(room, deviceId, io);
 }
 
-function updateState(pin, timer, paused, title, album, uri, image, io) {
+function updateState(
+  pin,
+  deviceId,
+  timer,
+  paused,
+  title,
+  album,
+  uri,
+  image,
+  io
+) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
@@ -312,10 +323,6 @@ function updateState(pin, timer, paused, title, album, uri, image, io) {
   let songs = getSongsRoom(room);
   let index = songs.findIndex((song) => song.uri === uri);
 
-  //   console.log(songs);
-  //   console.log(current_track);
-  //   console.log(index);
-
   if (index === -1 && room.songQueue.length !== 0) {
     songs[0] = current_track;
     io.to(pin).emit("RES_UPDATE_SONG", songs);
@@ -325,12 +332,8 @@ function updateState(pin, timer, paused, title, album, uri, image, io) {
     io.to(pin).emit("RES_UPDATE_SONG", songs.slice(index));
   }
 
-  room.nextAtTimeout = setTimeout(() => {
-    room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
-
-    let songs = getSongsRoom(room);
-
-    io.to(pin).emit("RES_UPDATE_SONG", songs);
+  room.nextAtTimeout = setTimeout(async () => {
+    await spotifyNextSong(room, deviceId, io);
   }, timer);
 }
 
