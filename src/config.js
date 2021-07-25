@@ -22,7 +22,6 @@ const create_url = `${authEndpoint}?client_id=${CLIENT_ID}&redirect_uri=${redire
 
 function trimSongs(s) {
   let newS = s.replace(/\s+\([^\)]*\)/i, "").replace(/\s+\-.*/, "");
-  if (newS.length > 30) newS = newS.slice(0, 27) + "...";
   return newS;
 }
 

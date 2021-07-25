@@ -14,9 +14,6 @@ class Items extends Component {
     let item = this.props.item;
     let { image, title, album } = item;
 
-    let sliceTitle = title.length > 30;
-    let sliceAlbum = album.length > 30;
-
     return (
       <>
         <div onClick={() => addSong(item)} className={resultStyle.items}>
@@ -28,19 +25,18 @@ class Items extends Component {
               alt={`Spotify song ${title}`}
             />
 
-            <div style={{ width: "100%" }}>
-              <p style={{ margin: "0" }}>
-                <span className={resultStyle.title}>
-                  {sliceTitle ? title.slice(0, 35) : title}
-                </span>
-                {title !== album && this.props.width >= 400 && (
-                  <span className={resultStyle.album}>
-                    {!sliceAlbum
-                      ? ` - ${album}`
-                      : ` - ${album.slice(0, 15)}...`}
-                  </span>
-                )}
+            <div
+              style={{ width: "100%", maxwidth: "100%" }}
+              className={resultStyle.elipsis}
+            >
+              <p style={{ margin: "0" }} className={resultStyle.elipsis}>
+                <b>{title}</b>
               </p>
+              {title !== album && this.props.width >= 400 && (
+                <p style={{ margin: "0" }} className={resultStyle.album}>
+                  {album}
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -116,19 +112,19 @@ class SearchSong extends Component {
   }
 
   search = (event) => {
-    let value = event.target.value;
-
-    if (value === this.latest) return;
-    this.latest = value;
-    if (value === "") {
-      this.setState({
-        results: [],
-      });
-      return;
-    }
-
     clearTimeout(this.timeout);
     this.timeout = setTimeout(async () => {
+      let value = event.target.value;
+
+      if (value === "") {
+        this.setState({
+          results: [],
+        });
+        this.latest = value;
+        return;
+      }
+      if (value === this.latest) return;
+      this.latest = value;
       let results = await this.searchSpotify(value);
 
       this.setState({

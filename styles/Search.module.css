@@ -111,6 +111,15 @@
 .album {
 }
 
+.elipsis {
+  text-overflow: ellipsis;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 @media only screen and (max-width: 550px) {
   .search_width {
     width: 90%;

@@ -31,8 +31,11 @@ class Item extends Component {
     if (!song) return <></>;
 
     let single = song.album === song.title;
-    song.title = trimSongs(song.title);
-    song.album = trimSongs(song.album);
+    let title = trimSongs(song.title);
+    if (title.length > 25) title = title.slice(0, 25 - 3) + "...";
+
+    let album = trimSongs(song.album);
+    if (album.length > 25) album = album.slice(0, 25 - 3) + "...";
 
     return (
       <>
@@ -41,7 +44,7 @@ class Item extends Component {
             src={song.image}
             height={50}
             width={50}
-            alt={`Image in the queue for song ${song.title}`}
+            alt={`Image in the queue for song ${title}`}
           />
 
           <div
@@ -50,13 +53,17 @@ class Item extends Component {
             }}
             className={listStyle.textcontainer}
           >
-            <p className={`${listStyle.title} ${listStyle.text}`} style={{}}>
-              {song.title}
-            </p>
-            {!single && width > 400 && (
-              <p className={`${listStyle.album} ${listStyle.text}`}>
-                {song.album}
+            <div className={listStyle.elipspis}>
+              <p className={`${listStyle.title} ${listStyle.text}`} style={{}}>
+                {title}
               </p>
+            </div>
+            {!single && width > 400 && (
+              <div className={listStyle.elipspis}>
+                <p className={`${listStyle.album} ${listStyle.text}`}>
+                  {album}
+                </p>
+              </div>
             )}
           </div>
           {width > 300 && (
@@ -66,7 +73,7 @@ class Item extends Component {
                 height={50}
                 width={50}
                 quality={100}
-                alt={`Image in the queue for song ${song.title}`}
+                alt={`Image in the queue for song ${title}`}
                 onClick={index !== 0 ? () => this.handleClick() : () => {}}
               />
             </span>
