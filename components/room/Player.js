@@ -242,10 +242,7 @@ class RoomPlayer extends Component {
     }
   }
 
-  nextTimeout;
   next() {
-    clearTimeout(this.nextTimeout);
-
     this.roomSocket.emit("NEXT", {
       pin: this.roomPin,
       deviceId: this.deviceId,
