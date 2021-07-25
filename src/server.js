@@ -155,7 +155,7 @@ app.prepare().then(() => {
 });
 
 // catching signals and do something before exit
-if (dev) {
+if (!dev) {
   [
     "SIGHUP",
     "SIGINT",
