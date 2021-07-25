@@ -31,6 +31,8 @@ class Room {
   songQueue;
   songCursor;
 
+  nextAtTimeout;
+
   /**
    * Creates a new room
    * @param pin A new room pin, it needs to be available
@@ -293,18 +295,43 @@ function skipSong(pin, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
+  clearTimeout(room.nextAtTimeout);
   room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
 
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
-function prevSong(pin, io) {
+function updateState(pin, timer, paused, title, album, uri, image, io) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  room.songCursor = Math.max(0, room.songCursor - 1);
+  clearTimeout(room.nextAtTimeout);
+  if (timer <= 0 || paused === true) return;
 
-  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
+  const current_track = { title, album, image, uri };
+  let songs = getSongsRoom(room);
+  let index = songs.findIndex((song) => song.uri === uri);
+
+  //   console.log(songs);
+  //   console.log(current_track);
+  //   console.log(index);
+
+  if (index === -1 && room.songQueue.length !== 0) {
+    songs[0] = current_track;
+    io.to(pin).emit("RES_UPDATE_SONG", songs);
+  }
+  if (index <= 2 && index >= 1) {
+    room.songCursor = Math.min(room.songQueue.length, room.songCursor + index);
+    io.to(pin).emit("RES_UPDATE_SONG", songs.slice(index));
+  }
+
+  room.nextAtTimeout = setTimeout(() => {
+    room.songCursor = Math.min(room.songQueue.length, room.songCursor + 1);
+
+    let songs = getSongsRoom(room);
+
+    io.to(pin).emit("RES_UPDATE_SONG", songs);
+  }, timer);
 }
 
 module.exports = {
@@ -318,5 +345,5 @@ module.exports = {
   Room,
   getRooms,
   skipSong,
-  prevSong,
+  updateState,
 };

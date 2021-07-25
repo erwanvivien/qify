@@ -36,17 +36,14 @@ const {
   leaveRoom,
   getRooms,
   Room,
-  prevSong,
   skipSong,
+  updateState,
 } = require("./Room");
 
 const { spotifyRefresh } = require("./spotifyApi");
 
 async function saveRooms(rooms) {
-  console.log("TEST");
-
   for (const room of rooms) {
-    console.log(room.adminSpotifyId);
     let refresh_token = room.spotify.refresh_token;
     let newTokens = await spotifyRefresh(refresh_token, null);
     let access_token = newTokens.access_token;
@@ -140,7 +137,11 @@ io.on("connect", (socket) => {
   if (dev) socket.on("DEBUG", () => getRooms(socket));
 
   socket.on("NEXT", (pin) => skipSong(pin, io));
-  socket.on("PREV", (pin) => prevSong(pin, io));
+  socket.on(
+    "UPDATE_STATE",
+    ({ pin, timer, paused, title, album, uri, image }) =>
+      updateState(pin, timer, paused, title, album, uri, image, io)
+  );
 });
 
 app.prepare().then(() => {

@@ -32,8 +32,6 @@ class RoomPlayer extends Component {
   roomPass;
   roomPin;
 
-  songNextTimeout;
-
   state = {
     image: "/no_image.svg",
     songUri: null,
@@ -98,14 +96,12 @@ class RoomPlayer extends Component {
   extractPlayerState(state) {
     if (state === null) return [null, true];
 
-    let { track_window, paused } = state;
+    let { track_window, paused, position, duration } = state;
     let { current_track, next_tracks, previous_tracks } = track_window;
 
     current_track = {
       title: current_track.name,
       album: current_track.album.name,
-      arists: current_track.artists[0].name,
-      id: current_track.id,
       uri: current_track.uri,
     };
 
@@ -113,8 +109,6 @@ class RoomPlayer extends Component {
       return {
         title: trimSongs(song.name),
         album: trimSongs(song.album.name),
-        arists: song.artists[0].name,
-        id: song.id,
         uri: song.uri,
       };
     });
@@ -122,15 +116,20 @@ class RoomPlayer extends Component {
       return {
         title: song.name,
         album: song.album.name,
-        arists: song.artists[0].name,
-        id: song.id,
         uri: song.uri,
       };
     });
 
-    state = { paused, current_track, next_tracks, previous_tracks };
+    state = {
+      paused,
+      current_track,
+      next_tracks,
+      previous_tracks,
+      duration,
+      position,
+    };
 
-    let prev = this.previousState;
+    const prev = this.previousState;
 
     if (typeof prev === "undefined" || prev === null) return [state, true];
 
@@ -163,21 +162,31 @@ class RoomPlayer extends Component {
         },
       });
 
-      // Playback status updates
       this.player.addListener("player_state_changed", (newState) => {
         let [state, refreshNeeded] = this.extractPlayerState(newState);
-        if (refreshNeeded === false) return;
+        if (refreshNeeded) this.updateAlbumCover(newState);
+
+        this.props.isPlaying(newState ? this.state.paused === false : false);
 
         if (
-          state &&
-          this.props.songQueue.length >= 1 &&
-          (this.props.songQueue[0].uri !== state.current_track.uri ||
-            (this.props.songQueue.length === 1 && state.paused))
+          (this.previousState &&
+            state &&
+            this.previousState.position === state.position) ||
+          !state
         ) {
-          this.roomSocket.emit("NEXT", this.roomPin);
+          this.previousState = state;
+          return;
         }
 
-        this.setState(this.state);
+        this.roomSocket.emit("UPDATE_STATE", {
+          ...{
+            pin: this.roomPin,
+            timer: state.duration - state.position,
+            paused: state.paused || !state,
+          },
+          ...state.current_track,
+          ...{ image: this.state.image },
+        });
 
         this.previousState = state;
       });
@@ -188,7 +197,6 @@ class RoomPlayer extends Component {
 
         await axios.put("/api/spotifyTransfer", {
           access_token: this.props.access_token,
-          //   uri: this.state.songUri,
           device_id,
         });
 
@@ -202,22 +210,6 @@ class RoomPlayer extends Component {
             if (elem) elem.value = volume.toString();
           });
         }, 1500);
-      });
-
-      this.player.addListener("player_state_changed", (newState) => {
-        this.updateAlbumCover(newState);
-
-        this.props.isPlaying(newState ? this.state.paused === false : false);
-        if (!newState) return;
-
-        clearTimeout(this.songNextTimeout);
-        if (newState.paused === true) {
-          return;
-        }
-
-        this.songNextTimeout = setTimeout(() => {
-          this.roomSocket.emit("NEXT", this.roomPin);
-        }, newState.duration - newState.position);
       });
 
       // Connect to the player!
@@ -254,12 +246,13 @@ class RoomPlayer extends Component {
       if (!this.player || this.state.title === `${title} is disconnected`) {
         await axios.put("/api/spotifyTransfer", {
           access_token: this.props.access_token,
-          //   uri: this.state.songUri,
           device_id: this.deviceId,
         });
       }
       this.player.nextTrack();
     }, 200);
+
+    this.roomSocket.emit("NEXT", this.roomPin);
   }
 
   toggleTimeout;
@@ -269,7 +262,6 @@ class RoomPlayer extends Component {
       if (!this.player || this.state.title === `${title} is disconnected`) {
         await axios.put("/api/spotifyTransfer", {
           access_token: this.props.access_token,
-          //   uri: this.state.songUri,
           device_id: this.deviceId,
         });
       }
