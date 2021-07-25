@@ -93,13 +93,12 @@ class App extends Component {
 
     if (!timestamp || roomPin !== this.roomID || this.password) {
       localStorage.setItem(passwordKey, this.password);
-      localStorage.setItem(timestampKey, new Date().toString());
+      localStorage.setItem(timestampKey, Date.now());
       localStorage.setItem(roomPinKey, this.roomID);
       return;
     }
 
-    let timestampDate = Date.parse(timestamp);
-    if (new Date() - timestampDate < TWO_HOUR) {
+    if (Date.now() - timestamp < TWO_HOUR) {
       // Less than two hours
       this.password = password || this.password;
     }

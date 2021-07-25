@@ -122,7 +122,7 @@ class About extends Component {
           <p>
             Mon nom est <b>Erwan VIVIEN</b>, je suis un developpeur Français de{" "}
             {Math.floor(
-              (new Date().getTime() - new Date("2000-09-14").getTime()) /
+              (Date.now() - new Date("2000-09-14").getTime()) /
                 (1000 * 60 * 60 * 24 * 365.25)
             )}{" "}
             ans, à l&apos;origine de l&apos;idée et de la réalisation du projet.
