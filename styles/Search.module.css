@@ -62,7 +62,7 @@
   text-align: center;
   grid-gap: 8px;
   display: grid;
-  grid-template-columns: repeat(4, minmax(90%, 1fr));
+  grid-template-columns: repeat(4, minmax(85%, 1fr));
 
   /* flex-wrap: wrap; */
   /* flex-direction: column; */
@@ -80,8 +80,6 @@
 }
 
 .items {
-  /* grid-template-columns: [first] 4fr [last] minmax(120px, 1fr); */
-
   background-color: #121212;
   color: #ffffff;
 
