@@ -168,7 +168,7 @@ function createRoom(admin, spotify_cred, socket) {
   let { pin, adminPass } = Room.createRoom(admin, spotify_cred);
   socket.emit("RES_CREATE_ROOM", { pin, adminPass });
 
-  console.log(`\tROOM ${pin} ++`);
+  console.info(`\tROOM ${pin} ++`);
 }
 
 async function addSong(pin, song, deviceId, playing, io) {
@@ -188,11 +188,6 @@ async function addSong(pin, song, deviceId, playing, io) {
 
   let res = null;
 
-  //   console.log({
-  //     cursor: room.songCursor,
-  //     queueLength: room.songQueue.length,
-  //     playing,
-  //   });
   if (room.songCursor >= room.songQueue.length) {
     res = await spotifyPlay(
       room.spotify.access_token,
@@ -251,7 +246,7 @@ function joinRoom(pin, socket) {
   if (!room) return;
 
   socket.join(pin);
-  console.log(`\tROOM ${pin} <- ${socket.id}`);
+  console.info(`\tROOM ${pin} <- ${socket.id}`);
 
   room.members.push(socket.id);
 }
@@ -262,7 +257,7 @@ function joinRoomAdmin(pin, pass, socket) {
   if (room.adminPass !== pass) return;
 
   room.adminSocketsId.push(socket.id);
-  console.log(`\tROOM ${pin} <- ${socket.id} ADM`);
+  console.info(`\tROOM ${pin} <- ${socket.id} ADM`);
 
   socket.emit("JOIN_ROOM_ADMIN", true);
 }
@@ -276,7 +271,7 @@ function leaveRoom(pin, socket) {
   let idx = room.members.indexOf(socket.id);
   if (idx >= 0) room.members.splice(idx, 1);
 
-  console.log(`\tROOM ${pin} -> ${socket.id}`);
+  console.info(`\tROOM ${pin} -> ${socket.id}`);
 }
 
 function getRooms(socket) {

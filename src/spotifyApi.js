@@ -132,7 +132,7 @@ async function spotifyRefresh(refresh_token, res) {
       },
     })
     .catch((e) =>
-      console.log(
+      console.error(
         `[ERROR] spotifyRefresh\t- ${JSON.stringify(e.response.data)}`
       )
     );

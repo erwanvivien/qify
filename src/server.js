@@ -72,7 +72,7 @@ async function saveRooms(rooms) {
     }
 
     io.to(room.pin).emit("ROOM_CLOSED");
-    console.log(
+    console.info(
       `[${new Date().toLocaleString()}] ROOM TRACKS => ${
         room.songQueue.length
       } songs have been added.`
@@ -98,7 +98,7 @@ setInterval(async () => {
     );
   });
 
-  console.log(
+  console.info(
     `[${new Date().toLocaleString()}] ROOM CLEAR  => from ${from} to ${
       Room.ROOMS.length
     }`
@@ -108,7 +108,7 @@ setInterval(async () => {
 }, 60 * 60 * 1000); // Every hour
 
 setInterval(() => {
-  console.log(
+  console.info(
     `[${new Date().toLocaleString()}] ROOM UPDATE => Updating access_tokens`
   );
   Room.ROOMS.forEach(async (room) => {
@@ -150,7 +150,7 @@ app.prepare().then(() => {
 
   server.listen(port, "0.0.0.0", (err) => {
     if (err) throw err;
-    console.log(`> Ready on ${currentUrl}`);
+    console.info(`> Ready on ${currentUrl}`);
   });
 });
 
@@ -171,12 +171,13 @@ if (!dev) {
     "SIGTERM",
   ].forEach((sig) => {
     process.on(sig, async () => {
-      console.log(`\nGracefully shutting down from ${sig} (Ctrl-C)`);
-      console.log(`${Room.ROOMS.length} were remaining`);
+      io.emit("ROOM_CLOSED");
+      console.info(`\nGracefully shutting down from ${sig} (Ctrl-C)`);
+      console.info(`${Room.ROOMS.length} were remaining`);
 
       await saveRooms(Room.ROOMS);
 
-      io.emit("ROOM_CLOSED");
+      console.info(`DONE`);
       process.exit(1);
     });
   });
