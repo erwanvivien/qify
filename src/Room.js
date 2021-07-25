@@ -302,10 +302,11 @@ async function skipSong(pin, deviceId, io) {
   await spotifyNextSong(room, deviceId, io);
 }
 
-function updateState(
+async function updateState(
   pin,
   deviceId,
   timer,
+  atStart,
   paused,
   title,
   album,
@@ -317,7 +318,13 @@ function updateState(
   if (!room) return;
 
   clearTimeout(room.nextAtTimeout);
-  if (timer <= 0 || paused === true) return;
+  if (timer <= 0) return;
+
+  console.log({ timer, paused, uri, atStart });
+  if (paused === true && atStart === true) {
+    await spotifyNextSong(room, deviceId, io);
+    return;
+  }
 
   const current_track = { title, album, image, uri };
   let songs = getSongsRoom(room);

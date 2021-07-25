@@ -187,6 +187,7 @@ class RoomPlayer extends Component {
             paused: state.paused || !state,
             image: this.state.image,
             deviceId: this.deviceId,
+            atStart: state.position === 0,
           },
           ...state.current_track,
         });

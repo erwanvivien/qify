@@ -142,8 +142,12 @@ io.on("connect", (socket) => {
   );
   socket.on(
     "UPDATE_STATE",
-    ({ pin, deviceId, timer, paused, title, album, uri, image }) =>
-      updateState(pin, deviceId, timer, paused, title, album, uri, image, io)
+    // prettier-ignore
+    async ({ pin, deviceId, timer, atStart,
+        paused, title, album, uri, image }) =>
+      await updateState(
+        pin, deviceId, timer, atStart, 
+        paused, title, album, uri, image, io)
   );
 });
 
