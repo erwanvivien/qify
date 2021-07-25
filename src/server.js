@@ -156,30 +156,29 @@ app.prepare().then(() => {
 });
 
 // catching signals and do something before exit
-if (!dev) {
-  [
-    "SIGHUP",
-    "SIGINT",
-    "SIGQUIT",
-    "SIGILL",
-    "SIGTRAP",
-    "SIGABRT",
-    "SIGBUS",
-    "SIGFPE",
-    "SIGUSR1",
-    "SIGSEGV",
-    "SIGUSR2",
-    "SIGTERM",
-  ].forEach((sig) => {
-    process.on(sig, async () => {
-      io.emit("ROOM_CLOSED");
-      console.info(`\nGracefully shutting down from ${sig} (Ctrl-C)`);
-      console.info(`${Room.ROOMS.length} were remaining`);
+[
+  "SIGHUP",
+  "SIGINT",
+  "SIGQUIT",
+  "SIGILL",
+  "SIGTRAP",
+  "SIGABRT",
+  "SIGBUS",
+  "SIGFPE",
+  "SIGUSR1",
+  "SIGSEGV",
+  "SIGUSR2",
+  "SIGTERM",
+].forEach((sig) => {
+  process.on(sig, async () => {
+    io.emit("ROOM_CLOSED");
 
-      await saveRooms(Room.ROOMS);
+    console.info(`\nGracefully shutting down from ${sig} (Ctrl-C)`);
+    console.info(`${Room.ROOMS.length} were remaining`);
 
-      console.info(`DONE`);
-      process.exit(1);
-    });
+    if (!dev) await saveRooms(Room.ROOMS);
+
+    console.info(`DONE`);
+    process.exit(1);
   });
-}
+});
