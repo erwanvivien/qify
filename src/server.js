@@ -146,7 +146,7 @@ io.on("connect", (socket) => {
     async ({ pin, deviceId, timer, atStart,
         paused, title, album, uri, image }) =>
       await updateState(
-        pin, deviceId, timer, atStart, 
+        pin, deviceId, timer, atStart,
         paused, title, album, uri, image, io)
   );
 });

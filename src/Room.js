@@ -320,7 +320,6 @@ async function updateState(
   clearTimeout(room.nextAtTimeout);
   if (timer <= 0) return;
 
-  console.log({ timer, paused, uri, atStart });
   if (paused === true && atStart === true) {
     await spotifyNextSong(room, deviceId, io);
     return;
