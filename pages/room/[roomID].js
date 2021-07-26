@@ -307,7 +307,6 @@ class App extends Component {
               navigator.clipboard.writeText(`${currentUrl}/room/${this.roomID}`)
             }
           >
-            {this.state.width > 380 ? "PIN: " : ""}
             {this.roomID}
           </div>
         )}
