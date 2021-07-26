@@ -16,7 +16,6 @@ import io from "socket.io-client";
 import { withRouter } from "next/router";
 
 import QRCode from "qrcode.react";
-import { Header } from "../../components/Header";
 import Link from "next/link";
 
 // const date_to_string = (k, v) => {
@@ -112,6 +111,10 @@ class App extends Component {
         socket.emit("GET_SONGS", this.roomID);
       }
     });
+    document.addEventListener("pageload", () =>
+      socket.emit("GET_SONGS", this.roomID)
+    );
+
     this.handleResize();
 
     this.router.push(
