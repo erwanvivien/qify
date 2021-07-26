@@ -2,6 +2,7 @@ import { Component } from "react";
 
 import styles from "../../styles/Home.module.css";
 import listStyle from "../../styles/Room.module.css";
+import headerStyle from "../../styles/Header.module.css";
 
 import SearchSong from "../../components/room/SearchSong";
 import SpotifyItems from "../../components/room/SpotifyItems";
@@ -10,7 +11,7 @@ import RoomPlayer from "../../components/room/Player";
 
 import { Default } from "../../components/Default";
 
-import { currentUrl, paths, title } from "../../src/config";
+import { currentUrl, navbar, paths, title } from "../../src/config";
 import io from "socket.io-client";
 import { withRouter } from "next/router";
 
@@ -180,7 +181,7 @@ class App extends Component {
   };
 
   displayQR() {
-    return false && this.state.isAdmin;
+    return this.state.isAdmin;
   }
 
   resetTitle(event) {
@@ -233,7 +234,22 @@ class App extends Component {
           className={styles.container}
           onClick={(event) => this.resetTitle(event)}
         >
-          <Header />
+          <header
+            className={styles.header}
+            style={{
+              justifyContent: this.state.width > 500 ? "center" : "flex-start",
+            }}
+          >
+            <nav className={headerStyle.navbar}>
+              {navbar
+                .slice(0, this.state.width > 340 ? 3 : 2)
+                .map((item, index) => (
+                  <Link href={item.path} key={`navbar-item-` + index}>
+                    <a className={styles.code}>{item.title}</a>
+                  </Link>
+                ))}
+            </nav>
+          </header>
 
           <main className={`${styles.main} ${listStyle.main}`}>
             <div className={listStyle.search_div}>
@@ -282,6 +298,18 @@ class App extends Component {
             access_token={this.state.room.access_token}
             isPlaying={this.handlePlaying}
           />
+        )}
+        {this.state.isAdmin && (
+          <div
+            className={`${listStyle.pin} ${styles.code}`}
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              navigator.clipboard.writeText(`${currentUrl}/room/${this.roomID}`)
+            }
+          >
+            {this.state.width > 380 ? "PIN: " : ""}
+            {this.roomID}
+          </div>
         )}
       </>
     );

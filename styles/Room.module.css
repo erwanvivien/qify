@@ -4,6 +4,12 @@
   width: min(550px, 100%);
 }
 
+.pin {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
 .list {
   width: 90%;
   counter-reset: index;
