@@ -272,7 +272,7 @@ class App extends Component {
                   title="Cliquer pour copier le lien"
                   style={{ cursor: "pointer" }}
                   value={`${currentUrl}/room/${this.roomID}`}
-                  bgColor={"#ecedf1"}
+                  bgColor={"#DDEDE4"}
                   level="L"
                 ></QRCode>
               </div>
