@@ -4,14 +4,42 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  background-color: #ddede4;
+  background-color: var(--colorBackground);
 }
 
 a {
-  color: inherit;
   text-decoration: none;
+}
+
+h1,
+h2 h3,
+a,
+p {
+  color: var(--colorText);
 }
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --colorBlack: #000000;
+  --colorBlackHalf: #00000080;
+  --colorWhite: #f9f4ff;
+  --colorGrey: #808080;
+  --colorGreyHalf: #80808080;
+
+  --colorText: #000000;
+
+  --colorBackground: #ddede4;
+  --colorBackgroundCode: #fafafa;
+  --colorBackgroundPlayer: #222325;
+
+  --colorLinks: #0090f2;
+
+  --colorLogo1: #29e183;
+  --colorLogo2: #26ff9e;
+  --colorLogo3: #42ffb7;
+
+  --colorSpotify: #1db954;
 }

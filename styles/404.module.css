@@ -1,5 +1,5 @@
 .container {
-  color: #000;
+  color: var(--colorBlack);
   font-family: -apple-system, BlinkMacSystemFont, Roboto, Segoe UI, Fira Sans,
     Avenir, Helvetica Neue, Lucida Grande, sans-serif;
   height: 100vh;
@@ -12,7 +12,7 @@
 
 .error_code {
   display: inline-block;
-  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  border-right: 1px solid var(--colorTransparentBlack);
   margin: 0px 20px 0px 0px;
   padding: 10px 23px 10px 0;
   font-size: 24px;

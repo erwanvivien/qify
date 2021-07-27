@@ -30,30 +30,11 @@
   box-sizing: border-box;
 }
 
-/* Element counter */
-.listitem_counter {
-  font-size: 1.5rem;
-  text-align: center;
-  font-weight: bold;
-  position: relative;
-  font-feature-settings: "tnum";
-  font-variant-numeric: tabular-nums;
-  align-self: flex-start;
-  background-image: linear-gradient(
-    to bottom,
-    rgb(125, 191, 230),
-    rgb(110, 209, 85)
-  );
-  background-attachment: fixed;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
 /* Element separation */
 .listitem + .listitem {
   position: relative;
   top: -0.5em;
-  border-top: 1px solid rgba(90, 90, 90, 0.2);
+  border-top: 1px solid var(--colorGreyHalf);
 }
 
 /* Element separation to be centered (margin is 1em, so -0.5em and 0.5em) */

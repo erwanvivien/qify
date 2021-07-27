@@ -9,17 +9,15 @@
   font-family: inherit;
   width: 100%;
   border: 0;
-  border-bottom: 2px solid #9b9b9b;
+  border-bottom: 2px solid var(--colorGrey);
   outline: 0;
   font-size: 1.3rem;
-  color: #1db954;
+  color: var(--colorSpotify);
   padding: 7px 0;
   background: transparent;
   transition: border-color 0.2s;
 }
-.form__field::placeholder {
-  color: transparent;
-}
+
 .form__field:placeholder-shown ~ .form__label {
   font-size: 1.3rem;
   cursor: text;
@@ -32,14 +30,14 @@
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: #9b9b9b;
+  color: var(--colorGrey);
 }
 
 .form__field:focus {
   padding-bottom: 6px;
   font-weight: 700;
   border-width: 3px;
-  border-image: linear-gradient(to right, #11998e, #38ef7d);
+  border-image: linear-gradient(to right, var(--colorLogo1), var(--colorLogo3));
   border-image-slice: 1;
 }
 .form__field:focus ~ .form__label {
@@ -48,7 +46,7 @@
   display: block;
   transition: 0.2s;
   font-size: 1rem;
-  color: #11998e;
+  color: var(--colorSpotify);
   font-weight: 700;
 }
 
@@ -76,8 +74,7 @@
 }
 
 .items {
-  background-color: #121212;
-  color: #ffffff;
+  background-color: var(--colorBackgroundPlayer);
 
   border: 1px solid transparent;
   border-radius: 10px;
