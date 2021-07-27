@@ -43,12 +43,12 @@ class About extends Component {
   render() {
     return (
       <Default title={false}>
-        <h1 className={styles.title} style={{ marginBottom: "0.75em" }}>
+        <h1 className={styles.title} style={{ margin: "0" }}>
           {title}
         </h1>
         <div
           className={searchStyle.form__group}
-          style={{ width: "50%", marginBottom: "0.75em" }}
+          style={{ width: "50%", margin: "0" }}
         >
           <input
             type="input"
@@ -59,12 +59,13 @@ class About extends Component {
             name="name"
             required
           />
-          <label className={searchStyle.form__label}>ID salon</label>
+          <label className={searchStyle.form__label}>Salon</label>
         </div>
-        <p className={styles.description} style={{ marginBottom: "0" }}>
-          Vous pouvez aussi scanner le QR code disponible
-          <br />
-          sur la page admin
+        <p
+          className={styles.description}
+          style={{ marginBottom: "0", maxWidth: "350px" }}
+        >
+          Vous pouvez aussi scanner le QR code disponible sur la page admin
         </p>
       </Default>
     );
