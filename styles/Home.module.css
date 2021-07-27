@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  grid-gap: 2em;
 }
 
 .footer {
@@ -43,6 +44,18 @@
   /* padding: 1em; */
 }
 
+.title_container {
+  width: 60%;
+  text-align: center;
+  display: flex;
+  grid-gap: 10%;
+  justify-content: center;
+  align-items: center;
+
+  max-height: 200px;
+  max-width: min(400px, 90%);
+}
+
 .title a {
   color: var(--colorLinks);
   text-decoration: none;
@@ -55,9 +68,6 @@
 }
 
 .title {
-  margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
 }
 
 .title,
@@ -67,21 +77,17 @@
 
 .description {
   line-height: 1.5;
-  font-size: 1.5rem;
 }
 
 .code {
   background: var(--colorBackgroundCode);
   border-radius: 5px;
   padding: 0.75rem;
-  font-size: 1.1rem;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 .grid {
-  margin-top: 3rem;
-
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -118,7 +124,6 @@
 }
 
 .card p {
-  font-size: 1.25rem;
   line-height: 1.5;
 }
 
@@ -128,7 +133,11 @@
 
 @media (max-width: 600px) {
   .grid {
-    width: 100%;
+    max-width: 90%;
     flex-direction: column;
+  }
+
+  .description {
+    max-width: 90%;
   }
 }

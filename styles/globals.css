@@ -18,6 +18,21 @@ p {
   color: var(--colorText);
 }
 
+a,
+p {
+  font-size: min(5vw, 1.1rem);
+  line-height: 1.4;
+}
+h1 {
+  font-size: min(12vw, 4rem);
+}
+h2 {
+  font-size: min(8vw, 1.5rem);
+}
+h3 {
+  font-size: min(7vw, 1.3rem);
+}
+
 * {
   box-sizing: border-box;
 }

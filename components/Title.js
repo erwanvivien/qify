@@ -16,11 +16,11 @@ export class Title extends Component {
 
     return (
       <>
-        <div style={{ width: "40%", textAlign: "center" }}>
-          <Image src={imageLogo} layout="responsive" alt="Qify's logo"></Image>
+        <div className={styles.title_container}>
+          <Image src={imageLogo} layout="intrinsic" alt="Qify's logo"></Image>
           <h1 className={styles.title}>{h1Content}</h1>
         </div>
-        <p className={styles.description}>
+        <p className={styles.description} style={{ margin: "0" }}>
           {description}
           <br />
           Qify vous permet de mettre en commun vos musiques en attente.

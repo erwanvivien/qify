@@ -1,5 +1,6 @@
 import { Component } from "react";
 import { Default } from "../components/Default";
+import Title from "../components/Title";
 import { paths } from "../src/config";
 
 import styles from "../styles/Home.module.css";
@@ -9,8 +10,8 @@ class About extends Component {
   render() {
     return (
       <Default title={false}>
-        <h1 className={styles.title}>Qify</h1>
-        <div style={{ marginTop: "2em" }} className={style_infos.links}>
+        <Title />
+        <div className={style_infos.links}>
           <ul className={style_infos.check_list}>
             <li>
               <a href="#how_to_use">Comment utiliser Qify ?</a>
