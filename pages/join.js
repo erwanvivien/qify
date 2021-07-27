@@ -63,8 +63,7 @@ class About extends Component {
         </div>
         <p className={styles.description} style={{ marginBottom: "0" }}>
           Vous pouvez aussi scanner le QR code disponible
-        </p>
-        <p className={styles.description} style={{ margin: "0" }}>
+          <br />
           sur la page admin
         </p>
       </Default>

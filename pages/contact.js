@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <>
       <Default title={false}>
-        <h1>Tu as un problème ? 😶</h1>
+        <h1 style={{ textAlign: "center" }}>Tu as un problème ? 😶</h1>
         <p className={styles.description} style={{ marginTop: "0" }}>
           Envoie moi un message directement pour une réponse rapide
           <br />
