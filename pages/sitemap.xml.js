@@ -12,6 +12,8 @@ export const getServerSideProps = ({ res }) => {
         "_document.js",
         "_error.js",
         "sitemap.xml.js",
+        "api",
+        "room",
       ].includes(staticPage);
     })
     .map((staticPagePath) => {
@@ -24,7 +26,7 @@ export const getServerSideProps = ({ res }) => {
         .map((url) => {
           return `
             <url>
-              <loc>${url}</loc>
+              <loc>${url.replaceAll(".js", "")}</loc>
               <lastmod>${new Date().toISOString()}</lastmod>
               <changefreq>monthly</changefreq>
               <priority>1.0</priority>
