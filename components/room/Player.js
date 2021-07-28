@@ -204,7 +204,7 @@ class RoomPlayer extends Component {
           device_id,
         });
 
-        this.player.setVolume(0.1);
+        this.player.setVolume(1);
         this.player.resume();
 
         this.interval = setInterval(() => {

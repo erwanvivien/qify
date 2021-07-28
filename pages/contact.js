@@ -9,25 +9,26 @@ import imageIconGmail from "../public/other/gmail.svg";
 import imageIconDiscord from "../public/other/discord.svg";
 import imageIconTwitter from "../public/other/twitter.svg";
 
-const contact = [
-  {
-    img: imageIconDiscord,
-    alt: "Discord svg icon (2020)",
-    url: "https://discordapp.com/users/289145021922279425",
-  },
-  {
-    img: imageIconTwitter,
-    alt: "Twitter svg icon (2020)",
-    url:
-      "https://twitter.com/messages/compose?recipient_id=1358769929571434498" +
-      "&text=⚠%20MESSAGE%20PRE-GENERE%20⚠%0AExpliquez%20votre%20problème%20en-dessous%3A%0A",
-  },
-  {
-    img: imageIconGmail,
-    alt: "Gmail svg icon (2020)",
-    url: "mailto:vivien.erwan@gmail.com",
-  },
-];
+const contact = [];
+// const contact = [
+//   {
+//     img: imageIconDiscord,
+//     alt: "Discord svg icon (2020)",
+//     url: "https://discordapp.com/users/289145021922279425",
+//   },
+//   {
+//     img: imageIconTwitter,
+//     alt: "Twitter svg icon (2020)",
+//     url:
+//       "https://twitter.com/messages/compose?recipient_id=1358769929571434498" +
+//       "&text=⚠%20MESSAGE%20PRE-GENERE%20⚠%0AExpliquez%20votre%20problème%20en-dessous%3A%0A",
+//   },
+//   {
+//     img: imageIconGmail,
+//     alt: "Gmail svg icon (2020)",
+//     url: "mailto:vivien.erwan@gmail.com",
+//   },
+// ];
 
 export default function Home() {
   return (
