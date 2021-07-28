@@ -1,5 +1,7 @@
 import Document, { Html, Head, Main, NextScript } from "next/document";
 
+const NEXT_PUBLIC_GOOGLE_ANALYTICS = "G-RS7KW9G4C5";
+
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -25,10 +27,6 @@ class MyDocument extends Document {
             content="https://qify.app/qify/icons/qify_1000.png"
           />
           <meta
-            property="og:image:secure_url"
-            content="https://qify.app/qify/icons/qify_1000.png"
-          />
-          <meta
             property="og:image:alt"
             content="Logo de Qify, la musique en commun 📯"
           />
@@ -42,6 +40,23 @@ class MyDocument extends Document {
           <meta
             name="keywords"
             content="Spotify, Queue, File d'attente, Musique, Song, Songs, Song queue"
+          />
+
+          <script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+          />
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
+  page_path: window.location.pathname,
+});
+          `,
+            }}
           />
         </Head>
         <body>
