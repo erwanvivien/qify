@@ -11,6 +11,11 @@ class About extends Component {
     return (
       <Default title={false}>
         <Title />
+
+        <div>
+          <h3>Qify ou Q-ify, de l'anglais queue-ify et du français kiffeyy</h3>
+        </div>
+
         <div className={style_infos.links}>
           <ul className={style_infos.check_list}>
             <li>
