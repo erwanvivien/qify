@@ -11,8 +11,6 @@ export class Title extends Component {
     const props = this.props;
 
     let h1Content = props.title || title;
-    let description =
-      props.description || "Une solution simple à beaucoup de problèmes.";
 
     return (
       <>
@@ -20,11 +18,9 @@ export class Title extends Component {
           <Image src={imageLogo} layout="intrinsic" alt="Qify's logo"></Image>
           <h1 className={styles.title}>{h1Content}</h1>
         </div>
-        <p className={styles.description} style={{ margin: "0" }}>
-          {description}
-          <br />
-          Qify vous permet de mettre en commun vos musiques en attente.
-        </p>
+        <h3 className={styles.description} style={{ margin: "0" }}>
+          Votre playlist collaborative
+        </h3>
       </>
     );
   }

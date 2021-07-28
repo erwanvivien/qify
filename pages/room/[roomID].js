@@ -240,7 +240,10 @@ class App extends Component {
           <header
             className={styles.header}
             style={{
-              justifyContent: this.state.width > 500 ? "center" : "flex-start",
+              justifyContent:
+                this.state.width < 500 && this.state.isAdmin
+                  ? "flex-start"
+                  : "center",
             }}
           >
             <nav className={headerStyle.navbar}>
