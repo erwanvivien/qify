@@ -66,18 +66,6 @@ class Item extends Component {
               </div>
             )}
           </div>
-          {width > 300 && (
-            <span style={{ cursor: index !== 0 ? "pointer" : "" }}>
-              <Image
-                src={index !== 0 ? this.state.image : imagePlay}
-                height={50}
-                width={50}
-                quality={100}
-                alt={`Image in the queue for song ${title}`}
-                onClick={index !== 0 ? () => this.handleClick() : () => {}}
-              />
-            </span>
-          )}
         </div>
       </>
     );
