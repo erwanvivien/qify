@@ -3,7 +3,6 @@ import { Default } from "../components/Default";
 import Title from "../components/Title";
 import { paths } from "../src/config";
 
-import styles from "../styles/Home.module.css";
 import style_infos from "../styles/Infos.module.css";
 
 class About extends Component {
@@ -13,7 +12,9 @@ class About extends Component {
         <Title />
 
         <div>
-          <h3>Qify ou Q-ify, de l'anglais queue-ify et du français kiffeyy</h3>
+          <h3>
+            Qify ou Q-ify, de l&apos;anglais queue-ify et du français kiffeyy
+          </h3>
         </div>
 
         <div className={style_infos.links}>
