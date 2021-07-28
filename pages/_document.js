@@ -20,8 +20,11 @@ class MyDocument extends Document {
 
           <meta property="og:title" content="Qify" />
           <meta property="og:description" content="La musique en commun 📯" />
-          <meta property="og:image" content="/qify/qify.svg" />
-          <meta property="og:image:secure_url" content="/qify/qify.svg" />
+          <meta property="og:image" content="https://qify.app/qify/qify.svg" />
+          <meta
+            property="og:image:secure_url"
+            content="https://qify.app/qify/qify.svg"
+          />
           <meta
             property="og:image:alt"
             content="Logo de Qify, la musique en commun 📯"
