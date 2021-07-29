@@ -1,3 +1,20 @@
+// define a new console
+let oldCons = console;
+console = {
+  log: (text) => {
+    oldCons.log(text);
+  },
+  info: (text) => {
+    oldCons.info("\x1b[92m%s\x1b[0m", text);
+  },
+  warn: (text) => {
+    oldCons.warn("\x1b[93m%s\x1b[0m", text);
+  },
+  error: (text) => {
+    oldCons.error("\x1b[91m%s\x1b[0m", text);
+  },
+};
+
 const express = require("express")();
 const server = require("http").Server(express);
 const io = require("socket.io")(server);
