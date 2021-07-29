@@ -8,6 +8,7 @@ import Image from "next/image";
 import imageIconGmail from "../public/other/gmail.svg";
 import imageIconDiscord from "../public/other/discord.svg";
 import imageIconTwitter from "../public/other/twitter.svg";
+import { Component } from "react";
 
 const contact = [];
 // const contact = [
@@ -30,37 +31,41 @@ const contact = [];
 //   },
 // ];
 
-export default function Home() {
-  return (
-    <>
-      <Default title={false}>
-        <h1 style={{ textAlign: "center", fontSize: "min(12vw, 3.2rem);" }}>
-          Tu as un problème ? 😶
-        </h1>
-        <p className={styles.description} style={{ marginTop: "0" }}>
-          Envoie moi un message directement pour une réponse rapide
-          <br />
-          Discord / Twitter seront les deux meilleurs moyens de communication
-        </p>
+class Contact extends Component {
+  render() {
+    return (
+      <>
+        <Default title={false}>
+          <h1 style={{ textAlign: "center", fontSize: "min(12vw, 3.2rem);" }}>
+            Tu as un problème ? 😶
+          </h1>
+          <p className={styles.description} style={{ marginTop: "0" }}>
+            Envoie moi un message directement pour une réponse rapide
+            <br />
+            Discord / Twitter seront les deux meilleurs moyens de communication
+          </p>
 
-        <div className={contact_style.grid}>
-          {contact.map((item, index) => (
-            <div className={contact_style.card} key={index}>
-              <a href={item.url}>
-                <Image
-                  alt={item.alt}
-                  src={item.img}
-                  quality={100}
-                  height={128}
-                  width={128}
-                  layout="responsive"
-                  objectFit="contain"
-                />
-              </a>
-            </div>
-          ))}
-        </div>
-      </Default>
-    </>
-  );
+          <div className={contact_style.grid}>
+            {contact.map((item, index) => (
+              <div className={contact_style.card} key={index}>
+                <a href={item.url}>
+                  <Image
+                    alt={item.alt}
+                    src={item.img}
+                    quality={100}
+                    height={128}
+                    width={128}
+                    layout="responsive"
+                    objectFit="contain"
+                  />
+                </a>
+              </div>
+            ))}
+          </div>
+        </Default>
+      </>
+    );
+  }
 }
+
+export default Contact;
