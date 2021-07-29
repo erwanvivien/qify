@@ -212,11 +212,18 @@ async function addSong(pin, song, deviceId, playing, io) {
   io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
 }
 
-function getSongs(pin, io) {
+function getSongs(pin, socket) {
   let room = Room.getRoomWithPin(pin);
   if (!room) return;
 
-  io.to(pin).emit("RES_UPDATE_SONG", getSongsRoom(room));
+  socket.emit("RES_UPDATE_SONG", getSongsRoom(room));
+}
+
+function getAccessToken(pin, socket) {
+  let room = Room.getRoomWithPin(pin);
+  if (!room) return;
+
+  socket.emit("RES_ACCESS_TOKEN_UPDATE", room.spotify.access_token);
 }
 
 function checkRoom(pin, socket) {
@@ -353,6 +360,7 @@ module.exports = {
   leaveRoom,
   Room,
   getRooms,
+  getAccessToken,
   skipSong,
   updateState,
 };

@@ -109,11 +109,13 @@ class App extends Component {
     document.addEventListener("visibilitychange", () => {
       if (document.hidden === false) {
         socket.emit("GET_SONGS", this.roomID);
+        socket.emit("ACCESS_TOKEN_UPDATE", this.roomID);
       }
     });
-    document.addEventListener("pageload", () =>
-      socket.emit("GET_SONGS", this.roomID)
-    );
+    document.addEventListener("pageload", () => {
+      socket.emit("GET_SONGS", this.roomID);
+      socket.emit("ACCESS_TOKEN_UPDATE", this.roomID);
+    });
 
     this.handleResize();
 

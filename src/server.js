@@ -38,6 +38,7 @@ const {
   Room,
   skipSong,
   updateState,
+  getAccessToken,
 } = require("./Room");
 
 const { spotifyRefresh } = require("./spotifyApi");
@@ -131,6 +132,7 @@ io.on("connect", (socket) => {
   );
   socket.on("LEAVE_ROOM", (pin) => leaveRoom(pin, socket));
   socket.on("GET_SONGS", (pin) => getSongs(pin, socket));
+  socket.on("ACCESS_TOKEN_UPDATE", (pin) => getAccessToken(pin, socket));
   socket.on("ADD_SONG", ({ song, pin, deviceId, playing }) =>
     addSong(pin, song, deviceId, playing, io)
   );
