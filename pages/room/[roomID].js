@@ -278,7 +278,12 @@ class App extends Component {
                   title="Cliquer pour copier le lien"
                   style={{ cursor: "pointer" }}
                   value={`${currentUrl}/room/${this.roomID}`}
-                  bgColor={"#DDEDE4"}
+                  bgColor={document.documentElement.style.getPropertyValue(
+                    "--colorBackground"
+                  )}
+                  fgColor={document.documentElement.style.getPropertyValue(
+                    "--colorText"
+                  )}
                   level="L"
                 ></QRCode>
               </div>
@@ -313,7 +318,7 @@ class App extends Component {
               navigator.clipboard.writeText(`${currentUrl}/room/${this.roomID}`)
             }
           >
-            {this.roomID}
+            <p style={{ margin: "0" }}>{this.roomID}</p>
           </div>
         )}
       </>
