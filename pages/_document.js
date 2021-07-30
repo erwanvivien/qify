@@ -13,7 +13,11 @@ class MyDocument extends Document {
       <Html lang="fr">
         <Head>
           <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icon.png"></link>
+          <link
+            rel="apple-touch-icon"
+            href="/qify/icons/qify_1000.png"
+            sizes="1000x1000"
+          ></link>
           <meta name="apple-mobile-web-app-status-bar" content="#181818" />
 
           <meta name="theme-color" content="#181818" />
