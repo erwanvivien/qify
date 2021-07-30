@@ -67,9 +67,10 @@ async function saveRooms(rooms) {
       null
     );
 
-    for (let i = 0; i < room.songQueue.length; i += 100) {
+    const STEP = 100;
+    for (let i = 0; i < room.songQueue.length; i += STEP) {
       let to =
-        i + 100 > room.songQueue.length ? room.songQueue.length : i + 100;
+        i + STEP > room.songQueue.length ? room.songQueue.length : i + STEP;
       let songs = room.songQueue.slice(i, to);
       let songsUris = songs.map((song) => song.uri);
       let addedTracks = await spotifyAddTracks(
