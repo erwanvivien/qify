@@ -6,7 +6,6 @@ import Image from "next/image";
 import heartFull from "../../public/heart-full.svg";
 import heartVoid from "../../public/heart-none.svg";
 
-import imagePlay from "../../public/qify/qify.svg";
 import { trimSongs } from "../../src/config";
 
 class Item extends Component {
@@ -26,7 +25,6 @@ class Item extends Component {
 
   render() {
     let width = this.props.width;
-    let index = this.props.index;
     let song = this.props.song;
     if (!song) return <></>;
 
@@ -84,7 +82,7 @@ class SpotifyItems extends Component {
             }}
             key={index}
           >
-            <Item song={song} width={this.props.width} index={index} />
+            <Item song={song} width={this.props.width} />
           </li>
         ))}
       </ul>

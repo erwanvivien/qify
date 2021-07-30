@@ -5,9 +5,9 @@ import { Default } from "../components/Default";
 
 import Image from "next/image";
 
-import imageIconGmail from "../public/other/gmail.svg";
-import imageIconDiscord from "../public/other/discord.svg";
-import imageIconTwitter from "../public/other/twitter.svg";
+// import imageIconGmail from "../public/other/gmail.svg";
+// import imageIconDiscord from "../public/other/discord.svg";
+// import imageIconTwitter from "../public/other/twitter.svg";
 import { Component } from "react";
 
 const contact = [];
