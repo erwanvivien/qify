@@ -1,13 +1,33 @@
 import Head from "next/head";
-import { title } from "../src/config";
+import { title, updateTheme, colors } from "../src/config";
 import "../styles/globals.css";
+
+import styles from "../styles/Home.module.css";
 
 import * as ga from "../lib/ga";
 import { useRouter } from "next/dist/client/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+
+function changeTheme() {
+  const colorKey = `${title}-theme`;
+  let color = localStorage.getItem(colorKey);
+  let idx = colors.indexOf(color);
+  let newIdx = (idx + 1) % colors.length;
+
+  localStorage.setItem(colorKey, colors[newIdx]);
+  return updateTheme();
+}
 
 const MyApp = ({ Component, pageProps }) => {
   const router = useRouter();
+
+  const [icon, setIcon] = useState("/theme/moon.svg");
+
+  useEffect(() => {
+    let newIcon = updateTheme();
+    setIcon(newIcon);
+  }, []);
 
   useEffect(() => {
     const handleRouteChange = (url) => {
@@ -33,6 +53,23 @@ const MyApp = ({ Component, pageProps }) => {
           content="Le site qui gère les files d'attente partagées sur Spotify."
         />
       </Head>
+      <div
+        className={`${styles.colorToggle} ${styles.code}`}
+        style={{ width: "48px", padding: "8px" }}
+        onClick={() => {
+          let newIcon = changeTheme();
+          setIcon(newIcon);
+        }}
+      >
+        <Image
+          src={icon}
+          width={48}
+          height={48}
+          layout="responsive"
+          alt={"Button to switch themes"}
+        ></Image>
+      </div>
+
       <Component {...pageProps} />
     </>
   );

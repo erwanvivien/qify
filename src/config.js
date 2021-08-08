@@ -43,6 +43,31 @@ const navbar = [
   { title: "Contact", path: paths.contact },
 ];
 
+const colors = ["dark", "light"];
+function updateTheme() {
+  const themeChoiceKey = `${websiteTitle}-theme`;
+  let themeChoice = localStorage.getItem(themeChoiceKey);
+
+  let root = document.documentElement;
+  if (!root) return;
+
+  if (themeChoice === "dark") {
+    root.style.setProperty("--colorText", "#efefef");
+    root.style.setProperty("--colorBackground", "#1e1e1e");
+    root.style.setProperty("--colorBackgroundCode", "#111619");
+    root.style.setProperty("--colorBackgroundPlayer", "#3a3d4e");
+  } else if (themeChoice === "light") {
+    root.style.setProperty("--colorText", "");
+    root.style.setProperty("--colorBackground", "");
+    root.style.setProperty("--colorBackgroundCode", "");
+    root.style.setProperty("--colorBackgroundPlayer", "");
+  } else {
+    return "/theme/moon.svg";
+  }
+
+  return themeChoice === "dark" ? "/theme/sun.svg" : "/theme/moon.svg";
+}
+
 module.exports = {
   maxPathLength,
   navbar,
@@ -50,4 +75,6 @@ module.exports = {
   title: websiteTitle,
   trimSongs,
   currentUrl,
+  updateTheme,
+  colors,
 };
