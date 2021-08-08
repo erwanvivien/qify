@@ -29,7 +29,7 @@ class Items extends Component {
               style={{ width: "100%", maxwidth: "100%" }}
               className={resultStyle.elipsis}
             >
-              <p style={{ margin: "0" }} className={resultStyle.elipsis}>
+              <p style={{ margin: "0" }} className={resultStyle.title}>
                 <b>{title}</b>
               </p>
               {title !== album && this.props.width >= 400 && (

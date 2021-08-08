@@ -104,8 +104,10 @@
 
 .title {
   font-weight: bold;
+  color: var(--colorWhite);
 }
 .album {
+  color: var(--colorWhite);
 }
 
 .elipsis {
