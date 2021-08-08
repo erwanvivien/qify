@@ -278,15 +278,28 @@ class App extends Component {
                     )
                   }
                   title="Cliquer pour copier le lien"
+                  alt="Cliquer pour copier le lien"
                   style={{ cursor: "pointer" }}
                   value={`${currentUrl}/room/${this.roomID}`}
-                  bgColor={document.documentElement.style.getPropertyValue(
-                    "--colorBackground"
-                  )}
-                  fgColor={document.documentElement.style.getPropertyValue(
-                    "--colorText"
-                  )}
-                  level="L"
+                  bgColor={
+                    document.documentElement.style.getPropertyValue(
+                      "--colorBackground"
+                    ) || "#d1ffe4"
+                  }
+                  fgColor={
+                    document.documentElement.style.getPropertyValue(
+                      "--colorText"
+                    ) || "black"
+                  }
+                  size={this.state.width > 400 ? 200 : this.state.width / 2}
+                  level="H"
+                  renderAs={"svg"}
+                  imageSettings={{
+                    src: "/qify/qify.svg",
+                    excavate: true,
+                    height: this.state.width > 400 ? 50 : this.state.width / 8,
+                    width: this.state.width > 400 ? 50 : this.state.width / 8,
+                  }}
                 ></QRCode>
               </div>
             )}
