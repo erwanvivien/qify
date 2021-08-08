@@ -239,18 +239,10 @@ class App extends Component {
           className={styles.container}
           onClick={(event) => this.resetTitle(event)}
         >
-          <header
-            className={styles.header}
-            style={{
-              justifyContent:
-                this.state.width < 500 && this.state.isAdmin
-                  ? "flex-start"
-                  : "center",
-            }}
-          >
+          <header className={styles.header}>
             <nav className={headerStyle.navbar}>
               {navbar
-                .slice(0, this.state.width > 340 ? 3 : 2)
+                .slice(0, this.state.width > 500 ? 3 : 2)
                 .map((item, index) => (
                   <Link href={item.path} key={`navbar-item-` + index}>
                     <a className={styles.code}>{item.title}</a>
