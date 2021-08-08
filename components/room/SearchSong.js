@@ -146,7 +146,9 @@ class SearchSong extends Component {
               onChange={this.search}
               required
             />
-            <label className={searchStyle.form__label}>Search</label>
+            <label className={searchStyle.form__label}>
+              Artistes ou titres
+            </label>
           </div>
           {tracks && tracks.length !== 0 && (
             <div className={resultStyle.list}>
