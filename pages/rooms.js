@@ -1,4 +1,5 @@
 import { Component } from "react";
+import Head from "next/head";
 import { io } from "socket.io-client";
 
 const socket = io();

@@ -1,3 +1,5 @@
+import Head from "next/head";
+
 import { withRouter } from "next/router";
 import { Component } from "react";
 import { io } from "socket.io-client";

@@ -5,9 +5,10 @@ import { Default } from "../components/Default";
 import { paths } from "../src/config";
 
 import spotifyToggle from "../public/spotify-toggle.png";
-import Image from "next/image";
 import { Component } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 
 class Home extends Component {
   state = { canInstall: false };

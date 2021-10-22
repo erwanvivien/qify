@@ -9,6 +9,7 @@ import Image from "next/image";
 // import imageIconDiscord from "../public/other/discord.svg";
 // import imageIconTwitter from "../public/other/twitter.svg";
 import { Component } from "react";
+import Head from "next/head";
 
 const contact = [];
 // const contact = [

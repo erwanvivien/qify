@@ -1,4 +1,6 @@
 import { Component } from "react";
+import Head from "next/head";
+
 import { Default } from "../components/Default";
 import Title from "../components/Title";
 import { paths } from "../src/config";
