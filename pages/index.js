@@ -41,6 +41,12 @@ class Home extends Component {
   render() {
     return (
       <>
+        <Head>
+          <meta
+            property="og:description"
+            content="La musique en commun 📯 - Gérer collaborativement les musiques en attente"
+          />
+        </Head>
         <Default footer={false}>
           <div className={styles.grid}>
             <Link href={paths.create}>

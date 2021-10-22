@@ -12,6 +12,10 @@ class Custom404 extends Component {
         <Head>
           <title>Page non-existante</title>
           <link rel="icon" href="/qify/qify.svg" />
+          <meta
+            property="og:description"
+            content="La musique en commun 📯 - Page non-existante"
+          />
         </Head>
 
         <div className={styles404.container}>

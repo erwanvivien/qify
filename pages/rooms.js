@@ -26,7 +26,14 @@ class Rooms extends Component {
   }
 
   render() {
-    return this.state.text;
+    return (
+      <>
+        <Head>
+          <meta property="og:description" content="La musique en commun 📯" />{" "}
+        </Head>
+        {this.state.text}
+      </>
+    );
   }
 }
 

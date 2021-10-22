@@ -35,6 +35,12 @@ class Contact extends Component {
   render() {
     return (
       <>
+        <Head>
+          <meta
+            property="og:description"
+            content="La musique en commun 📯 - Comment contacter le developpeur du site ?"
+          />
+        </Head>
         <Default title={false}>
           <h1 style={{ textAlign: "center", fontSize: "min(12vw, 3.2rem);" }}>
             Tu as un problème ? 😶

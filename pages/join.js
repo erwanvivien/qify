@@ -42,32 +42,40 @@ class About extends Component {
 
   render() {
     return (
-      <Default title={false}>
-        <h1 className={styles.title} style={{ margin: "0" }}>
-          {title}
-        </h1>
-        <div
-          className={searchStyle.form__group}
-          style={{ width: "50%", margin: "0" }}
-        >
-          <input
-            type="input"
-            className={searchStyle.form__field}
-            onChange={this.update}
-            onKeyUp={this.search}
-            id="search_box"
-            name="name"
-            required
+      <>
+        <Head>
+          <meta
+            property="og:description"
+            content="La musique en commun 📯 - Rejoindre un salon existant"
           />
-          <label className={searchStyle.form__label}>Salon</label>
-        </div>
-        <p
-          className={styles.description}
-          style={{ marginBottom: "0", maxWidth: "350px" }}
-        >
-          Vous pouvez aussi scanner le QR code disponible sur la page admin
-        </p>
-      </Default>
+        </Head>
+        <Default title={false}>
+          <h1 className={styles.title} style={{ margin: "0" }}>
+            {title}
+          </h1>
+          <div
+            className={searchStyle.form__group}
+            style={{ width: "50%", margin: "0" }}
+          >
+            <input
+              type="input"
+              className={searchStyle.form__field}
+              onChange={this.update}
+              onKeyUp={this.search}
+              id="search_box"
+              name="name"
+              required
+            />
+            <label className={searchStyle.form__label}>Salon</label>
+          </div>
+          <p
+            className={styles.description}
+            style={{ marginBottom: "0", maxWidth: "350px" }}
+          >
+            Vous pouvez aussi scanner le QR code disponible sur la page admin
+          </p>
+        </Default>
+      </>
     );
   }
 }
