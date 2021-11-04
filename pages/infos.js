@@ -182,6 +182,21 @@ class About extends Component {
               </a>
               .
             </p>
+
+            <h2 className={style_infos.h2_decorator}>
+              Le frère de Qify,{" "}
+              <a
+                style={{ fontSize: "min(8vw, 1.5rem)" }}
+                href="https://drunkeen.app"
+              >
+                Drunkeen
+              </a>
+            </h2>
+            <p>
+              Vous pouvez trouver plus d'informations sur{" "}
+              <a href="https://drunkeen.app">Drunkeen</a> sur son site web ou
+              bien sur le <a href="https://github.com/drunkeen">github</a>
+            </p>
           </div>
         </Default>
       </>
