@@ -1,0 +1,27 @@
+#!/bin/bash
+
+UPSTREAM=${1:-'@{u}'}
+LOCAL=$(git rev-parse @)
+REMOTE=$(git rev-parse "$UPSTREAM")
+BASE=$(git merge-base @ "$UPSTREAM")
+
+name=qify
+
+container_id=$(sudo docker container ls | grep "$name" | cut -d' ' -f1)
+if ! [ -z "$container_id" ]; then
+    sudo docker container stop $container_id
+fi
+
+if [ $LOCAL = $REMOTE ]; then
+    echo "Up-to-date"
+elif [ $LOCAL = $BASE ]; then
+    echo "Need to pull"
+    git pull
+    sudo docker image rm --force "$name"
+    sudo docker build --no-cache -t "$name" .
+fi
+
+echo "$name"
+
+name="qify"; sudo docker run -d -p 3000:3000 -v /root/qify:/qify "$name"
+# sudo docker run -it -p 3000:3000 -v /root/qify:/qify "$name" /bin/sh
