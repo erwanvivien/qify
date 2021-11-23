@@ -193,7 +193,7 @@ class About extends Component {
               </a>
             </h2>
             <p>
-              Vous pouvez trouver plus d'informations sur{" "}
+              Vous pouvez trouver plus d&apos;informations sur{" "}
               <a href="https://drunkeen.app">Drunkeen</a> sur son site web ou
               bien sur le <a href="https://github.com/drunkeen">github</a>
             </p>
