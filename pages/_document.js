@@ -25,7 +25,6 @@ class MyDocument extends Document {
           <link rel="icon" href="/qify/qify.svg" />
 
           <meta property="og:title" content="Qify 📯" />
-          <meta property="og:description" content="La musique en commun 📯" />
           <meta
             property="og:image"
             content="https://qify.app/qify/icons/qify_1000.png"
@@ -62,6 +61,31 @@ gtag('config', '${NEXT_PUBLIC_GOOGLE_ANALYTICS}', {
           `,
             }}
           />
+
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: `
+{
+  "@context": "https://schema.org",
+  "@type": ["MultimediaApplication", "MobileApplication", "WebApplication"],
+  "url": "https://qify.app",
+  "logo": "https://qify.app/qify/icons/qify_1000.png",
+  "applicationCategory": "MultimediaApplication",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "EUR"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.5",
+    "ratingCount": "1"
+  },
+  "name": "Qify",
+  "operatingSystem": "iOS, Android, Web"
+}
+          `
+        }}/>
+
         </Head>
         <body>
           <Main />
